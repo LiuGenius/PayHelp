@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="费率设置"
+                android:textColor="#101010"
+                android:textSize="16sp"
+                tools:ignore="MissingConstraints" />
+
+            <ImageView
+                android:id="@+id/id_back"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="16dp"
+                android:src="@mipmap/icon_back"
+                android:tint="#101010" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#e5e5e5" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#101010"
+            android:textSize="30sp"
+            android:text="通道名称"
+            android:layout_margin="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#99ff0000"
+            android:text="商户费率  = 平台费率 + 码商费率"
+            android:layout_marginLeft="20dp"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="24dp"
+            android:text="商户费率"
+            android:textColor="#555"/>
+
+        <LinearLayout
+            android:id="@+id/id_ll_mixPrice"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+
+            <EditText
+                android:inputType="number"
+                android:hint="0"
+                android:gravity="center"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_edit"/>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="%"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="#101010"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="24dp"
+            android:text="平台费率"
+            android:textColor="#555"/>
+        <LinearLayout
+            android:id="@+id/id_ll_maxPrice"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <EditText
+                android:inputType="number"
+                android:hint="0"
+                android:gravity="center"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_edit"/>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="%"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="#101010"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="24dp"
+            android:text="码商费率"
+            android:textColor="#555"/>
+        <LinearLayout
+            android:id="@+id/id_ll_today"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+
+            <EditText
+                android:inputType="number"
+                android:hint="0"
+                android:gravity="center"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_edit"/>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="%"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="#101010"/>
+
+        </LinearLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <TextView
+            android:visibility="gone"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#FFA505"
+            android:text="保存"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/id_tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="订单管理"
+            android:textColor="#101010"
+            android:textSize="16sp"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/id_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="16dp"
+            android:src="@mipmap/icon_back"
+            android:tint="#101010" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#e5e5e5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text="订单时间"
+            android:textColor="#101010" />
+
+        <TextView
+            android:id="@+id/id_tv_startTime"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:paddingLeft="8dp"
+            android:gravity="center|left"
+            android:background="@drawable/shape_edit"
+            android:drawableRight="@mipmap/icon_time"
+            android:inputType="time"
+            android:paddingRight="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="一"
+            android:textColor="#bbb" />
+
+        <TextView
+            android:paddingLeft="8dp"
+            android:id="@+id/id_tv_endTime"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:gravity="center|left"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_edit"
+            android:drawableRight="@mipmap/icon_time"
+            android:inputType="time"
+            android:paddingRight="4dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <EditText
+            android:id="@+id/id_et_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_edit"
+            android:hint="请输入商品名称"
+            android:paddingLeft="10dp" />
+
+        <TextView
+            android:id="@+id/id_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shape_login_btn"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="搜索"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/id_tab_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="全部(0)"
+            android:textColor="#101010"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/id_tab_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="未支付(0)"
+            android:textColor="#101010"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/id_tab_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="已支付(0)"
+            android:textColor="#101010"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="4dp">
+
+        <View
+            android:id="@+id/id_v_tap"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#FF9800"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="* 订单2分钟内支付有效"
+        android:textColor="#ff0000"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/id_rv_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

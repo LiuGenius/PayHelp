@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/id_tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="添加"
+            android:textColor="#101010"
+            android:textSize="16sp"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/id_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="16dp"
+            android:src="@mipmap/icon_back"
+            android:tint="#101010" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#e5e5e5" />
+
+    <ScrollView
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:background="@drawable/shape_edit"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#101010"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="设置:"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="12dp"
+                    android:maxLength="8"
+                    android:background="@drawable/shape_edit"
+                    android:hint="商户名称"
+                    android:paddingLeft="10dp" />
+
+                <EditText
+                    android:id="@+id/id_et_yck"
+                    android:inputType="textPersonName"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/shape_edit"
+                    android:hint="预存款额度"
+                    android:paddingLeft="10dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/shape_edit"
+                    android:hint="登录密码"
+                    android:paddingLeft="10dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/shape_edit"
+                    android:hint="确认登录密码"
+                    android:paddingLeft="10dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/shape_edit"
+                    android:hint="支付密码"
+                    android:paddingLeft="10dp" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/shape_edit"
+                    android:hint="确认支付密码"
+                    android:paddingLeft="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/shape_edit"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#101010"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="信息:"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="状态"
+                        android:textColor="#101010" />
+
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:text="性别"
+                        android:textColor="#101010" />
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:entries="@array/sexArray" />
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/shape_edit"
+                    android:hint="姓名"
+                    android:maxLength="5"
+                    android:paddingLeft="10dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/shape_edit"
+                    android:hint="身份证号"
+                    android:inputType="number"
+                    android:maxLength="21"
+                    android:paddingLeft="10dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="12dp"
+                    android:maxLength="11"
+                    android:background="@drawable/shape_edit"
+                    android:hint="手机号码"
+                    android:inputType="phone"
+                    android:paddingLeft="10dp" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/id_add_channel"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="保存"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="#FF9800"/>
+
+
+</LinearLayout>

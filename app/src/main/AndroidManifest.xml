@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.fanzhe.payhelp">
+
+    <application
+        android:name=".config.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/AppTheme"
+        android:networkSecurityConfig="@xml/network_config"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="n">
+        <activity android:name=".activity.MainActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+        </activity>
+
+        <activity android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.PayChannelActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".activity.RateActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".activity.RiskCtActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".activity.ChildChannelActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".activity.FinancialMagActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".activity.SettlementActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".activity.UserManagerActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".activity.AddBusinessActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activity.OrderManager"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".activity.SettlementInfoActivity" />
+    </application>
+
+</manifest>
