@@ -39,7 +39,6 @@
             <LinearLayout
                 android:id="@+id/id_ll_index_dataview_1"
                 android:padding="4dp"
-                android:background="@drawable/shape_data_bg"
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:gravity="center"
@@ -50,7 +49,7 @@
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"/>
+                    android:text=""/>
 
                 <TextView
                     android:layout_marginTop="4dp"
@@ -58,13 +57,12 @@
                     android:textColor="#101010"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="商户数"/>
+                    android:text=""/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/id_ll_index_dataview_2"
                 android:layout_marginLeft="10dp"
                 android:padding="4dp"
-                android:background="@drawable/shape_data_bg"
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:gravity="center"
@@ -75,7 +73,7 @@
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"/>
+                    android:text=""/>
 
                 <TextView
                     android:layout_marginTop="4dp"
@@ -83,7 +81,7 @@
                     android:textColor="#101010"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="码商数"/>
+                    android:text=""/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -94,7 +92,6 @@
             tools:ignore="MissingConstraints">
             <LinearLayout
                 android:id="@+id/id_ll_index_dataview_3"
-                android:background="@drawable/shape_data_bg"
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:gravity="center"
@@ -106,7 +103,7 @@
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0.00"/>
+                    android:text=""/>
 
                 <TextView
                     android:layout_marginTop="4dp"
@@ -114,12 +111,11 @@
                     android:textColor="#101010"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="今日流水(元)"/>
+                    android:text=""/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/id_ll_index_dataview_4"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/shape_data_bg"
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:gravity="center"
@@ -131,7 +127,7 @@
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0.00"/>
+                    android:text=""/>
 
                 <TextView
                     android:layout_marginTop="4dp"
@@ -139,7 +135,7 @@
                     android:textColor="#101010"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="今日收入(元)"/>
+                    android:text=""/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -149,9 +145,7 @@
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints">
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/id_ll_index_dataview_5"
-                android:background="@drawable/shape_data_bg"
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:padding="4dp"
@@ -163,7 +157,7 @@
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0.00"/>
+                    android:text=""/>
 
                 <TextView
                     android:layout_marginTop="4dp"
@@ -171,13 +165,11 @@
                     android:textColor="#101010"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="今日商户总分成(元)"/>
+                    android:text=""/>
             </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/id_ll_index_dataview_6"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/shape_data_bg"
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:padding="4dp"
@@ -189,7 +181,7 @@
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0.00"/>
+                    android:text=""/>
 
                 <TextView
                     android:layout_marginTop="4dp"
@@ -197,7 +189,7 @@
                     android:textColor="#101010"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="今日平台总分成(元)"/>
+                    android:text=""/>
             </LinearLayout>
         </LinearLayout>
 
@@ -297,6 +289,7 @@
             android:layout_height="wrap_content">
             <LinearLayout
                 android:visibility="gone"
+                android:id="@+id/id_ll_mygl"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -317,7 +310,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="分控管理"/>
+                    android:text="密钥管理"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/id_ll_jsgl"

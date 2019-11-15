@@ -2,15 +2,26 @@ package com.fanzhe.payhelp.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.adapter.ChannelAdapter;
+import com.fanzhe.payhelp.config.App;
+import com.fanzhe.payhelp.config.UrlAddress;
 import com.fanzhe.payhelp.model.Channel;
+import com.fanzhe.payhelp.utils.NetworkLoader;
+import com.fanzhe.payhelp.utils.ToastUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.xutils.http.RequestParams;
+
+import java.security.cert.PKIXParameters;
 import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
@@ -34,6 +45,8 @@ public class PayChannelActivity extends AppCompatActivity {
     ArrayList<Channel> mData;
 
     ChannelAdapter mAdapter;
+
+    int status = -1;
 
 
     @Override
@@ -59,19 +72,64 @@ public class PayChannelActivity extends AppCompatActivity {
         mAdapter = new ChannelAdapter(mData, mContext);
         mRvContent.setAdapter(mAdapter);
 
+        mState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                status = position - 1;
+            }
 
-        initData();
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        search();
     }
 
-    private void initData() {
-        for (int i = 0; i < 10; i++) {
-            mData.add(new Channel(i + "", "支付宝", 2 % (i + 1) == 0));
+    @OnClick({R.id.id_back,R.id.id_search,R.id.id_add_channel})
+    public void clickView(View view){
+        switch (view.getId()) {
+            case R.id.id_back:
+                finish();
+                break;
+            case R.id.id_search:
+                search();
+                break;
+            case R.id.id_add_channel:
+
+                break;
         }
-        mAdapter.notifyDataSetChanged();
     }
 
-    @OnClick(R.id.id_back)
-    public void clickBack(){
-        finish();
+    private void search(){
+        mData.removeAll(mData);
+        RequestParams params = new RequestParams(UrlAddress.CHANNEL_LIST);
+        if (App.getInstance().getUSER_DATA().getRole_id().equals("3")) {
+            params.setUri(UrlAddress.CODE_CHANNEL_LIST);
+            params.addBodyParameter("uid", App.getInstance().getUSER_DATA().getUid());
+        }
+        params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
+        params.addBodyParameter("status",status + "");
+        params.addBodyParameter("channel_name", mName.getText().toString());
+        NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
+            @Override
+            public void onfailure(String errorMsg) {
+                ToastUtils.showToast(mContext, "获取通道列表失败，请检查网络");
+            }
+
+            @Override
+            public void onsuccessful(JSONObject jsonObject) {
+                if (UtilsHelper.parseResult(jsonObject)) {
+                    JSONArray dataArray = jsonObject.optJSONArray("data");
+                    for (int i = 0; i < dataArray.length(); i++) {
+                        mData.add(new Channel(dataArray.optJSONObject(i)));
+                    }
+                    mAdapter.notifyDataSetChanged();
+                }else{
+                    ToastUtils.showToast(mContext, "获取通道列表失败，" + jsonObject.optString("msg"));
+                }
+            }
+        });
     }
 }

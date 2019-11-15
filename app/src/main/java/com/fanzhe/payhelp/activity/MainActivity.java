@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.fragment.IndexFragment;
 import com.fanzhe.payhelp.utils.UtilsHelper;
+import com.fanzhe.payhelp.utils.WsClientTool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         mContext = this;
 
         initView();
+
+        WsClientTool.getInstance().connect("ws://47.98.182.50:9511");
     }
 
     private void initView() {
@@ -88,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
             TextView tv = (TextView) mLl.getChildAt(1);
             ImageView iv = (ImageView) mLl.getChildAt(0);
             tv.setTextColor(Color.parseColor("#101010"));
-            // TODO: 2019/11/11 imageview替换
         }
         TextView tv = (TextView) v.getChildAt(1);
         ImageView iv = (ImageView) v.getChildAt(0);

@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 
 import com.fanzhe.payhelp.utils.L;
 
+import org.json.JSONObject;
 import org.xutils.BuildConfig;
 import org.xutils.x;
 
@@ -49,14 +50,79 @@ public class App extends Application {
         }
     }
 
-    //
-    private int USER_TYPE = -1;//1:平台  2：码商   3：商户
+    private USER USER_DATA;
 
-    public int getUSER_TYPE() {
-        return USER_TYPE;
+    public USER getUSER_DATA() {
+        return USER_DATA;
     }
 
-    public void setUSER_TYPE(int USER_TYPE) {
-        this.USER_TYPE = USER_TYPE;
+    public void setUSER_DATA(USER USER_DATA) {
+        this.USER_DATA = USER_DATA;
+    }
+
+    public static class USER{
+        private String user_name;//用户名
+        private String auth_key;//授权码
+        private String uid;//uid
+        private String role_id;//role_id  1平台 2商户  3码商
+        private long login_time;//登录时间
+        private long last_login_time;//上次登录时间
+
+        public USER(JSONObject userData) {
+            this.user_name = userData.optString("user_name");
+            this.auth_key = userData.optString("auth_key");
+            this.uid = userData.optString("uid");
+            this.role_id = userData.optString("role_id");
+            this.login_time = Long.parseLong(userData.optString("login_time"));
+            this.last_login_time =  Long.parseLong(userData.optString("last_login_time"));
+        }
+
+        public String getUser_name() {
+            return user_name;
+        }
+
+        public void setUser_name(String user_name) {
+            this.user_name = user_name;
+        }
+
+        public String getAuth_key() {
+            return auth_key;
+        }
+
+        public void setAuth_key(String auth_key) {
+            this.auth_key = auth_key;
+        }
+
+        public String getUid() {
+            return uid;
+        }
+
+        public void setUid(String uid) {
+            this.uid = uid;
+        }
+
+        public String getRole_id() {
+            return role_id;
+        }
+
+        public void setRole_id(String role_id) {
+            this.role_id = role_id;
+        }
+
+        public long getLogin_time() {
+            return login_time;
+        }
+
+        public void setLogin_time(long login_time) {
+            this.login_time = login_time;
+        }
+
+        public long getLast_login_time() {
+            return last_login_time;
+        }
+
+        public void setLast_login_time(long last_login_time) {
+            this.last_login_time = last_login_time;
+        }
     }
 }

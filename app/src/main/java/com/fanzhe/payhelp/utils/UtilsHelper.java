@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,16 +14,23 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
+import com.fanzhe.payhelp.config.App;
+import com.fanzhe.payhelp.config.UrlAddress;
 import com.fanzhe.payhelp.iface.OnOver;
 import com.fanzhe.payhelp.iface.OnParseQrCodeImgToString;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
+
+import org.json.JSONObject;
+import org.xutils.http.RequestParams;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -108,7 +116,7 @@ public class UtilsHelper {
                 ToastUtils.showToast(context,"不能晚于当前时间");
                 return;
             }
-            onOver.onResult(year + "/" + (m) + "/" + dayOfMonth);
+            onOver.onResult(year + "-" + (m) + "-" + dayOfMonth);
         },
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
@@ -219,6 +227,66 @@ public class UtilsHelper {
         return false;
     }
 
+    /**
+     * 识别接口请求状态
+     * @param jsonObject
+     * @return
+     */
+    public static boolean parseResult(JSONObject jsonObject){
+        if (jsonObject.optString("code").equals("0")) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 
+    /**
+     * 保存登录信息
+     * @param context
+     * @param userName
+     * @param password
+     */
+    public static void saveLoginInfo(Context context,String userName,String password){
+        SharedPreferences.Editor loginInfo = context.getSharedPreferences("LoginInfo", Context.MODE_PRIVATE).edit();
+        loginInfo.putString("userName", userName);
+        loginInfo.putString("password", password);
+        loginInfo.apply();
+    }
+
+    /**
+     * 获取登录信息
+     * @param context
+     * @param key
+     * @return
+     */
+    public static String getLoginInfo(Context context,String key){
+        return context.getSharedPreferences("LoginInfo", Context.MODE_PRIVATE).getString(key, "");
+    }
+
+    /**
+     * 判断输入是否合法
+     * @param editText
+     * @param tip
+     * @param context
+     * @return
+     */
+    public static boolean parseEditTextContent(EditText editText,String tip,Context context){
+        if (TextUtils.isEmpty(editText.getText().toString())) {
+            editText.setError(tip);
+            ToastUtils.showToast(context, tip);
+            return true;
+        }
+        return false;
+    }
+
+    public static String parseDateLong(String longdate,String reg){
+        if (longdate.equals("null000") || TextUtils.isEmpty(longdate)) {
+            return "";
+        }
+        Date date = new Date(Long.parseLong(longdate));
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TextUtils.isEmpty(reg) ? "yyyy/MM/dd" : reg);
+        return simpleDateFormat.format(date);
+    }
 
 }

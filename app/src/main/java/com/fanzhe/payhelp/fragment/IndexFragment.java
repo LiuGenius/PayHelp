@@ -13,6 +13,7 @@ import com.fanzhe.payhelp.activity.OrderManager;
 import com.fanzhe.payhelp.activity.PayChannelActivity;
 import com.fanzhe.payhelp.activity.SettlementActivity;
 import com.fanzhe.payhelp.activity.UserManagerActivity;
+import com.fanzhe.payhelp.config.App;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +37,19 @@ public class IndexFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
 
         context = getActivity();
+
+        switch (App.getInstance().getUSER_DATA().getRole_id()) {
+            case "1":
+
+                break;
+            case "2":
+                view.findViewById(R.id.id_ll_mygl).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.id_ll_yhgl).setVisibility(View.GONE);
+                break;
+            case "3":
+                view.findViewById(R.id.id_ll_yhgl).setVisibility(View.GONE);
+                break;
+        }
         return view;
     }
 
@@ -57,7 +71,6 @@ public class IndexFragment extends Fragment {
             case R.id.id_ll_ddgl:
                 startActivity(new Intent(context, OrderManager.class));
                 break;
-
         }
     }
 }

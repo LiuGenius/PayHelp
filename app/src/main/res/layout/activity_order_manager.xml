@@ -97,7 +97,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@drawable/shape_edit"
-            android:hint="请输入商品名称"
+            android:hint="请输入订单编号搜索"
             android:paddingLeft="10dp" />
 
         <TextView

@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.fanzhe.payhelp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".config.App"
         android:allowBackup="true"
@@ -47,6 +49,7 @@
         <activity android:name=".activity.OrderManager"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".activity.SettlementInfoActivity" />
+        <activity android:name=".activity.CodePayChannelActivity" />
     </application>
 
 </manifest>

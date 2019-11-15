@@ -48,4 +48,6 @@ dependencies {
     //二维码相关
     implementation 'cn.yipianfengye.android:zxing-library:2.2'
 
+    implementation 'com.neovisionaries:nv-websocket-client:1.30'
+
 }

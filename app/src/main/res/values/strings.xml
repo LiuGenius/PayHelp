@@ -2,14 +2,14 @@
     <string name="app_name">PayHelp</string>
     <array name="payChannelArray">
         <item>全部</item>
-        <item>开启</item>
         <item>关闭</item>
+        <item>开启</item>
     </array>
 
     <array name="date1Array">
         <item>全部</item>
-        <item>正常</item>
         <item>禁用</item>
+        <item>正常</item>
     </array>
     <array name="sexArray">
         <item>男</item>

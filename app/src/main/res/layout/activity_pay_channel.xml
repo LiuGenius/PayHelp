@@ -14,7 +14,7 @@
             android:id="@+id/id_tv_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="支付通道管理"
+            android:text="查看通道"
             android:gravity="center"
             android:textSize="16sp"
             android:textColor="#101010"
@@ -82,26 +82,15 @@
             android:id="@+id/id_et_name"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:paddingLeft="10dp"
-            android:hint="请输入商品名称"
+            android:hint="请输入搜索内容"
             android:background="@drawable/shape_edit"/>
 
-        <TextView
-            android:id="@+id/id_search"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="搜索"
-            android:background="@drawable/shape_login_btn"
-            android:gravity="center"
-            android:textColor="#fff"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -127,6 +116,25 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:entries="@array/payChannelArray"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/id_search"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="搜索"
+            android:background="@drawable/shape_login_btn"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"/>
     </LinearLayout>
 
     <TextView
@@ -148,6 +156,7 @@
         android:layout_weight="1"/>
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/id_add_channel"
         android:layout_width="match_parent"
         android:layout_height="50dp"
