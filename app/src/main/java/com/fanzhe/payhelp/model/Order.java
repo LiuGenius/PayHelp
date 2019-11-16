@@ -24,6 +24,9 @@ public class Order {
     private String create_time;
     private String update_time;
     private String complete_time;
+    private String coder_name;
+    private String mch_name;
+    private String channel_name;
 
     public Order(JSONObject jsonObject) {
         this.order_id = jsonObject.optString("order_id");
@@ -47,6 +50,9 @@ public class Order {
         this.create_time = jsonObject.optString("create_time");
         this.update_time = jsonObject.optString("update_time");
         this.complete_time = jsonObject.optString("complete_time");
+        this.coder_name = jsonObject.optString("coder_name");
+        this.mch_name = jsonObject.optString("mch_name");
+        this.channel_name = jsonObject.optString("channel_name");
     }
 
     public String getCallback_num() {
@@ -57,6 +63,29 @@ public class Order {
         this.callback_num = callback_num;
     }
 
+    public String getOrder_name() {
+        return coder_name;
+    }
+
+    public void setOrder_name(String order_name) {
+        this.coder_name = order_name;
+    }
+
+    public String getMch_name() {
+        return mch_name;
+    }
+
+    public void setMch_name(String mch_name) {
+        this.mch_name = mch_name;
+    }
+
+    public String getChannel_name() {
+        return channel_name;
+    }
+
+    public void setChannel_name(String channel_name) {
+        this.channel_name = channel_name;
+    }
 
     public String getUpdate_time() {
         return update_time;

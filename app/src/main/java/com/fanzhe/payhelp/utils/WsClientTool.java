@@ -1,7 +1,5 @@
 package com.fanzhe.payhelp.utils;
 
-import android.util.Log;
-
 import com.fanzhe.payhelp.config.App;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketException;
@@ -86,6 +84,9 @@ public class WsClientTool implements WebSocketListener {
     @Override
     public void onConnected(WebSocket websocket, Map<String, List<String>> headers) throws Exception {
         L.d( "connected");
+
+
+        sendText("链接成功");
     }
 
     @Override

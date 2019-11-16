@@ -56,8 +56,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.Holder> {
         Order order = data.get(position);
         holder.getTextView(1).setText("外部订单号:    " + order.getOut_trade_no());
         holder.getTextView(2).setText("订单生成时间:    " + UtilsHelper.parseDateLong(order.getCreate_time() + "000","yyyy/MM/dd HH:mm:ss"));
-        holder.getTextView(3).setText("支付码商名:    " );
-        holder.getTextView(4).setText("支付通道:    ");
+        holder.getTextView(3).setText("支付码商名:    " + order.getOrder_name());
+        holder.getTextView(4).setText("支付通道:    " + order.getChannel_name());
         holder.getTextView(5).setText("支付设备号:    " + order.getDevice_info());
         holder.getTextView(6).setText("支付完成时间:    " + UtilsHelper.parseDateLong(order.getComplete_time() + "000","yyyy/MM/dd HH:mm:ss"));
         ((TextView)((LinearLayout)holder.itemView.getChildAt(0)).getChildAt(0)).setText("订单号:    " + order.getOrder_sn());

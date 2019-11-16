@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (v.getId()){
             case R.id.id_ll_index:
+                WsClientTool.getInstance().sendText("" + System.currentTimeMillis());
                 ShowFragment(0);
                 break;
             case R.id.id_ll_om:

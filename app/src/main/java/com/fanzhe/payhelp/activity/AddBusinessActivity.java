@@ -133,13 +133,24 @@ public class AddBusinessActivity extends AppCompatActivity {
         String idCard = mEtIdCard.getText().toString();
         String mobile = mEtMobile.getText().toString();
 
-        if (UtilsHelper.parseEditTextContent(mEtUserName,"用户名不能为空",mContext) ||
-                UtilsHelper.parseEditTextContent(mEtLoginPwd1,"登录密码不能为空",mContext) ||
-                UtilsHelper.parseEditTextContent(mEtPayPwd1,"支付密码不能为空",mContext) ||
-                UtilsHelper.parseEditTextContent(mEtTrueName,"姓名不能为空",mContext) ||
-                UtilsHelper.parseEditTextContent(mEtMobile,"手机号码不能为空",mContext) ||
-                UtilsHelper.parseEditTextContent(mEtIdCard,"证件号码号码不能为空",mContext)) {
-            return;
+
+
+        if(mEditData != null){
+            if (UtilsHelper.parseEditTextContent(mEtUserName,"用户名不能为空",mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtTrueName,"姓名不能为空",mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtMobile,"手机号码不能为空",mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtIdCard,"证件号码号码不能为空",mContext)) {
+                return;
+            }
+        }else{
+            if (UtilsHelper.parseEditTextContent(mEtUserName,"用户名不能为空",mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtLoginPwd1,"登录密码不能为空",mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtPayPwd1,"支付密码不能为空",mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtTrueName,"姓名不能为空",mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtMobile,"手机号码不能为空",mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtIdCard,"证件号码号码不能为空",mContext)) {
+                return;
+            }
         }
 
         if (!loginPwd1.equals(loginPwd2)) {
