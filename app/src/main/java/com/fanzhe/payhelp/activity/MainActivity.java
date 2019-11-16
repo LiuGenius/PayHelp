@@ -1,25 +1,38 @@
 package com.fanzhe.payhelp.activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fanzhe.payhelp.R;
+import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.fragment.IndexFragment;
+import com.fanzhe.payhelp.servers.HelperNotificationListenerService;
+import com.fanzhe.payhelp.utils.L;
+import com.fanzhe.payhelp.utils.NoticeUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
 import com.fanzhe.payhelp.utils.WsClientTool;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +62,39 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
 
-        WsClientTool.getInstance().connect("ws://47.98.182.50:9511");
+        if (App.getInstance().getUSER_DATA().getRole_id().equals("3")) {
+            WsClientTool.getInstance().connect("ws://47.98.182.50:9511");
+            L.d("开始判断通知栏读取权限");
+            //判断是否有通知栏读取权限
+            if (NoticeUtils.isNotificationListenerEnabled(this)) {
+                L.d("已经拥有通知栏权限，开启服务");
+                //有权限启动服务
+                Intent intent = new Intent(this, HelperNotificationListenerService.class);
+                startService(intent);
+            } else {
+                L.d("没有权限获取权限并且开启回调");
+                //没有权限获取权限并且开启回调
+                NoticeUtils.startGetNotification(this, 1);
+            }
+
+            //循环判断服务是否运行中
+            L.d("开启循环不断读取服务是否在运行");
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    while (true) {
+                        try {
+                            Thread.sleep(1000 * 10);
+                            handler.sendEmptyMessage(2);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }.start();
+        }
+
     }
 
     private void initView() {
@@ -82,11 +127,11 @@ public class MainActivity extends AppCompatActivity {
         mFragmentTransaction.show(mFragmentList.get(position)).commit();
     }
 
-    @BindViews({R.id.id_ll_index,R.id.id_ll_om,R.id.id_ll_usm,R.id.id_ll_me})
+    @BindViews({R.id.id_ll_index, R.id.id_ll_om, R.id.id_ll_usm, R.id.id_ll_me})
     List<LinearLayout> mLls;
 
-    @OnClick({R.id.id_ll_index,R.id.id_ll_om,R.id.id_ll_usm,R.id.id_ll_me})
-    public void clickTab(LinearLayout v){
+    @OnClick({R.id.id_ll_index, R.id.id_ll_om, R.id.id_ll_usm, R.id.id_ll_me})
+    public void clickTab(LinearLayout v) {
         for (LinearLayout mLl : mLls) {
             TextView tv = (TextView) mLl.getChildAt(1);
             ImageView iv = (ImageView) mLl.getChildAt(0);
@@ -97,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
         tv.setTextColor(Color.BLUE);
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.id_ll_index:
                 WsClientTool.getInstance().sendText("" + System.currentTimeMillis());
                 ShowFragment(0);
@@ -110,6 +155,51 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.id_ll_me:
                 ShowFragment(3);
+                break;
+        }
+    }
+
+
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("type", "activeInfo");
+                //判断服务是否在运行
+                if (NoticeUtils.isWorked(MainActivity.this, getPackageName() + ".servers.HelperNotificationListenerService")) {
+                    L.d("服务正在运行");
+                    jsonObject.put("msg", "online");
+                } else {
+                    L.d("服务没有运行");
+                    jsonObject.put("msg", "offline");
+                }
+                WsClientTool.getInstance().sendText(jsonObject.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 1:
+                //重新判断权限
+                if (!NoticeUtils.isNotificationListenerEnabled(this)) {
+                    L.d("任然没有权限继续获取权限并且开启回调");
+                    //没有权限获取权限并且开启回调
+                    NoticeUtils.startGetNotification(this,1);
+                }else{
+                    L.d("已经获取到通知栏权限，开启服务");
+                    //有权限启动服务
+                    Intent intent = new Intent(this, HelperNotificationListenerService.class);
+                    startService(intent);
+                }
                 break;
         }
     }

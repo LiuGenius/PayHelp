@@ -4,6 +4,11 @@
     package="com.fanzhe.payhelp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+        tools:ignore="ProtectedPermissions" />
+
 
     <application
         android:name=".config.App"
@@ -50,6 +55,25 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".activity.SettlementInfoActivity" />
         <activity android:name=".activity.CodePayChannelActivity" />
+
+
+
+
+        <activity
+            android:name="com.yanzhenjie.album.AlbumActivity"
+            android:label="图库"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+
+        <service
+            android:name=".servers.HelperNotificationListenerService"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

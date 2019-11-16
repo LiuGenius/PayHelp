@@ -36,7 +36,7 @@ public class WsClientTool implements WebSocketListener {
         try {
             if (null == ws) {
                 ws = new WebSocketFactory().createSocket(serverUrl);
-                ws.addHeader("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
+                ws.addHeader("auth_key", App.getInstance().getUSER_DATA().getAuth_key() + "");
                 ws.setPingInterval(24 * 60 * 60 * 1000);
                 ws.addListener(this);
                 L.d( "ws.connectAsynchronously() is null=" + ws.toString());
@@ -71,7 +71,6 @@ public class WsClientTool implements WebSocketListener {
 
     public void sendText(String content) {
         if (null != ws && ws.isOpen()) {
-            L.d( "wsclient sendText =" + content);
             ws.sendText(content);
         }
     }
@@ -83,26 +82,23 @@ public class WsClientTool implements WebSocketListener {
 
     @Override
     public void onConnected(WebSocket websocket, Map<String, List<String>> headers) throws Exception {
-        L.d( "connected");
-
-
-        sendText("链接成功");
+        L.d( "ws.connected");
     }
 
     @Override
     public void onConnectError(WebSocket websocket, WebSocketException cause) throws Exception {
-        L.d( "connect error");
+        L.d( "ws.connect error");
         cause.printStackTrace();
     }
 
     @Override
     public void onDisconnected(WebSocket websocket, WebSocketFrame serverCloseFrame, WebSocketFrame clientCloseFrame, boolean closedByServer) throws Exception {
-        L.d( "disconnected");
+        L.d( "ws.disconnected");
     }
 
     @Override
     public void onFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
-        L.d( "onFrame: " + frame.toString());
+        L.d( "ws.onFrame: " + frame.toString());
     }
 
     @Override
@@ -112,7 +108,7 @@ public class WsClientTool implements WebSocketListener {
 
     @Override
     public void onTextFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
-        L.d( "onTextFrame: " + frame.toString());
+        L.d( "ws.onTextFrame: " + frame.toString());
     }
 
     @Override
@@ -137,7 +133,7 @@ public class WsClientTool implements WebSocketListener {
 
     @Override
     public void onTextMessage(WebSocket websocket, String text) throws Exception {
-        L.d( "onTextMessage: " + text);
+        L.d( "ws.onTextMessage:  " + text);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.fanzhe.payhelp.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.fanzhe.payhelp.R;
+import com.fanzhe.payhelp.activity.ChildChannelActivity;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
 import com.fanzhe.payhelp.model.Channel;
@@ -90,6 +92,12 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.Holder> 
         });
         if(App.getInstance().getUSER_DATA().getRole_id().equals("3")){
             holder.child.setVisibility(View.VISIBLE);
+            holder.child.setOnClickListener(view -> {
+                Intent intent = new Intent(mContext, ChildChannelActivity.class);
+                intent.putExtra("channelId",channel.getId());
+                intent.putExtra("channelName",channel.getChannel_name());
+                mContext.startActivity(intent);
+            });
         }else {
             holder.child.setVisibility(View.GONE);
         }

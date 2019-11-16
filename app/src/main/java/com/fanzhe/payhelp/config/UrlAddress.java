@@ -50,4 +50,16 @@ public class UrlAddress {
      * 订单列表
      */
     public static final String ORDER_LIST = Host + "/v1/pay/order/order-list";
+    /**
+     * 码商查看子通道列表
+     */
+    public static final String CODE_CHILD_CHANNEL = Host + "/v1/pay/channel-instance/sub-instance-list";
+    /**
+     * 上传图片文件
+     */
+    public static final String UPDATE_FILE = Host + "/v1/common/upload";
+    /**
+     * 码商保存子通道
+     */
+    public static final String CODE_SAVE_CHILD_CHANNEL = Host + "/v1/pay/channel-instance/edit-sub-instance";
 }
