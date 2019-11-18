@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.fragment.IndexFragment;
+import com.fanzhe.payhelp.fragment.MyCententFragment;
 import com.fanzhe.payhelp.fragment.OrderManagerFragment;
 import com.fanzhe.payhelp.fragment.UserManagerFragment;
 import com.fanzhe.payhelp.servers.HelperNotificationListenerService;
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         mFragmentList.add(new IndexFragment());
         mFragmentList.add(new UserManagerFragment());
         mFragmentList.add(new OrderManagerFragment());
-        mFragmentList.add(new Fragment());
+        mFragmentList.add(new MyCententFragment());
 
 
         mFragmentTransaction = mFragmentManager.beginTransaction();
