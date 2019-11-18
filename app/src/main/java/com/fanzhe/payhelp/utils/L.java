@@ -8,6 +8,9 @@ public class L {
     public static void d(String msg){
         Log.d(TAG,msg);
     }
+    public static void i(String msg){
+        Log.i("fanzhezh4",msg);
+    }
     public static void e(String msg){
         Log.e(TAG,msg);
     }

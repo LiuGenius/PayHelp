@@ -1,15 +1,6 @@
 package com.fanzhe.payhelp.activity;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import butterknife.BindViews;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -22,20 +13,33 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.fragment.IndexFragment;
+import com.fanzhe.payhelp.fragment.OrderManagerFragment;
+import com.fanzhe.payhelp.fragment.UserManagerFragment;
 import com.fanzhe.payhelp.servers.HelperNotificationListenerService;
 import com.fanzhe.payhelp.utils.L;
 import com.fanzhe.payhelp.utils.NoticeUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
 import com.fanzhe.payhelp.utils.WsClientTool;
+import com.yanzhenjie.permission.AndPermission;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindViews;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -95,6 +99,13 @@ public class MainActivity extends AppCompatActivity {
             }.start();
         }
 
+        AndPermission.with(this)
+                .permission(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA
+                )
+                .start();
     }
 
     private void initView() {
@@ -102,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
 
         mFragmentList = new ArrayList<>();
         mFragmentList.add(new IndexFragment());
-        mFragmentList.add(new Fragment());
-        mFragmentList.add(new Fragment());
+        mFragmentList.add(new UserManagerFragment());
+        mFragmentList.add(new OrderManagerFragment());
         mFragmentList.add(new Fragment());
 
 
@@ -148,10 +159,10 @@ public class MainActivity extends AppCompatActivity {
                 ShowFragment(0);
                 break;
             case R.id.id_ll_om:
-                ShowFragment(1);
+                ShowFragment(2);
                 break;
             case R.id.id_ll_usm:
-                ShowFragment(2);
+                ShowFragment(1);
                 break;
             case R.id.id_ll_me:
                 ShowFragment(3);
@@ -170,10 +181,8 @@ public class MainActivity extends AppCompatActivity {
                 jsonObject.put("type", "activeInfo");
                 //判断服务是否在运行
                 if (NoticeUtils.isWorked(MainActivity.this, getPackageName() + ".servers.HelperNotificationListenerService")) {
-                    L.d("服务正在运行");
                     jsonObject.put("msg", "online");
                 } else {
-                    L.d("服务没有运行");
                     jsonObject.put("msg", "offline");
                 }
                 WsClientTool.getInstance().sendText(jsonObject.toString());

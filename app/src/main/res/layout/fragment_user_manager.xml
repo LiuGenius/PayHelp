@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/id_business"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#0076FF"
+            android:gravity="center"
+            android:text="商户管理"
+            android:textColor="#fff" />
+
+        <TextView
+            android:id="@+id/id_code"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="码商管理"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textColor="#101010"
+            android:background="#E6E6E6"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/id_fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

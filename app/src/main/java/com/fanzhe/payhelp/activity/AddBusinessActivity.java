@@ -31,18 +31,16 @@ public class AddBusinessActivity extends AppCompatActivity {
 
     Context mContext;
 
+    @BindView(R.id.id_rate)
+    EditText mEtRate;
     @BindView(R.id.id_et_yck)
     EditText mEtYck;//预存款
     @BindView(R.id.id_et_user_name)
     EditText mEtUserName;//用户名
     @BindView(R.id.id_et_login_password1)
-    EditText mEtLoginPwd1;//登录密码
-    @BindView(R.id.id_et_login_password2)
-    EditText mEtLoginPwd2;//登录密码
+    EditText mEtLoginPwd;//登录密码
     @BindView(R.id.id_et_pay_password1)
-    EditText mEtPayPwd1;//支付密码
-    @BindView(R.id.id_et_pay_password2)
-    EditText mEtPayPwd2;//支付密码
+    EditText mEtPayPwd;//支付密码
     @BindView(R.id.id_et_true_name)
     EditText mEtTrueName;//真实姓名
     @BindView(R.id.id_et_id_card)
@@ -84,10 +82,8 @@ public class AddBusinessActivity extends AppCompatActivity {
             mEtMobile.setText(mEditData.getMobile());
             mSwState.setChecked(mEditData.getStatus().equals(1));
 
-            mEtLoginPwd1.setVisibility(View.GONE);
-            mEtLoginPwd2.setVisibility(View.GONE);
-            mEtPayPwd1.setVisibility(View.GONE);
-            mEtPayPwd2.setVisibility(View.GONE);
+            mEtLoginPwd.setVisibility(View.GONE);
+            mEtPayPwd.setVisibility(View.GONE);
         }
 
         switch (getIntent().getStringExtra("tag")){
@@ -125,10 +121,8 @@ public class AddBusinessActivity extends AppCompatActivity {
 
     private void save(){
         String userName = mEtUserName.getText().toString();
-        String loginPwd1 = mEtLoginPwd1.getText().toString();
-        String loginPwd2 = mEtLoginPwd2.getText().toString();
-        String payPwd1 = mEtPayPwd1.getText().toString();
-        String payPwd2 = mEtPayPwd2.getText().toString();
+        String loginPwd = mEtLoginPwd.getText().toString();
+        String payPwd = mEtPayPwd.getText().toString();
         String trueName = mEtTrueName.getText().toString();
         String idCard = mEtIdCard.getText().toString();
         String mobile = mEtMobile.getText().toString();
@@ -144,33 +138,22 @@ public class AddBusinessActivity extends AppCompatActivity {
             }
         }else{
             if (UtilsHelper.parseEditTextContent(mEtUserName,"用户名不能为空",mContext) ||
-                    UtilsHelper.parseEditTextContent(mEtLoginPwd1,"登录密码不能为空",mContext) ||
-                    UtilsHelper.parseEditTextContent(mEtPayPwd1,"支付密码不能为空",mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtLoginPwd,"登录密码不能为空",mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtPayPwd,"支付密码不能为空",mContext) ||
                     UtilsHelper.parseEditTextContent(mEtTrueName,"姓名不能为空",mContext) ||
                     UtilsHelper.parseEditTextContent(mEtMobile,"手机号码不能为空",mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtRate,"费率不能为空",mContext) ||
                     UtilsHelper.parseEditTextContent(mEtIdCard,"证件号码号码不能为空",mContext)) {
                 return;
             }
-        }
-
-        if (!loginPwd1.equals(loginPwd2)) {
-            ToastUtils.showToast(mContext, "登录密码不一致");
-            mEtLoginPwd1.setError("登录密码不一致");
-            return;
-        }
-
-        if (!payPwd1.equals(payPwd2)) {
-            ToastUtils.showToast(mContext, "支付密码不一致");
-            mEtPayPwd1.setError("支付密码不一致");
-            return;
         }
 
         RequestParams params = new RequestParams(UrlAddress.USER_EDIT_ADD);
         if (mEditData != null) {
             params.addBodyParameter("id", mEditData.getId());
         }else{
-            params.addBodyParameter("password",loginPwd1 );
-            params.addBodyParameter("paypass",payPwd1 );
+            params.addBodyParameter("password",loginPwd);
+            params.addBodyParameter("paypass",payPwd);
         }
         params.addBodyParameter("user_name",userName );
         params.addBodyParameter("mobile",mobile );
@@ -189,7 +172,8 @@ public class AddBusinessActivity extends AppCompatActivity {
             @Override
             public void onsuccessful(JSONObject jsonObject) {
                 if (UtilsHelper.parseResult(jsonObject)) {
-
+                    ToastUtils.showToast(mContext,"添加成功");
+                    finish();
                 }else{
                     ToastUtils.showToast(mContext,"添加用户失败，" + jsonObject.optString("msg"));
                 }

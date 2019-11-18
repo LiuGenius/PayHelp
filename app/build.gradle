@@ -49,6 +49,8 @@ dependencies {
     implementation 'cn.yipianfengye.android:zxing-library:2.2'
 
     implementation 'com.neovisionaries:nv-websocket-client:1.30'
+//    权限申请
+    implementation 'com.yanzhenjie:permission:2.0.0-rc4'
 
     implementation 'com.yanzhenjie:album:1.0.0'
 

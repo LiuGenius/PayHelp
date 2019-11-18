@@ -16,7 +16,7 @@ public class Channel {
     private String update_time;
 
     public Channel(JSONObject jsonObject) {
-        this.id = jsonObject.optString("id");
+        this.id = jsonObject.optString("instance_id");
         this.channel_name = jsonObject.optString("channel_name");
         this.channel_code = jsonObject.optString("channel_code");
         this.logo = jsonObject.optString("logo");

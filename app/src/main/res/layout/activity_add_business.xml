@@ -96,16 +96,6 @@
                     android:hint="登录密码"
                     android:paddingLeft="10dp" />
 
-                <EditText
-                    android:singleLine="true"
-                    android:inputType="textVisiblePassword"
-                    android:id="@+id/id_et_login_password2"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/shape_edit"
-                    android:hint="确认登录密码"
-                    android:paddingLeft="10dp" />
 
                 <EditText
                     android:singleLine="true"
@@ -116,16 +106,6 @@
                     android:layout_marginTop="12dp"
                     android:background="@drawable/shape_edit"
                     android:hint="支付密码"
-                    android:paddingLeft="10dp" />
-                <EditText
-                    android:singleLine="true"
-                    android:id="@+id/id_et_pay_password2"
-                    android:inputType="textVisiblePassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/shape_edit"
-                    android:hint="确认支付密码"
                     android:paddingLeft="10dp" />
             </LinearLayout>
 
@@ -146,6 +126,7 @@
                     android:text="信息:"/>
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:gravity="center|left"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp">
 
@@ -174,6 +155,23 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:entries="@array/sexArray" />
+
+                    <TextView
+                        android:layout_marginLeft="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="费率"
+                        android:textColor="#101010" />
+
+                    <EditText
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:id="@+id/id_rate"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_edit"/>
+
                 </LinearLayout>
 
                 <EditText

@@ -9,11 +9,11 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -23,21 +23,24 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.fanzhe.payhelp.config.App;
-import com.fanzhe.payhelp.config.UrlAddress;
 import com.fanzhe.payhelp.iface.OnOver;
 import com.fanzhe.payhelp.iface.OnParseQrCodeImgToString;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.ChecksumException;
+import com.google.zxing.FormatException;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.RGBLuminanceSource;
+import com.google.zxing.common.GlobalHistogramBinarizer;
+import com.google.zxing.qrcode.QRCodeReader;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.json.JSONObject;
-import org.xutils.http.RequestParams;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -287,6 +290,73 @@ public class UtilsHelper {
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TextUtils.isEmpty(reg) ? "yyyy/MM/dd" : reg);
         return simpleDateFormat.format(date);
+    }
+
+
+    /**
+     * 解析二维码图片
+     *
+     * @param srcBitmap
+     * @return
+     */
+    public static com.google.zxing.Result decodeQR(Bitmap srcBitmap) {
+        com.google.zxing.Result result = null;
+        if (srcBitmap != null) {
+            int width = srcBitmap.getWidth();
+            int height = srcBitmap.getHeight();
+            int[] pixels = new int[width * height];
+            srcBitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+            // 新建一个RGBLuminanceSource对象
+            RGBLuminanceSource source = new RGBLuminanceSource(width, height, pixels);
+            // 将图片转换成二进制图片
+            BinaryBitmap binaryBitmap = new BinaryBitmap(new GlobalHistogramBinarizer(source));
+            QRCodeReader reader = new QRCodeReader();// 初始化解析对象
+            try {
+                result = reader.decode(binaryBitmap, CodeHints.getDefaultDecodeHints());// 开始解析
+            } catch (NotFoundException e) {
+                e.printStackTrace();
+            } catch (ChecksumException e) {
+                e.printStackTrace();
+            } catch (FormatException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 生成二维码
+     * @param context
+     * @param textContent
+     * @return
+     */
+    public static Bitmap creatQrCodeImage(Context context, String textContent) {
+        return CodeUtils.createImage(textContent, 300, 300, null);
+    }
+
+    /**
+     * 保存bitmap为file
+     * @param bitmap
+     * @return
+     */
+    public static File saveBitmapToFile(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        File file = new File(Environment.getExternalStorageDirectory() + "/temp.jpg");
+        try {
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            InputStream is = new ByteArrayInputStream(baos.toByteArray());
+            int x = 0;
+            byte[] b = new byte[1024 * 100];
+            while ((x = is.read(b)) != -1) {
+                fos.write(b, 0, x);
+            }
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
     }
 
 }

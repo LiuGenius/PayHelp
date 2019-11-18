@@ -39,10 +39,10 @@ public class WsClientTool implements WebSocketListener {
                 ws.addHeader("auth_key", App.getInstance().getUSER_DATA().getAuth_key() + "");
                 ws.setPingInterval(24 * 60 * 60 * 1000);
                 ws.addListener(this);
-                L.d( "ws.connectAsynchronously() is null=" + ws.toString());
+                L.i( "ws.connectAsynchronously() is null=" + ws.toString());
             } else {
                 ws = ws.recreate();
-                L.d( "ws.connectAsynchronously() is not null=" + ws.toString());
+                L.i( "ws.connectAsynchronously() is not null=" + ws.toString());
             }
             ws.connectAsynchronously();
 
@@ -72,36 +72,36 @@ public class WsClientTool implements WebSocketListener {
     public void sendText(String content) {
         if (null != ws && ws.isOpen()) {
             ws.sendText(content);
-            L.d("发送： " + content);
+            L.i("发送： " + content);
         }
     }
 
     @Override
     public void onStateChanged(WebSocket websocket, WebSocketState newState) throws Exception {
-        L.d( "ws.onStateChanged newState=" + newState.name());
+        L.i( "ws.onStateChanged newState=" + newState.name());
     }
 
     @Override
     public void onConnected(WebSocket websocket, Map<String, List<String>> headers) throws Exception {
-        L.d( "ws.connected");
+        L.i( "ws.connected");
     }
 
     @Override
     public void onConnectError(WebSocket websocket, WebSocketException cause) throws Exception {
-        L.d( "ws.connect error");
+        L.i( "ws.connect error");
         cause.printStackTrace();
     }
 
     @Override
     public void onDisconnected(WebSocket websocket, WebSocketFrame serverCloseFrame, WebSocketFrame clientCloseFrame, boolean closedByServer) throws Exception {
-        L.d( "ws.disconnected  链接中断  开始重连");
+        L.i( "ws.disconnected  链接中断  开始重连");
 
         reconnect();
     }
 
     @Override
     public void onFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
-//        L.d( "ws.onFrame: " + frame.toString());
+//        L.i( "ws.onFrame: " + frame.toString());
     }
 
     @Override
@@ -111,7 +111,7 @@ public class WsClientTool implements WebSocketListener {
 
     @Override
     public void onTextFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
-//        L.d( "ws.onTextFrame: " + frame.toString());
+//        L.i( "ws.onTextFrame: " + frame.toString());
     }
 
     @Override
@@ -136,7 +136,7 @@ public class WsClientTool implements WebSocketListener {
 
     @Override
     public void onTextMessage(WebSocket websocket, String text) throws Exception {
-        L.d( "ws.onTextMessage:  " + text);
+        L.i( "ws.onTextMessage:  " + text);
     }
 
     @Override
@@ -146,61 +146,61 @@ public class WsClientTool implements WebSocketListener {
 
     @Override
     public void onSendingFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
-//        L.d( "onSendingFrame");
+//        L.i( "onSendingFrame");
     }
 
     @Override
     public void onFrameSent(WebSocket websocket, WebSocketFrame frame) throws Exception {
-//        L.d( "onFrameSent");
+//        L.i( "onFrameSent");
     }
 
     @Override
     public void onFrameUnsent(WebSocket websocket, WebSocketFrame frame) throws Exception {
-//        L.d( "onFrameUnsent");
+//        L.i( "onFrameUnsent");
     }
 
     @Override
     public void onError(WebSocket websocket, WebSocketException cause) throws Exception {
         cause.printStackTrace();
-        L.d( "onError");
+        L.i( "onError");
     }
 
     @Override
     public void onFrameError(WebSocket websocket, WebSocketException cause, WebSocketFrame frame) throws Exception {
-        L.d( "onFrameError");
+        L.i( "onFrameError");
     }
 
     @Override
     public void onMessageError(WebSocket websocket, WebSocketException cause, List<WebSocketFrame> frames) throws Exception {
-        L.d( "ws.onMessageError ");
+        L.i( "ws.onMessageError ");
     }
 
     @Override
     public void onMessageDecompressionError(WebSocket websocket, WebSocketException cause, byte[] compressed) throws Exception {
         cause.printStackTrace();
-        L.d( "ws.onMessageDecompressionError ");
+        L.i( "ws.onMessageDecompressionError ");
     }
 
     @Override
     public void onTextMessageError(WebSocket websocket, WebSocketException cause, byte[] data) throws Exception {
-        L.d( "ws.onTextMessageError ");
+        L.i( "ws.onTextMessageError ");
     }
 
     @Override
     public void onSendError(WebSocket websocket, WebSocketException cause, WebSocketFrame frame) throws Exception {
-        L.d( "ws.onSendError ");
+        L.i( "ws.onSendError ");
     }
 
     @Override
     public void onUnexpectedError(WebSocket websocket, WebSocketException cause) throws Exception {
         cause.printStackTrace();
-        L.d( "ws.onUnexpectedError ");
+        L.i( "ws.onUnexpectedError ");
     }
 
     @Override
     public void handleCallbackError(WebSocket websocket, Throwable cause) throws Exception {
         cause.printStackTrace();
-        L.d( "ws.handleCallbackError ");
+        L.i( "ws.handleCallbackError ");
     }
 
     @Override

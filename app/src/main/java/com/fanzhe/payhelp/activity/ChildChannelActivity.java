@@ -1,41 +1,35 @@
 package com.fanzhe.payhelp.activity;
 
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
+import com.fanzhe.payhelp.utils.L;
 import com.fanzhe.payhelp.utils.NetworkLoader;
 import com.fanzhe.payhelp.utils.ToastUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
+import com.google.zxing.Result;
 import com.yanzhenjie.album.Album;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 
 import java.io.File;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -130,25 +124,35 @@ public class ChildChannelActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1001) {
             if (resultCode == RESULT_OK) { // 判断是否成功。
+                ProgressDialog dialog = new ProgressDialog(mContext);
+                dialog.setTitle("处理中");
+                dialog.setMessage("正在处理,请稍候...");
+                dialog.setCancelable(false);
+                dialog.show();
                 try {
                     // 拿到用户选择的图片路径List：
-                    List<String> pathList = Album.parseResult(data);
-//                    ContentResolver cr = this.getContentResolver();
-//                    Uri uri = Uri.parse(pathList.get(0));
-                    Bitmap bitmap = BitmapFactory.decodeFile(pathList.get(0));
-                    mPayQrcode.setImageBitmap(bitmap);
-                    //上传文件并且保存
-                    updataImgFile(pathList.get(0));
+                    Result result = UtilsHelper.decodeQR(BitmapFactory.decodeFile(Album.parseResult(data).get(0)));
+                    //解析二维码图片
+                    if (result != null) {
+                        L.d("解析结果 : " + result.getText());
+                        //上传文件并且保存
+                        Bitmap bm = UtilsHelper.creatQrCodeImage(mContext, result.getText());
+                        updataImgFile(UtilsHelper.saveBitmapToFile(bm));
+                        mPayQrcode.setImageBitmap(bm);
+                    }else{
+                        ToastUtils.showToast(mContext,"没有检测到支付二维码,请重新选择图片");
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                dialog.dismiss();
             } else if (resultCode == RESULT_CANCELED) { // 用户取消选择。
                 // 根据需要提示用户取消了选择。
             }
         }
     }
 
-    private void updataImgFile(String filePath) {
+    private void updataImgFile(File file) {
         ProgressDialog dialog = new ProgressDialog(mContext);
         dialog.setCancelable(false);
         dialog.setTitle("正在上传图片");
@@ -156,7 +160,7 @@ public class ChildChannelActivity extends AppCompatActivity {
         dialog.show();
 
         RequestParams params = new RequestParams(UrlAddress.UPDATE_FILE);
-        params.addBodyParameter("file",new File(filePath));
+        params.addBodyParameter("file",file);
         params.setMultipart(true);
         NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
             @Override
@@ -191,7 +195,6 @@ public class ChildChannelActivity extends AppCompatActivity {
         params.addBodyParameter("pay_qrcode",imgUrl);
         params.addBodyParameter("status","");
         params.addBodyParameter("sub_id",sub_id);
-        params.setMultipart(true);
         NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {

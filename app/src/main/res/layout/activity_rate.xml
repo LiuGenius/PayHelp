@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -44,14 +45,14 @@
             android:textStyle="bold"
             android:textColor="#101010"
             android:textSize="30sp"
-            android:text="通道名称"
+            android:text="商家名称"
             android:layout_margin="20dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#99ff0000"
-            android:text="商户费率  = 平台费率 + 码商费率"
+            android:text="商家费率  = 平台费率 + 码商费率"
             android:layout_marginLeft="20dp"
             android:textSize="18sp"/>
 
@@ -60,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="24dp"
-            android:text="商户费率"
+            android:text="商家费率"
             android:textColor="#555"/>
 
         <LinearLayout
@@ -91,74 +92,6 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="24dp"
-            android:text="平台费率"
-            android:textColor="#555"/>
-        <LinearLayout
-            android:id="@+id/id_ll_maxPrice"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-
-            <EditText
-                android:inputType="number"
-                android:hint="0"
-                android:gravity="center"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/shape_edit"/>
-
-            <TextView
-                android:layout_marginLeft="10dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:text="%"
-                android:textSize="30dp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="#101010"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="24dp"
-            android:text="码商费率"
-            android:textColor="#555"/>
-        <LinearLayout
-            android:id="@+id/id_ll_today"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-
-
-            <EditText
-                android:inputType="number"
-                android:hint="0"
-                android:gravity="center"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/shape_edit"/>
-
-            <TextView
-                android:layout_marginLeft="10dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:text="%"
-                android:textSize="30dp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="#101010"/>
-
-        </LinearLayout>
 
 
 
@@ -167,7 +100,6 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
         <TextView
-            android:visibility="gone"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="40dp"

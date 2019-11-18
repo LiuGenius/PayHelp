@@ -3,7 +3,7 @@ package com.fanzhe.payhelp.config;
 import android.app.Application;
 import android.graphics.Typeface;
 
-import com.fanzhe.payhelp.utils.L;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import org.json.JSONObject;
 import org.xutils.BuildConfig;
@@ -37,6 +37,8 @@ public class App extends Application {
             //xUtils框架初始化
             x.Ext.init(this);
             x.Ext.setDebug(BuildConfig.DEBUG); // 是否输出debug日志, 开启debug会影响性能.
+
+            ZXingLibrary.initDisplayOpinion(this);
 
             //初始化bugly
 //            CrashReport.initCrashReport(context, "8cc880c2cd", true);

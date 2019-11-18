@@ -102,9 +102,7 @@ public class NetworkLoader {
 //                log += "\nHeaders ===>" +  params.getHeaders().get(i).key + "  :  " + params.getHeaders().get(i).value;
 //            }
 //        }
-        if(!TextUtils.isEmpty(log)){
-            L.d("请求数据：" + log);
-        }
+        L.d("请求数据：" + log);
 
         L.d("================================================");
     }
