@@ -88,7 +88,6 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.Holder> 
 
         holder.del.setVisibility(View.GONE);
         holder.del.setOnClickListener(v -> {
-            // TODO: 2019/11/14 删除通道
         });
         if(App.getInstance().getUSER_DATA().getRole_id().equals("3")){
             holder.child.setVisibility(View.VISIBLE);

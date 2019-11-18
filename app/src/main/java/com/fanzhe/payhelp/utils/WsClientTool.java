@@ -72,6 +72,7 @@ public class WsClientTool implements WebSocketListener {
     public void sendText(String content) {
         if (null != ws && ws.isOpen()) {
             ws.sendText(content);
+            L.d("发送： " + content);
         }
     }
 
@@ -93,12 +94,14 @@ public class WsClientTool implements WebSocketListener {
 
     @Override
     public void onDisconnected(WebSocket websocket, WebSocketFrame serverCloseFrame, WebSocketFrame clientCloseFrame, boolean closedByServer) throws Exception {
-        L.d( "ws.disconnected");
+        L.d( "ws.disconnected  链接中断  开始重连");
+
+        reconnect();
     }
 
     @Override
     public void onFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
-        L.d( "ws.onFrame: " + frame.toString());
+//        L.d( "ws.onFrame: " + frame.toString());
     }
 
     @Override
@@ -108,7 +111,7 @@ public class WsClientTool implements WebSocketListener {
 
     @Override
     public void onTextFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
-        L.d( "ws.onTextFrame: " + frame.toString());
+//        L.d( "ws.onTextFrame: " + frame.toString());
     }
 
     @Override
@@ -143,17 +146,17 @@ public class WsClientTool implements WebSocketListener {
 
     @Override
     public void onSendingFrame(WebSocket websocket, WebSocketFrame frame) throws Exception {
-        L.d( "onSendingFrame");
+//        L.d( "onSendingFrame");
     }
 
     @Override
     public void onFrameSent(WebSocket websocket, WebSocketFrame frame) throws Exception {
-        L.d( "onFrameSent");
+//        L.d( "onFrameSent");
     }
 
     @Override
     public void onFrameUnsent(WebSocket websocket, WebSocketFrame frame) throws Exception {
-        L.d( "onFrameUnsent");
+//        L.d( "onFrameUnsent");
     }
 
     @Override

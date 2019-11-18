@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,7 +15,6 @@ import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.adapter.OrderAdapter;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
-import com.fanzhe.payhelp.iface.OnOver;
 import com.fanzhe.payhelp.model.Order;
 import com.fanzhe.payhelp.utils.NetworkLoader;
 import com.fanzhe.payhelp.utils.ToastUtils;
@@ -95,6 +93,7 @@ public class OrderManager extends AppCompatActivity {
     public void clickTab(TextView view) {
         switch (view.getId()) {
             case R.id.id_tab_1:
+            case R.id.id_search:
                 startAnim(0);
                 search("0");
                 break;
@@ -111,10 +110,6 @@ public class OrderManager extends AppCompatActivity {
                 UtilsHelper.showDatePicker(mContext, result -> {
                     view.setText(result);
                 });
-                break;
-            case R.id.id_search:
-                startAnim(0);
-                search("0");
                 break;
         }
     }

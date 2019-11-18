@@ -25,8 +25,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        L.d("onCreate");
-
 //        L.d("当前用户类别： " + USER_TYPE);
         try {
             //设置全局字体

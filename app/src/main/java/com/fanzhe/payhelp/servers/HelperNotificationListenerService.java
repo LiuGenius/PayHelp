@@ -64,6 +64,7 @@ public class HelperNotificationListenerService extends NotificationListenerServi
 //            MainActivity.addLogs(String.format("收到通知，包名：%s，标题：%s，内容：%s", pkg, title, content));
         }else{
 //            MainActivity.addLogs(String.format("到账提醒，支付方式：%s，支付金额：%s，支付时间：%s", payInfo.payType, payInfo.payPrice, payInfo.payTime));
+            L.d("processOnReceive: " + content);
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("type","payInfo");
