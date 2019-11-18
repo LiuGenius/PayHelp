@@ -35,8 +35,10 @@ public class WsClientTool implements WebSocketListener {
         url = serverUrl;
         try {
             if (null == ws) {
-                ws = new WebSocketFactory().createSocket(serverUrl);
+                ws = new WebSocketFactory().createSocket(serverUrl + "?times=" + System.currentTimeMillis());
+                ws.addHeader("auth_token", App.getInstance().getUSER_DATA().getAuth_key() + "");
                 ws.addHeader("auth_key", App.getInstance().getUSER_DATA().getAuth_key() + "");
+                ws.addHeader("pppppp", System.currentTimeMillis() + "");
                 ws.setPingInterval(24 * 60 * 60 * 1000);
                 ws.addListener(this);
                 L.i( "ws.connectAsynchronously() is null=" + ws.toString());
@@ -78,6 +80,7 @@ public class WsClientTool implements WebSocketListener {
 
     @Override
     public void onStateChanged(WebSocket websocket, WebSocketState newState) throws Exception {
+//        ws.disconnect();
         L.i( "ws.onStateChanged newState=" + newState.name());
     }
 
@@ -88,6 +91,7 @@ public class WsClientTool implements WebSocketListener {
 
     @Override
     public void onConnectError(WebSocket websocket, WebSocketException cause) throws Exception {
+        ws.disconnect();
         L.i( "ws.connect error");
         cause.printStackTrace();
     }
@@ -96,7 +100,7 @@ public class WsClientTool implements WebSocketListener {
     public void onDisconnected(WebSocket websocket, WebSocketFrame serverCloseFrame, WebSocketFrame clientCloseFrame, boolean closedByServer) throws Exception {
         L.i( "ws.disconnected  链接中断  开始重连");
 
-        reconnect();
+//        reconnect();
     }
 
     @Override

@@ -108,6 +108,18 @@ public class MainActivity extends AppCompatActivity {
                 .start();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        WsClientTool.getInstance().disconnect();
+
+        //调用系统API结束进程
+        android.os.Process.killProcess(android.os.Process.myPid());
+
+        //结束整个虚拟机进程，注意如果在manifest里用android:process给app指定了不止一个进程，则只会结束当前进程
+        System.exit(0);
+    }
+
     private void initView() {
         mFragmentManager = getSupportFragmentManager();
 
