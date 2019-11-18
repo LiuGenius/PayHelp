@@ -9,19 +9,19 @@ import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
 import com.fanzhe.payhelp.utils.NetworkLoader;
 import com.fanzhe.payhelp.utils.ToastUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
-import com.fanzhe.payhelp.utils.WsClientTool;
 
 import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         RequestParams params = new RequestParams(UrlAddress.USER_LOGIN);
         params.addBodyParameter("username", userName);
         params.addBodyParameter("password", password);
-        NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
+        NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
                 ToastUtils.showToast(mContext,"登录失败，请检查网络");

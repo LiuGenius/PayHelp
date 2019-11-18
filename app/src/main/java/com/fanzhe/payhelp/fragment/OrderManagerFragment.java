@@ -141,7 +141,7 @@ public class OrderManagerFragment extends Fragment {
         params.addBodyParameter("order_status", order_status);
         params.addBodyParameter("start_time", mStartTime.getText().toString());
         params.addBodyParameter("end_time", mEndTime.getText().toString());
-        NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
+        NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
                 ToastUtils.showToast(mContext, "获取订单信息失败,请检查网络");

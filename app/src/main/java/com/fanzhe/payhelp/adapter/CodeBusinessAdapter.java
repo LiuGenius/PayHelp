@@ -5,10 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,18 +12,19 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.activity.AddBusinessActivity;
 import com.fanzhe.payhelp.activity.CodePayChannelActivity;
+import com.fanzhe.payhelp.activity.RateActivity;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
 import com.fanzhe.payhelp.model.CodeBusiness;
-import com.fanzhe.payhelp.utils.L;
 import com.fanzhe.payhelp.utils.NetworkLoader;
 import com.fanzhe.payhelp.utils.ToastUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
@@ -37,11 +34,7 @@ import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -103,7 +96,7 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
                 params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
                 params.addBodyParameter("balance",content);
                 params.addBodyParameter("uid",codeBusiness.getId());
-                NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
+                NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
                     @Override
                     public void onfailure(String errorMsg) {
                         dialog.dismiss();
@@ -126,7 +119,7 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
             RequestParams params = new RequestParams(UrlAddress.ORH_IMPORT_DEPOSIT);
             params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
             params.addBodyParameter("uid", codeBusiness.getId());
-            NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
+            NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
                 @Override
                 public void onfailure(String errorMsg) {
                     ToastUtils.showToast(mContext,"读取入款明细失败，请检查您的网络");
@@ -180,7 +173,7 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
             RequestParams params = new RequestParams(UrlAddress.ORG_DEL_USER);
             params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
             params.addBodyParameter("uid", codeBusiness.getId());
-            NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
+            NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
                 @Override
                 public void onfailure(String errorMsg) {
                     ToastUtils.showToast(mContext,"删除用户失败，请检查您的网络");
@@ -197,6 +190,13 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
                     }
                 }
             });
+        });
+
+        holder.rate.setOnClickListener(view -> {
+            Intent intent = new Intent(mContext, RateActivity.class);
+            intent.putExtra("uid",codeBusiness.getId());
+            intent.putExtra("name",codeBusiness.getUser_name());
+            mContext.startActivity(intent);
         });
 
     }
@@ -227,6 +227,8 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
         TextView rk;
         @BindView(R.id.id_item_del)
         TextView del;
+        @BindView(R.id.id_item_rate)
+        TextView rate;
         public Holder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

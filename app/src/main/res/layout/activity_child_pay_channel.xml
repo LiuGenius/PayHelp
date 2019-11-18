@@ -102,6 +102,7 @@
             android:textSize="20sp"/>
 
         <ImageView
+            android:src="@mipmap/icon_add_img"
             android:id="@+id/id_iv_pay_code"
             android:layout_marginTop="16dp"
             android:layout_width="160dp"

@@ -74,7 +74,7 @@ public class ChildChannelActivity extends AppCompatActivity {
         RequestParams params = new RequestParams(UrlAddress.CODE_CHILD_CHANNEL);
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
         params.addBodyParameter("instance_id", getIntent().getStringExtra("instance_id"));
-        NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
+        NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
                 ToastUtils.showToast(mContext, "获取子通道信息失败，请检查网络");
@@ -162,7 +162,7 @@ public class ChildChannelActivity extends AppCompatActivity {
         RequestParams params = new RequestParams(UrlAddress.UPDATE_FILE);
         params.addBodyParameter("file",file);
         params.setMultipart(true);
-        NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
+        NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
                 dialog.dismiss();
@@ -195,7 +195,7 @@ public class ChildChannelActivity extends AppCompatActivity {
         params.addBodyParameter("pay_qrcode",imgUrl);
         params.addBodyParameter("status","");
         params.addBodyParameter("sub_id",sub_id);
-        NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
+        NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
                 dialog.dismiss();

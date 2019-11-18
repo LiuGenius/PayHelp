@@ -1,7 +1,13 @@
 package com.fanzhe.payhelp.utils;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Window;
+
+import com.fanzhe.payhelp.R;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
@@ -28,22 +34,25 @@ public class NetworkLoader {
     /**
      * 发送一个一部get请求
      */
-    public static void sendGet(RequestParams params, final networkCallBack networkCallBack) {
-        x.http().get(params, new myCommonCallback(params.getUri(),networkCallBack,params));
+    public static void sendGet(Context context,RequestParams params, final networkCallBack networkCallBack) {
+        x.http().get(params, new myCommonCallback(context,params.getUri(),networkCallBack,params));
     }
     /**
      * 发起一个post请求
      */
-    public static void sendPost(RequestParams params, final networkCallBack networkCallBack) {
-        x.http().post(params, new myCommonCallback(params.getUri(),networkCallBack,params));
+    public static void sendPost(Context context,RequestParams params, final networkCallBack networkCallBack) {
+
+        x.http().post(params, new myCommonCallback(context,params.getUri(),networkCallBack,params));
     }
 
     static class myCommonCallback implements Callback.CommonCallback<String> {
         String url;
         networkCallBack networkCallBack;
         RequestParams params;
+        Context context;
 
-        public myCommonCallback(String url, NetworkLoader.networkCallBack networkCallBack, RequestParams params) {
+        public myCommonCallback(Context context, String url, NetworkLoader.networkCallBack networkCallBack, RequestParams params) {
+            this.context = context;
             this.url = url;
             this.networkCallBack = networkCallBack;
             this.params = params;
@@ -56,7 +65,19 @@ public class NetworkLoader {
             L.d("onSuccess  ========================>>>> "+url+" <<<<========================\t\n");
             L.d(result);
             try {
-                networkCallBack.onsuccessful(new JSONObject(result));
+                if (new JSONObject(result).optString("msg").equals("用户不存在")) {
+                    Dialog dialog = new Dialog(context, R.style.AlertDialogStyle);
+                    dialog.setContentView(R.layout.layout_alert_logout_view);
+                    dialog.setCancelable(false);
+                    dialog.show();
+                    Window window = dialog.getWindow();
+                    window.findViewById(R.id.id_submit).setOnClickListener(view -> {
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                        System.exit(0);
+                    });
+                }else{
+                    networkCallBack.onsuccessful(new JSONObject(result));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

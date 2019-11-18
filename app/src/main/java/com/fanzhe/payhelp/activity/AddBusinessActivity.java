@@ -2,13 +2,15 @@ package com.fanzhe.payhelp.activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.config.App;
@@ -21,8 +23,6 @@ import com.fanzhe.payhelp.utils.UtilsHelper;
 import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -91,7 +91,7 @@ public class AddBusinessActivity extends AppCompatActivity {
                 mEtYck.setVisibility(View.GONE);
                 break;
             case "addCode":
-
+                mEtYck.setVisibility(View.GONE);
                 break;
         }
 
@@ -163,7 +163,7 @@ public class AddBusinessActivity extends AppCompatActivity {
         params.addBodyParameter("id_card",idCard );
         params.addBodyParameter("type",getIntent().getStringExtra("tag").equals("addBusiness") ? "2" : "3");
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
-        NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
+        NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
                 ToastUtils.showToast(mContext,"添加用户失败，请检查您的网络");

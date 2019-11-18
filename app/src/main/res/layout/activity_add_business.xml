@@ -164,13 +164,20 @@
                         android:textColor="#101010" />
 
                     <EditText
-                        android:inputType="number"
+                        android:inputType="text"
                         android:maxLength="2"
                         android:id="@+id/id_rate"
                         android:layout_marginLeft="10dp"
-                        android:layout_width="60dp"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/shape_edit"/>
+
+                    <TextView
+                        android:layout_marginLeft="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="%"
+                        android:textColor="#101010" />
 
                 </LinearLayout>
 

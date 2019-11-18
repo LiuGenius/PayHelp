@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import com.fanzhe.payhelp.activity.LoginActivity;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.utils.WsClientTool;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -27,6 +29,9 @@ public class MyCententFragment extends Fragment {
 
     Context mContext;
 
+    @BindView(R.id.id_role)
+    TextView mRole;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,6 +42,18 @@ public class MyCententFragment extends Fragment {
         mContext = getActivity();
 
         initView();
+
+        switch (App.getInstance().getUSER_DATA().getRole_id()){
+            case "1":
+                mRole.setText("我的角色 :   平台");
+                break;
+            case "2":
+                mRole.setText("我的角色 :   商号");
+                break;
+            case "3":
+                mRole.setText("我的角色 :   码商");
+                break;
+        }
 
         return view;
     }

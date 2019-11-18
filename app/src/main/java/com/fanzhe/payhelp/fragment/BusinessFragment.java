@@ -11,6 +11,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.activity.AddBusinessActivity;
 import com.fanzhe.payhelp.adapter.BusinessAdapter;
@@ -27,11 +33,6 @@ import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -115,7 +116,7 @@ public class BusinessFragment extends Fragment {
         params.addBodyParameter("status",status + "");
         params.addBodyParameter("user_name", mEtName.getText().toString());
         params.addBodyParameter("type", "2");
-        NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
+        NetworkLoader.sendPost(context,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
                 ToastUtils.showToast(context, "获取商户列表失败，请检查网络");

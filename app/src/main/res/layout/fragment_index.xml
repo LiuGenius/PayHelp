@@ -2,8 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -19,6 +17,10 @@
             android:textSize="16sp"
             android:textColor="#101010"
             tools:ignore="MissingConstraints" />
+        <View
+            android:layout_width="match_parent"
+            android:background="#101010"
+            android:layout_height="1px" />
 
         <TextView
             android:layout_width="match_parent"
@@ -213,29 +215,9 @@
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <LinearLayout
-                android:id="@+id/id_ll_yhgl"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:tint="#FF5252"
-                    android:src="@mipmap/icon_index_tab_user"/>
-
-                <TextView
-                    android:textStyle="bold"
-                    android:textColor="#101010"
-                    android:layout_marginTop="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="用户管理"/>
-            </LinearLayout>
             <LinearLayout
+                android:padding="8dp"
                 android:id="@+id/id_ll_ddgl"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -259,6 +241,7 @@
                     android:text="订单管理"/>
             </LinearLayout>
             <LinearLayout
+                android:padding="8dp"
                 android:id="@+id/id_ll_tdgl"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -281,14 +264,61 @@
                     android:layout_height="wrap_content"
                     android:text="通道管理"/>
             </LinearLayout>
+            <LinearLayout
+                android:padding="8dp"
+                android:id="@+id/id_ll_jsgl"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
 
+                <ImageView
+                    android:tint="#FFAB40"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/icon_index_tab_js"/>
+
+                <TextView
+                    android:textStyle="bold"
+                    android:textColor="#101010"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="结算管理"/>
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
-            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <LinearLayout
-                android:visibility="gone"
+                android:padding="8dp"
+                android:id="@+id/id_ll_yhgl"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:tint="#FF5252"
+                    android:src="@mipmap/icon_index_tab_user"/>
+
+                <TextView
+                    android:textStyle="bold"
+                    android:textColor="#101010"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="用户管理"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:padding="8dp"
                 android:id="@+id/id_ll_mygl"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -312,30 +342,9 @@
                     android:layout_height="wrap_content"
                     android:text="密钥管理"/>
             </LinearLayout>
-            <LinearLayout
-                android:id="@+id/id_ll_jsgl"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:tint="#FFAB40"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@mipmap/icon_index_tab_js"/>
-
-                <TextView
-                    android:textStyle="bold"
-                    android:textColor="#101010"
-                    android:layout_marginTop="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="结算管理"/>
-            </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
+                android:padding="8dp"
                 android:id="@+id/id_ll_cwgl"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -346,8 +355,7 @@
                 <ImageView
                     android:tint="#FFD740"
                     android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@mipmap/icon_index_tab_cw"/>
+                    android:layout_height="40dp"/>
 
                 <TextView
                     android:textStyle="bold"
@@ -355,7 +363,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="财务管理"/>
+                    android:text=""/>
             </LinearLayout>
 
         </LinearLayout>

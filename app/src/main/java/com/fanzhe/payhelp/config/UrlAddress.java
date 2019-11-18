@@ -62,4 +62,16 @@ public class UrlAddress {
      * 码商保存子通道
      */
     public static final String CODE_SAVE_CHILD_CHANNEL = Host + "/v1/pay/channel-instance/edit-sub-instance";
+    /**
+     * 商户查看密钥
+     */
+    public static final String LOOK_PS_KET = Host + "/v1/admin/user/view-secret-key";
+    /**
+     * 费率列表
+     */
+    public static final String RATE_LIST = Host + "/v1/pay/pay-conf/conf-list";
+    /**
+     *
+     */
+    public static final String EDIT_RATE = Host + "/v1/pay/pay-conf/edit-conf";
 }

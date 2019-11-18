@@ -11,6 +11,11 @@ import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.adapter.OrderAdapter;
 import com.fanzhe.payhelp.config.App;
@@ -26,10 +31,6 @@ import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -140,7 +141,7 @@ public class OrderManager extends AppCompatActivity {
         params.addBodyParameter("order_status", order_status);
         params.addBodyParameter("start_time", mStartTime.getText().toString());
         params.addBodyParameter("end_time", mEndTime.getText().toString());
-        NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
+        NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
                 ToastUtils.showToast(mContext, "获取订单信息失败,请检查网络");

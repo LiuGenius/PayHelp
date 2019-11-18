@@ -8,6 +8,11 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.adapter.ChannelAdapter;
 import com.fanzhe.payhelp.config.App;
@@ -21,13 +26,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 
-import java.security.cert.PKIXParameters;
 import java.util.ArrayList;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -112,7 +112,7 @@ public class PayChannelActivity extends AppCompatActivity {
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
         params.addBodyParameter("status",status + "");
         params.addBodyParameter("channel_name", mName.getText().toString());
-        NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
+        NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
                 ToastUtils.showToast(mContext, "获取通道列表失败，请检查网络");

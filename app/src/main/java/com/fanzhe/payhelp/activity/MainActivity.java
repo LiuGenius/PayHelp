@@ -194,6 +194,16 @@ public class MainActivity extends AppCompatActivity {
                 ShowFragment(3);
                 break;
         }
+
+        switch (App.getInstance().getUSER_DATA().getRole_id()) {
+            case "1":
+
+                break;
+            case "2":
+            case "3":
+                findViewById(R.id.id_ll_usm).setVisibility(View.GONE);
+                break;
+        }
     }
 
 

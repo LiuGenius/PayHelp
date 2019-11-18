@@ -32,7 +32,7 @@
                 android:textSize="16sp"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
@@ -106,7 +106,7 @@
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:gravity="center|left"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -119,7 +119,7 @@
 
             <Switch
                 android:id="@+id/id_item_sw_state"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -129,12 +129,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/id_item_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="费率"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:paddingTop="8dp"
+                android:textColor="#101010"
+                android:background="@drawable/shape_edit"
+                android:paddingBottom="8dp"/>
+            <TextView
+                android:layout_marginLeft="12dp"
                 android:id="@+id/id_item_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="编辑"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:paddingTop="8dp"
@@ -147,8 +161,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="查看通道"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:paddingTop="8dp"
@@ -161,8 +175,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="入款"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:paddingTop="8dp"
@@ -175,8 +189,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="删除"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:paddingTop="8dp"

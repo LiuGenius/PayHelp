@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.activity.AddBusinessActivity;
+import com.fanzhe.payhelp.activity.RateActivity;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
 import com.fanzhe.payhelp.model.CodeBusiness;
@@ -22,7 +25,6 @@ import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
 
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -64,7 +66,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Holder
             RequestParams params = new RequestParams(UrlAddress.ORG_DEL_USER);
             params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
             params.addBodyParameter("uid", business.getId());
-            NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
+            NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
                 @Override
                 public void onfailure(String errorMsg) {
                     ToastUtils.showToast(mContext,"删除用户失败，请检查您的网络");
@@ -81,6 +83,13 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Holder
                     }
                 }
             });
+        });
+        holder.rate.setVisibility(View.VISIBLE);
+        holder.rate.setOnClickListener(view -> {
+            Intent intent = new Intent(mContext, RateActivity.class);
+            intent.putExtra("uid",business.getId());
+            intent.putExtra("name",business.getUser_name());
+            mContext.startActivity(intent);
         });
     }
 
@@ -99,6 +108,8 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Holder
         TextView edit;
         @BindView(R.id.id_item_del)
         TextView del;
+        @BindView(R.id.id_item_rate)
+        TextView rate;
         public Holder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

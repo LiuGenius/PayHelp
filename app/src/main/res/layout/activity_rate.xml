@@ -40,6 +40,7 @@
             android:background="#e5e5e5" />
 
         <TextView
+            android:id="@+id/id_tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -48,67 +49,25 @@
             android:text="商家名称"
             android:layout_margin="20dp"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#99ff0000"
-            android:text="商家费率  = 平台费率 + 码商费率"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/id_rv_content"
             android:layout_marginLeft="20dp"
-            android:textSize="18sp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="24dp"
-            android:text="商家费率"
-            android:textColor="#555"/>
-
-        <LinearLayout
-            android:id="@+id/id_ll_mixPrice"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-
-
-            <EditText
-                android:inputType="number"
-                android:hint="0"
-                android:gravity="center"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/shape_edit"/>
-
-            <TextView
-                android:layout_marginLeft="10dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:text="%"
-                android:textSize="30dp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="#101010"/>
-
-        </LinearLayout>
-
-
-
-
-        <View
+            android:layout_marginRight="20dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>
+
         <TextView
-            android:layout_alignParentBottom="true"
+            android:id="@+id/id_save"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="#FFA505"
-            android:text="保存"
-            android:textColor="#fff"
+            android:layout_height="50dp"
+            android:text="保存设置"
+            android:gravity="center"
+            android:textColor="#Fff"
             android:textSize="16sp"
+            android:layout_marginTop="20dp"
             android:textStyle="bold"
-            android:gravity="center"/>
+            android:background="@drawable/shape_login_btn"/>
 
 
     </LinearLayout>

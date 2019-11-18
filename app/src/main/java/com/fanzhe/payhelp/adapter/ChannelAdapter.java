@@ -67,7 +67,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.Holder> 
             params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
             params.addBodyParameter("status",holder.state.isChecked() ? "1" : "0");
             params.addBodyParameter("id", channel.getId());
-            NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
+            NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
                 @Override
                 public void onfailure(String errorMsg) {
                     ToastUtils.showToast(mContext, "切换通道状态失败，请检查网络");
