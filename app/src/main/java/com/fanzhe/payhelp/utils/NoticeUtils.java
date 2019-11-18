@@ -61,9 +61,10 @@ public class NoticeUtils {
      */
     public static boolean isWorked(Context context,String className) {
         ActivityManager myManager = (ActivityManager) context.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
-        ArrayList<ActivityManager.RunningServiceInfo> runningService = (ArrayList<ActivityManager.RunningServiceInfo>) myManager
-                .getRunningServices(30);
+        ArrayList<ActivityManager.RunningServiceInfo> runningService = (ArrayList<ActivityManager.RunningServiceInfo>) myManager.getRunningServices(1000);
+
         for (int i = 0; i < runningService.size(); i++) {
+//            L.i("" + runningService.get(i).service.getClassName());
             if (runningService.get(i).service.getClassName().equals(className)) {
                 return true;
             }

@@ -93,7 +93,8 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.Holder> 
             holder.child.setVisibility(View.VISIBLE);
             holder.child.setOnClickListener(view -> {
                 Intent intent = new Intent(mContext, ChildChannelActivity.class);
-                intent.putExtra("channelId",channel.getId());
+                intent.putExtra("instance_id",channel.getInstance_id());
+                intent.putExtra("id",channel.getId());
                 intent.putExtra("channelName",channel.getChannel_name());
                 mContext.startActivity(intent);
             });

@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,8 +37,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -49,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     Context mContext;
 
     ArrayList<Fragment> mFragmentList;
+
+    @BindView(R.id.id_tips)
+    TextView mTips;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +144,13 @@ public class MainActivity extends AppCompatActivity {
         mFragmentTransaction.commit();
 
         ShowFragment(0);
+
+        switch (App.getInstance().getUSER_DATA().getRole_id()) {
+            case "3":
+                mTips.setVisibility(View.VISIBLE);
+                break;
+        }
+
     }
 
     /**
@@ -186,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
+        @SuppressLint("SetTextI18n")
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -195,8 +209,12 @@ public class MainActivity extends AppCompatActivity {
                 //判断服务是否在运行
                 if (NoticeUtils.isWorked(MainActivity.this, getPackageName() + ".servers.HelperNotificationListenerService")) {
                     jsonObject.put("msg", "online");
+                    L.i("监听服务在线");
+                    mTips.setText("当前监听服务在线    "  + UtilsHelper.parseDateLong(String.valueOf(new Date().getTime()), "yyyy/MM/dd HH:mm:ss"));
                 } else {
                     jsonObject.put("msg", "offline");
+                    L.i("监听服务离线");
+                    mTips.setText("当前监听服务离线     " + UtilsHelper.parseDateLong(String.valueOf(new Date().getTime()), "yyyy/MM/dd HH:mm:ss"));
                 }
                 WsClientTool.getInstance().sendText(jsonObject.toString());
             } catch (JSONException e) {

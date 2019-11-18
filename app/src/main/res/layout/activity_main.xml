@@ -17,6 +17,14 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
+        <TextView
+            android:padding="8dp"
+            android:visibility="gone"
+            android:id="@+id/id_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="当前监听服务未开启"/>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"

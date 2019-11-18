@@ -15,8 +15,11 @@ public class Channel {
     private String status;
     private String update_time;
 
+    private String instance_id;
+
     public Channel(JSONObject jsonObject) {
-        this.id = jsonObject.optString("instance_id");
+        this.id = jsonObject.optString("id");
+        this.instance_id = jsonObject.optString("instance_id");
         this.channel_name = jsonObject.optString("channel_name");
         this.channel_code = jsonObject.optString("channel_code");
         this.logo = jsonObject.optString("logo");
@@ -27,6 +30,14 @@ public class Channel {
         this.end_time = jsonObject.optString("end_time");
         this.status = jsonObject.optString("status");
         this.update_time = jsonObject.optString("update_time");
+    }
+
+    public String getInstance_id() {
+        return instance_id;
+    }
+
+    public void setInstance_id(String instance_id) {
+        this.instance_id = instance_id;
     }
 
     public String getId() {

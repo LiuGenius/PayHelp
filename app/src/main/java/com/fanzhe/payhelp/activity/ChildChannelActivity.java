@@ -73,7 +73,7 @@ public class ChildChannelActivity extends AppCompatActivity {
     private void getData() {
         RequestParams params = new RequestParams(UrlAddress.CODE_CHILD_CHANNEL);
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
-        params.addBodyParameter("instance_id", getIntent().getStringExtra("channelId"));
+        params.addBodyParameter("instance_id", getIntent().getStringExtra("instance_id"));
         NetworkLoader.sendPost(params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
@@ -191,7 +191,7 @@ public class ChildChannelActivity extends AppCompatActivity {
 
         RequestParams params = new RequestParams(UrlAddress.CODE_SAVE_CHILD_CHANNEL);
         params.addBodyParameter("auth_key",App.getInstance().getUSER_DATA().getAuth_key());
-        params.addBodyParameter("channel_id",getIntent().getStringExtra("channelId"));
+        params.addBodyParameter("channel_id",getIntent().getStringExtra("id"));
         params.addBodyParameter("pay_qrcode",imgUrl);
         params.addBodyParameter("status","");
         params.addBodyParameter("sub_id",sub_id);
