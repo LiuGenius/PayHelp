@@ -47,6 +47,20 @@ public class IndexFragment extends Fragment {
     @BindView(R.id.id_ll_yhgl)
     LinearLayout mYhgl;
 
+
+    @BindView(R.id.id_ll_index_dataview_1)
+    LinearLayout mDataView1;
+    @BindView(R.id.id_ll_index_dataview_2)
+    LinearLayout mDataView2;
+    @BindView(R.id.id_ll_index_dataview_3)
+    LinearLayout mDataView3;
+    @BindView(R.id.id_ll_index_dataview_4)
+    LinearLayout mDataView4;
+    @BindView(R.id.id_ll_index_dataview_5)
+    LinearLayout mDataView5;
+    @BindView(R.id.id_ll_index_dataview_6)
+    LinearLayout mDataView6;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,10 +95,75 @@ public class IndexFragment extends Fragment {
 //                view.findViewById(R.id.id_ll_mygl).setVisibility(View.GONE);
                 break;
         }
+        getData();
         return view;
     }
 
-    @OnClick({R.id.id_ll_tdgl, R.id.id_ll_cwgl, R.id.id_ll_jsgl, R.id.id_ll_yhgl, R.id.id_ll_ddgl,R.id.id_ll_mygl})
+    private void getData() {
+        RequestParams params = new RequestParams(UrlAddress.INDEX_DATA);
+        params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
+        NetworkLoader.sendPost(context, params, new NetworkLoader.networkCallBack() {
+            @Override
+            public void onfailure(String errorMsg) {
+                ToastUtils.showToast(context, "获取统计数据失败,请检查网络");
+            }
+
+            @Override
+            public void onsuccessful(JSONObject jsonObject) {
+                if (UtilsHelper.parseResult(jsonObject)) {
+                    JSONObject object = jsonObject.optJSONObject("data");
+                    switch (App.getInstance().getUSER_DATA().getRole_id()) {
+                        case "1":
+                            String mch_nums = object.optString("mch_nums");
+                            String coder_nums = object.optString("coder_nums");
+                            String day_amount = object.optString("day_amount");
+                            String day_income = object.optString("day_income");
+
+                            UtilsHelper.setText(mDataView1,mch_nums,"商户数");
+                            UtilsHelper.setText(mDataView2,coder_nums,"码商数");
+                            UtilsHelper.setText(mDataView3,day_amount,"今日流水");
+                            UtilsHelper.setText(mDataView4,day_income,"今日收入");
+                            mDataView5.setVisibility(View.GONE);
+                            mDataView6.setVisibility(View.GONE);
+                            break;
+                        case "2":
+                            String order_total_num = object.optString("order_total_num");
+                            String complete_num = object.optString("complete_num");
+                            String day_amount_1 = object.optString("day_amount");
+                            String day_income_1 = object.optString("day_income");
+
+                            UtilsHelper.setText(mDataView1,order_total_num,"今日总订单数");
+                            UtilsHelper.setText(mDataView2,complete_num,"今日订单完成数");
+                            UtilsHelper.setText(mDataView3,day_amount_1,"今日流水");
+                            UtilsHelper.setText(mDataView4,day_income_1,"今日收入");
+                            mDataView5.setVisibility(View.GONE);
+                            mDataView6.setVisibility(View.GONE);
+                            break;
+                        case "3":
+                            String order_total_num_1 = object.optString("order_total_num");
+                            String complete_num_1 = object.optString("complete_num");
+                            String balance = object.optString("balance");
+                            String freeze_balance = object.optString("freeze_balance");
+                            String day_amount_2 = object.optString("day_amount");
+                            String day_income_2 = object.optString("day_income");
+                            UtilsHelper.setText(mDataView1,order_total_num_1,"今日总订单数");
+                            UtilsHelper.setText(mDataView2,complete_num_1,"今日订单完成数");
+                            UtilsHelper.setText(mDataView3,balance,"账户可用额度");
+                            UtilsHelper.setText(mDataView4,freeze_balance,"账户冻结额度");
+                            UtilsHelper.setText(mDataView5,day_amount_2,"今日流水");
+                            UtilsHelper.setText(mDataView6,day_income_2,"今日收入");
+                            mDataView5.setVisibility(View.VISIBLE);
+                            mDataView6.setVisibility(View.VISIBLE);
+                            break;
+                    }
+                } else {
+                    ToastUtils.showToast(context, "获取统计数据失败," + jsonObject.optString("msg"));
+                }
+            }
+        });
+    }
+
+    @OnClick({R.id.id_ll_tdgl, R.id.id_ll_cwgl, R.id.id_ll_jsgl, R.id.id_ll_yhgl, R.id.id_ll_ddgl, R.id.id_ll_mygl})
     public void clickView(View view) {
         switch (view.getId()) {
             case R.id.id_ll_tdgl:
@@ -115,12 +194,12 @@ public class IndexFragment extends Fragment {
                 submit.setOnClickListener(v -> {
                     String content = editText.getText().toString();
                     RequestParams params = new RequestParams(UrlAddress.LOOK_PS_KET);
-                    params.addBodyParameter("auth_key",App.getInstance().getUSER_DATA().getAuth_key());
-                    params.addBodyParameter("paypass",content);
-                    NetworkLoader.sendPost(context,params, new NetworkLoader.networkCallBack() {
+                    params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
+                    params.addBodyParameter("paypass", content);
+                    NetworkLoader.sendPost(context, params, new NetworkLoader.networkCallBack() {
                         @Override
                         public void onfailure(String errorMsg) {
-                            ToastUtils.showToast(context,"查看密钥失败,请检查您的网络");
+                            ToastUtils.showToast(context, "查看密钥失败,请检查您的网络");
                         }
 
                         @Override
@@ -128,8 +207,8 @@ public class IndexFragment extends Fragment {
                             if (UtilsHelper.parseResult(jsonObject)) {
                                 String key = jsonObject.optJSONObject("data").optString("secret_key");
                                 et_key.setText(key);
-                            }else{
-                                ToastUtils.showToast(context,"查看密钥失败," + jsonObject.optString("msg"));
+                            } else {
+                                ToastUtils.showToast(context, "查看密钥失败," + jsonObject.optString("msg"));
                             }
                         }
                     });

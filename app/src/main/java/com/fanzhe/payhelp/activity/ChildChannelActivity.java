@@ -206,6 +206,7 @@ public class ChildChannelActivity extends AppCompatActivity {
             public void onsuccessful(JSONObject jsonObject) {
                 dialog.dismiss();
                 if (UtilsHelper.parseResult(jsonObject)) {
+                    setResult(RESULT_OK);
                     finish();
                 }else{
                     ToastUtils.showToast(mContext,"修改失败，" + jsonObject.optString("msg"));

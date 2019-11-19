@@ -162,7 +162,9 @@ public class OrderManagerFragment extends Fragment {
 
     private void search(String order_status){
         status = order_status;
-        mData.removeAll(mData);
+        if (mPage == 1) {
+            mData.removeAll(mData);
+        }
         RequestParams params = new RequestParams(UrlAddress.ORDER_LIST);
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
         params.addBodyParameter("order_sn", mEtName.getText().toString());

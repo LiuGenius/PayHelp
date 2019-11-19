@@ -1,14 +1,15 @@
 package com.fanzhe.payhelp.adapter;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.activity.ChildChannelActivity;
@@ -19,14 +20,11 @@ import com.fanzhe.payhelp.utils.NetworkLoader;
 import com.fanzhe.payhelp.utils.ToastUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
 
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
 
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -34,14 +32,14 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.Holder> 
     /**
      * 上下文
      */
-    private Context mContext;
+    private Activity mContext;
     /**
      * 。
      * 数据集合
      */
     private ArrayList<Channel> data;
 
-    public ChannelAdapter(ArrayList<Channel> data, Context context) {
+    public ChannelAdapter(ArrayList<Channel> data, Activity context) {
         this.data = data;
         this.mContext = context;
     }
@@ -96,7 +94,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.Holder> 
                 intent.putExtra("instance_id",channel.getInstance_id());
                 intent.putExtra("id",channel.getId());
                 intent.putExtra("channelName",channel.getChannel_name());
-                mContext.startActivity(intent);
+                mContext.startActivityForResult(intent,1);
             });
         }else {
             holder.child.setVisibility(View.GONE);

@@ -1,5 +1,6 @@
 package com.fanzhe.payhelp.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -42,6 +43,7 @@ public class MyCententFragment extends Fragment {
     @BindView(R.id.id_role)
     TextView mRole;
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,13 +57,13 @@ public class MyCententFragment extends Fragment {
 
         switch (App.getInstance().getUSER_DATA().getRole_id()){
             case "1":
-                mRole.setText("我的角色 :   平台");
+                mRole.setText("我的角色 : " + App.getInstance().getUSER_DATA().getUser_name() + "  (平台)");
                 break;
             case "2":
-                mRole.setText("我的角色 :   商户");
+                mRole.setText("我的角色 : " + App.getInstance().getUSER_DATA().getUser_name() + "  (商户)");
                 break;
             case "3":
-                mRole.setText("我的角色 :   码商");
+                mRole.setText("我的角色 : " + App.getInstance().getUSER_DATA().getUser_name() + "  (码商)");
                 break;
         }
 

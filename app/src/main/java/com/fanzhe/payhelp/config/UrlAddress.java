@@ -90,4 +90,8 @@ public class UrlAddress {
      * 结算
      */
     public static final String SETTLEMENT = Host + "/v1/pay/settlement/settlement-op";
+    /**
+     * 首页数据
+     */
+    public static final String INDEX_DATA = Host + "/v1/pay/settlement/index-data";
 }

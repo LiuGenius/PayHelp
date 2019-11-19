@@ -1,6 +1,7 @@
 package com.fanzhe.payhelp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -69,7 +70,7 @@ public class PayChannelActivity extends AppCompatActivity {
     private void initView() {
         mRvContent.setLayoutManager(new LinearLayoutManager(mContext));
         mData = new ArrayList<>();
-        mAdapter = new ChannelAdapter(mData, mContext);
+        mAdapter = new ChannelAdapter(mData, this);
         mRvContent.setAdapter(mAdapter);
 
         mState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -131,5 +132,13 @@ public class PayChannelActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            search();
+        }
     }
 }

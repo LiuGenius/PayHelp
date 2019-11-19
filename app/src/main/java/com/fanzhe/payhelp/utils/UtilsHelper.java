@@ -22,6 +22,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.fanzhe.payhelp.iface.OnOver;
 import com.fanzhe.payhelp.iface.OnParseQrCodeImgToString;
@@ -47,6 +49,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class UtilsHelper {
+    public static void setText(LinearLayout linearLayout,String keyStr,String valueStr){
+        ((TextView)linearLayout.getChildAt(0)).setText(keyStr);
+        ((TextView)linearLayout.getChildAt(1)).setText(valueStr);
+    }
     /**
      * 返回当前程序版本号
      */
