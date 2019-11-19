@@ -108,7 +108,7 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:entries="@array/payChannelArray"/>
+            android:entries="@array/settlementArray"/>
 
         <View
             android:layout_width="0dp"
@@ -126,7 +126,13 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"/>
     </LinearLayout>
-
+    <TextView
+        android:text=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#121210"
+        android:padding="8dp"
+        android:id="@+id/id_total"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/id_rv_content"
@@ -134,6 +140,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"

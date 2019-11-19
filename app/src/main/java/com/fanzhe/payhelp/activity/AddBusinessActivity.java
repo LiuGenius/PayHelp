@@ -80,7 +80,7 @@ public class AddBusinessActivity extends AppCompatActivity {
             mEtTrueName.setText(mEditData.getTrue_name());
             mEtIdCard.setText(mEditData.getId_card());
             mEtMobile.setText(mEditData.getMobile());
-            mSwState.setChecked(mEditData.getStatus().equals(1));
+            mSwState.setChecked(mEditData.getStatus().equals("1"));
 
             mEtLoginPwd.setVisibility(View.GONE);
             mEtPayPwd.setVisibility(View.GONE);
@@ -155,6 +155,7 @@ public class AddBusinessActivity extends AppCompatActivity {
             params.addBodyParameter("password",loginPwd);
             params.addBodyParameter("paypass",payPwd);
         }
+        params.addBodyParameter("pre_deposit",mEtYck.getText().toString());
         params.addBodyParameter("user_name",userName );
         params.addBodyParameter("mobile",mobile );
         params.addBodyParameter("true_name",trueName );

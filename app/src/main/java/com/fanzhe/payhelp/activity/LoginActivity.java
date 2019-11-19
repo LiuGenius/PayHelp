@@ -1,8 +1,10 @@
 package com.fanzhe.payhelp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
@@ -39,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
 
     Context mContext;
 
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,13 +62,23 @@ public class LoginActivity extends AppCompatActivity {
 
         mUserName.setText(UtilsHelper.getLoginInfo(mContext, "userName"));
         mPassword.setText(UtilsHelper.getLoginInfo(mContext, "password"));
+
+
+
     }
 
-    @OnClick({R.id.id_login,})
+    @OnClick({R.id.id_login,R.id.id_viewPwd})
     public void onclickView(View view){
         switch (view.getId()){
             case R.id.id_login:
                 login();
+                break;
+            case R.id.id_viewPwd:
+                if (mPassword.getInputType() == 129) {
+                    mPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }else{
+                    mPassword.setInputType(129);
+                }
                 break;
         }
     }

@@ -2,6 +2,7 @@ package com.fanzhe.payhelp.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,6 +61,7 @@ public class OrderManager extends AppCompatActivity {
     OrderAdapter mAdapter;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,9 +77,10 @@ public class OrderManager extends AppCompatActivity {
         initView();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void initView() {
         ViewGroup.LayoutParams layoutParams = mTap.getLayoutParams();
-        layoutParams.width = UtilsHelper.getScreenWidth(mContext) / 3;
+        layoutParams.width = UtilsHelper.getScreenWidth(mContext) / 4;
         mTap.setLayoutParams(layoutParams);
 
         mData = new ArrayList<>();
@@ -85,12 +90,25 @@ public class OrderManager extends AppCompatActivity {
 
         startAnim(0);
         search("0");
+
+        mRvContent.setOnScrollChangeListener((view, i, i1, i2, i3) -> {
+            if(!ViewCompat.canScrollVertically(view,1)){
+                if (isHaveMoreData) {
+                    mPage ++;
+                    search(status);
+                }else{
+                    if (mData.size() >= 30) {
+                        ToastUtils.showToast(mContext,"没有更多订单");
+                    }
+                }
+            }
+        });
     }
 
 
     int lastPosition;
 
-    @OnClick({R.id.id_tab_1, R.id.id_tab_2, R.id.id_tab_3, R.id.id_tv_startTime, R.id.id_tv_endTime,R.id.id_search})
+    @OnClick({R.id.id_tab_1, R.id.id_tab_2, R.id.id_tab_3, R.id.id_tab_4,R.id.id_tv_startTime, R.id.id_tv_endTime,R.id.id_search})
     public void clickTab(TextView view) {
         switch (view.getId()) {
             case R.id.id_tab_1:
@@ -105,6 +123,10 @@ public class OrderManager extends AppCompatActivity {
             case R.id.id_tab_3:
                 startAnim(2);
                 search("20");
+                break;
+            case R.id.id_tab_4:
+                startAnim(3);
+                search("30");
                 break;
             case R.id.id_tv_startTime:
             case R.id.id_tv_endTime:
@@ -130,10 +152,13 @@ public class OrderManager extends AppCompatActivity {
         lastPosition = index;
     }
 
-    int tag2Num = 0;
-    int tag3Num = 0;
+
+    private int mPage = 1;
+    private boolean isHaveMoreData = true;
+    private String status;
 
     private void search(String order_status){
+        status = order_status;
         mData.removeAll(mData);
         RequestParams params = new RequestParams(UrlAddress.ORDER_LIST);
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
@@ -141,6 +166,8 @@ public class OrderManager extends AppCompatActivity {
         params.addBodyParameter("order_status", order_status);
         params.addBodyParameter("start_time", mStartTime.getText().toString());
         params.addBodyParameter("end_time", mEndTime.getText().toString());
+        params.addBodyParameter("page", mPage + "");
+        params.addBodyParameter("page_size", "30");
         NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
@@ -151,24 +178,13 @@ public class OrderManager extends AppCompatActivity {
             @Override
             public void onsuccessful(JSONObject jsonObject) {
                 if (UtilsHelper.parseResult(jsonObject)) {
-                    if (order_status.equals("0")) {
-                        tag2Num = 0;
-                        tag3Num = 0;
-                    }
                     JSONArray jsonArray = jsonObject.optJSONArray("data");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         Order order = new Order(jsonArray.optJSONObject(i));
                         mData.add(order);
-                        if (order.getOrder_status().equals("10")) {
-                            tag2Num ++;
-                        }else{
-                            tag3Num ++;
-                        }
                     }
-                    if (order_status.equals("0")) {
-                        ((TextView)findViewById(R.id.id_tab_1)).setText("全部("+jsonArray.length()+")");
-                        ((TextView)findViewById(R.id.id_tab_2)).setText("未支付("+tag2Num+")");
-                        ((TextView)findViewById(R.id.id_tab_3)).setText("已支付("+tag3Num+")");
+                    if (jsonArray.length() < 30) {
+                        isHaveMoreData = false;
                     }
                     mAdapter.notifyDataSetChanged();
                 }else{

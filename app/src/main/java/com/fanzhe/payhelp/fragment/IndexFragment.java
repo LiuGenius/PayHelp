@@ -84,7 +84,7 @@ public class IndexFragment extends Fragment {
         return view;
     }
 
-    @OnClick({R.id.id_ll_tdgl, R.id.id_ll_cwgl, R.id.id_ll_jsgl, R.id.id_ll_yhgl, R.id.id_ll_ddgl})
+    @OnClick({R.id.id_ll_tdgl, R.id.id_ll_cwgl, R.id.id_ll_jsgl, R.id.id_ll_yhgl, R.id.id_ll_ddgl,R.id.id_ll_mygl})
     public void clickView(View view) {
         switch (view.getId()) {
             case R.id.id_ll_tdgl:
@@ -126,7 +126,7 @@ public class IndexFragment extends Fragment {
                         @Override
                         public void onsuccessful(JSONObject jsonObject) {
                             if (UtilsHelper.parseResult(jsonObject)) {
-                                String key = jsonObject.optString("data");
+                                String key = jsonObject.optJSONObject("data").optString("secret_key");
                                 et_key.setText(key);
                             }else{
                                 ToastUtils.showToast(context,"查看密钥失败," + jsonObject.optString("msg"));

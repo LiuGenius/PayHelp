@@ -2,6 +2,7 @@ package com.fanzhe.payhelp.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,10 +34,8 @@ import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
-import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -65,10 +66,13 @@ public class OrderManagerFragment extends Fragment {
 
     OrderAdapter mAdapter;
 
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_order_manager, null);
+        view = inflater.inflate(R.layout.activity_order_manager, null);
 
         unbinder = ButterKnife.bind(this, view);
 
@@ -78,9 +82,10 @@ public class OrderManagerFragment extends Fragment {
 
         return view;
     }
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void initView() {
         ViewGroup.LayoutParams layoutParams = mTap.getLayoutParams();
-        layoutParams.width = UtilsHelper.getScreenWidth(mContext) / 3;
+        layoutParams.width = UtilsHelper.getScreenWidth(mContext) / 4;
         mTap.setLayoutParams(layoutParams);
 
         mData = new ArrayList<>();
@@ -90,12 +95,27 @@ public class OrderManagerFragment extends Fragment {
 
         startAnim(0);
         search("0");
+
+        view.findViewById(R.id.id_back).setVisibility(View.GONE);
+
+        mRvContent.setOnScrollChangeListener((view, i, i1, i2, i3) -> {
+            if(!ViewCompat.canScrollVertically(view,1)){
+                if (isHaveMoreData) {
+                    mPage ++;
+                    search(status);
+                }else{
+                    if (mData.size() >= 30) {
+                        ToastUtils.showToast(mContext,"没有更多订单");
+                    }
+                }
+            }
+        });
     }
 
 
     int lastPosition;
 
-    @OnClick({R.id.id_tab_1, R.id.id_tab_2, R.id.id_tab_3, R.id.id_tv_startTime, R.id.id_tv_endTime,R.id.id_search})
+    @OnClick({R.id.id_tab_1, R.id.id_tab_2, R.id.id_tab_3, R.id.id_tab_4,R.id.id_tv_startTime, R.id.id_tv_endTime,R.id.id_search})
     public void clickTab(TextView view) {
         switch (view.getId()) {
             case R.id.id_tab_1:
@@ -111,6 +131,10 @@ public class OrderManagerFragment extends Fragment {
                 startAnim(2);
                 search("20");
                 break;
+            case R.id.id_tab_4:
+                startAnim(3);
+                search("30");
+                break;
             case R.id.id_tv_startTime:
             case R.id.id_tv_endTime:
                 UtilsHelper.showDatePicker(mContext, result -> {
@@ -119,6 +143,7 @@ public class OrderManagerFragment extends Fragment {
                 break;
         }
     }
+
 
     private void startAnim(int index) {
         int width = mTap.getLayoutParams().width;
@@ -130,10 +155,13 @@ public class OrderManagerFragment extends Fragment {
         lastPosition = index;
     }
 
-    int tag2Num = 0;
-    int tag3Num = 0;
+
+    private int mPage = 1;
+    private boolean isHaveMoreData = true;
+    private String status;
 
     private void search(String order_status){
+        status = order_status;
         mData.removeAll(mData);
         RequestParams params = new RequestParams(UrlAddress.ORDER_LIST);
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
@@ -141,6 +169,8 @@ public class OrderManagerFragment extends Fragment {
         params.addBodyParameter("order_status", order_status);
         params.addBodyParameter("start_time", mStartTime.getText().toString());
         params.addBodyParameter("end_time", mEndTime.getText().toString());
+        params.addBodyParameter("page", mPage + "");
+        params.addBodyParameter("page_size", "30");
         NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
@@ -151,24 +181,13 @@ public class OrderManagerFragment extends Fragment {
             @Override
             public void onsuccessful(JSONObject jsonObject) {
                 if (UtilsHelper.parseResult(jsonObject)) {
-                    if (order_status.equals("0")) {
-                        tag2Num = 0;
-                        tag3Num = 0;
-                    }
                     JSONArray jsonArray = jsonObject.optJSONArray("data");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         Order order = new Order(jsonArray.optJSONObject(i));
                         mData.add(order);
-                        if (order.getOrder_status().equals("10")) {
-                            tag2Num ++;
-                        }else{
-                            tag3Num ++;
-                        }
                     }
-                    if (order_status.equals("0")) {
-                        ((TextView)view.findViewById(R.id.id_tab_1)).setText("全部("+jsonArray.length()+")");
-                        ((TextView)view.findViewById(R.id.id_tab_2)).setText("未支付("+tag2Num+")");
-                        ((TextView)view.findViewById(R.id.id_tab_3)).setText("已支付("+tag3Num+")");
+                    if (jsonArray.length() < 30) {
+                        isHaveMoreData = false;
                     }
                     mAdapter.notifyDataSetChanged();
                 }else{

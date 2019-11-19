@@ -127,7 +127,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:padding="8dp"
-            android:text="全部(0)"
+            android:text="全部"
             android:textColor="#101010"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -139,10 +139,12 @@
             android:layout_weight="1"
             android:gravity="center"
             android:padding="8dp"
-            android:text="未支付(0)"
+            android:text="支付中"
             android:textColor="#101010"
             android:textSize="16sp"
             android:textStyle="bold" />
+
+
 
         <TextView
             android:id="@+id/id_tab_3"
@@ -151,7 +153,18 @@
             android:layout_weight="1"
             android:gravity="center"
             android:padding="8dp"
-            android:text="已支付(0)"
+            android:text="已支付"
+            android:textColor="#101010"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/id_tab_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="支付失败"
             android:textColor="#101010"
             android:textSize="16sp"
             android:textStyle="bold" />

@@ -71,7 +71,23 @@ public class UrlAddress {
      */
     public static final String RATE_LIST = Host + "/v1/pay/pay-conf/conf-list";
     /**
-     *
+     * 修改费率
      */
     public static final String EDIT_RATE = Host + "/v1/pay/pay-conf/edit-conf";
+    /**
+     * 修改密码
+     */
+    public static final String EDIT_PASSWORD = Host + "/v1/admin/user/edit-pass";
+    /**
+     * 结算列表
+     */
+    public static final String SETTLEMENT_LIST = Host + "/v1/pay/settlement/statistical";
+    /**
+     * 结算明细
+     */
+    public static final String SETTLEMENT_INFO_LIST = Host + "/v1/pay/settlement/settlement-log";
+    /**
+     * 结算
+     */
+    public static final String SETTLEMENT = Host + "/v1/pay/settlement/settlement-op";
 }

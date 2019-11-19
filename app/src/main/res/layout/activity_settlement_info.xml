@@ -29,6 +29,11 @@
             android:padding="16dp"/>
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#D5D5D5"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/id_rv_content"
         android:layout_margin="10dp"

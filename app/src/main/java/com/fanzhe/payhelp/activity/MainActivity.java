@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -146,8 +147,14 @@ public class MainActivity extends AppCompatActivity {
         ShowFragment(0);
 
         switch (App.getInstance().getUSER_DATA().getRole_id()) {
+            case "1":
+                break;
+            case "2":
+                findViewById(R.id.id_ll_usm).setVisibility(View.GONE);
+                break;
             case "3":
                 mTips.setVisibility(View.VISIBLE);
+                findViewById(R.id.id_ll_usm).setVisibility(View.GONE);
                 break;
         }
 
@@ -181,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
 
         switch (v.getId()) {
             case R.id.id_ll_index:
-                WsClientTool.getInstance().sendText("" + System.currentTimeMillis());
                 ShowFragment(0);
                 break;
             case R.id.id_ll_om:
@@ -195,17 +201,38 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        switch (App.getInstance().getUSER_DATA().getRole_id()) {
-            case "1":
 
-                break;
-            case "2":
-            case "3":
-                findViewById(R.id.id_ll_usm).setVisibility(View.GONE);
-                break;
-        }
     }
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (event.getAction()) {
+            case KeyEvent.KEYCODE_HOME:
+                return true;
+            case KeyEvent.KEYCODE_MOVE_HOME:
+                return true;
+            case KeyEvent.KEYCODE_MENU:
+                return true;
+            case KeyEvent.KEYCODE_BACK:
+                return true;
+//            case KeyEvent.KEYCODE_VOLUME_DOWN:
+//                return true;
+//            case KeyEvent.KEYCODE_VOLUME_UP:
+//                return true;
+            /*case KeyEvent.KEYCODE_CALL:
+                return true;
+            case KeyEvent.KEYCODE_SYM:
+                return true;
+            case KeyEvent.KEYCODE_STAR:
+                return true;*/
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
