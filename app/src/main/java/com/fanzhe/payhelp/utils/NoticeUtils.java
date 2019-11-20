@@ -101,12 +101,19 @@ public class NoticeUtils {
         }else if(pkg.equals("com.newland.satrpos.starposmanager")){//星管家
             payInfo.payType = "starPay";
         }else if(pkg.equals("com.chinatelecom.bestpay.yimatong")){//钱到啦
+            // TODO: 2019-11-19 暂时无法使用
             payInfo.payType = "moneyPay";
         }else if(pkg.equals("com.unionpay")){//云闪付
             // TODO: 2019-11-19 暂时无法使用
             payInfo.payType = "unionpay";
         }else if(pkg.equals("com.lakala.shanghutong")){//拉卡拉
             payInfo.payType = "lakalaPay";
+        }else if(pkg.equals("com.xiaomi.xmsf")){
+            if(title.contains("拉卡拉收款成功")){
+                payInfo.payType = "lakalaPay";
+            }else if(title.contains("钱到了")){
+
+            }
         }
         else{
             return null;
