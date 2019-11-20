@@ -1,26 +1,20 @@
 package com.fanzhe.payhelp.fragment;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fanzhe.payhelp.R;
-import com.fanzhe.payhelp.activity.OrderManager;
-import com.fanzhe.payhelp.activity.PayChannelActivity;
-import com.fanzhe.payhelp.activity.SettlementActivity;
-import com.fanzhe.payhelp.activity.UserManagerActivity;
+import com.fanzhe.payhelp.adapter.IndexDataShowAdapter;
+import com.fanzhe.payhelp.adapter.IndexMenuAdapter;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
 import com.fanzhe.payhelp.utils.NetworkLoader;
@@ -30,9 +24,10 @@ import com.fanzhe.payhelp.utils.UtilsHelper;
 import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class IndexFragment extends Fragment {
@@ -42,24 +37,74 @@ public class IndexFragment extends Fragment {
 
     Context context;
 
-    @BindView(R.id.id_ll_mygl)
-    LinearLayout mMygl;
-    @BindView(R.id.id_ll_yhgl)
-    LinearLayout mYhgl;
+    @BindView(R.id.id_rv_data_content)
+    RecyclerView mRvDataContent;
+
+    ArrayList<dataView> mDataViewData;
+
+    IndexDataShowAdapter mDataViewAdapter;
+
+    public class dataView{
+        private String key;
+        private String value;
+
+        public dataView(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+    }
+
+    @BindView(R.id.id_rv_menu_content)
+    RecyclerView mRvMenuContent;
+
+    ArrayList<dataMenu> mMenuData;
+
+    IndexMenuAdapter mMenuAdapter;
 
 
-    @BindView(R.id.id_ll_index_dataview_1)
-    LinearLayout mDataView1;
-    @BindView(R.id.id_ll_index_dataview_2)
-    LinearLayout mDataView2;
-    @BindView(R.id.id_ll_index_dataview_3)
-    LinearLayout mDataView3;
-    @BindView(R.id.id_ll_index_dataview_4)
-    LinearLayout mDataView4;
-    @BindView(R.id.id_ll_index_dataview_5)
-    LinearLayout mDataView5;
-    @BindView(R.id.id_ll_index_dataview_6)
-    LinearLayout mDataView6;
+    public class dataMenu{
+        private String menuName;
+        private int menuRes;
+
+        public dataMenu(String menuName, int menuRes) {
+            this.menuName = menuName;
+            this.menuRes = menuRes;
+        }
+
+        public String getMenuName() {
+            return menuName;
+        }
+
+        public void setMenuName(String menuName) {
+            this.menuName = menuName;
+        }
+
+        public int getMenuRes() {
+            return menuRes;
+        }
+
+        public void setMenuRes(int menuRes) {
+            this.menuRes = menuRes;
+        }
+    }
+
+
 
     @Nullable
     @Override
@@ -70,33 +115,38 @@ public class IndexFragment extends Fragment {
 
         context = getActivity();
 
-        switch (App.getInstance().getUSER_DATA().getRole_id()) {
-            case "1":
-//                view.findViewById(R.id.id_ll_mygl).setVisibility(View.GONE);
-                mMygl.getChildAt(0).setVisibility(View.GONE);
-                mMygl.getChildAt(1).setVisibility(View.GONE);
-                mMygl.setClickable(false);
-                break;
-            case "2":
-//                view.findViewById(R.id.id_ll_mygl).setVisibility(View.VISIBLE);
-//                view.findViewById(R.id.id_ll_yhgl).setVisibility(View.GONE);
-                mYhgl.getChildAt(0).setVisibility(View.GONE);
-                mYhgl.getChildAt(1).setVisibility(View.GONE);
-                mYhgl.setClickable(false);
-                break;
-            case "3":
-                mYhgl.getChildAt(0).setVisibility(View.GONE);
-                mYhgl.getChildAt(1).setVisibility(View.GONE);
-                mYhgl.setClickable(false);
-                mMygl.getChildAt(0).setVisibility(View.GONE);
-                mMygl.getChildAt(1).setVisibility(View.GONE);
-                mMygl.setClickable(false);
-//                view.findViewById(R.id.id_ll_yhgl).setVisibility(View.GONE);
-//                view.findViewById(R.id.id_ll_mygl).setVisibility(View.GONE);
-                break;
-        }
+        initView();
+
+
         getData();
         return view;
+    }
+
+    private void initView() {
+        mDataViewData = new ArrayList<>();
+        mDataViewAdapter = new IndexDataShowAdapter(mDataViewData,context);
+        mRvDataContent.setLayoutManager(new GridLayoutManager(context,2));
+        mRvDataContent.setAdapter(mDataViewAdapter);
+
+        mMenuData = new ArrayList<>();
+        mMenuData.add(new dataMenu("订单管理",R.mipmap.icon_ddgl));
+        mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
+        mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
+        switch (App.getInstance().getUSER_DATA().getRole_id()) {
+            case "1":
+                mMenuData.add(new dataMenu("用户管理",R.mipmap.icon_yhgl));
+                break;
+            case "2":
+                mMenuData.add(new dataMenu("密钥管理",R.mipmap.icon_mygl));
+                break;
+            case "3":
+                break;
+        }
+
+        mMenuAdapter = new IndexMenuAdapter(mMenuData,context);
+        mRvMenuContent.setLayoutManager(new GridLayoutManager(context,4));
+        mRvMenuContent.setAdapter(mMenuAdapter);
+
     }
 
     private void getData() {
@@ -114,106 +164,31 @@ public class IndexFragment extends Fragment {
                     JSONObject object = jsonObject.optJSONObject("data");
                     switch (App.getInstance().getUSER_DATA().getRole_id()) {
                         case "1":
-                            String mch_nums = object.optString("mch_nums");
-                            String coder_nums = object.optString("coder_nums");
-                            String day_amount = object.optString("day_amount");
-                            String day_income = object.optString("day_income");
-
-                            UtilsHelper.setText(mDataView1,mch_nums,"商户数");
-                            UtilsHelper.setText(mDataView2,coder_nums,"码商数");
-                            UtilsHelper.setText(mDataView3,day_amount,"今日流水");
-                            UtilsHelper.setText(mDataView4,day_income,"今日收入");
-                            mDataView5.setVisibility(View.GONE);
-                            mDataView6.setVisibility(View.GONE);
+                            mDataViewData.add(new dataView("商户数",object.optString("mch_nums")));
+                            mDataViewData.add(new dataView("码商数",object.optString("coder_nums")));
+                            mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
+                            mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
                             break;
                         case "2":
-                            String order_total_num = object.optString("order_total_num");
-                            String complete_num = object.optString("complete_num");
-                            String day_amount_1 = object.optString("day_amount");
-                            String day_income_1 = object.optString("day_income");
-
-                            UtilsHelper.setText(mDataView1,order_total_num,"今日总订单数");
-                            UtilsHelper.setText(mDataView2,complete_num,"今日订单完成数");
-                            UtilsHelper.setText(mDataView3,day_amount_1,"今日流水");
-                            UtilsHelper.setText(mDataView4,day_income_1,"今日收入");
-                            mDataView5.setVisibility(View.GONE);
-                            mDataView6.setVisibility(View.GONE);
+                            mDataViewData.add(new dataView("今日总订单数",object.optString("order_total_num")));
+                            mDataViewData.add(new dataView("今日订单完成数",object.optString("complete_num")));
+                            mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
+                            mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
                             break;
                         case "3":
-                            String order_total_num_1 = object.optString("order_total_num");
-                            String complete_num_1 = object.optString("complete_num");
-                            String balance = object.optString("balance");
-                            String freeze_balance = object.optString("freeze_balance");
-                            String day_amount_2 = object.optString("day_amount");
-                            String day_income_2 = object.optString("day_income");
-                            UtilsHelper.setText(mDataView1,order_total_num_1,"今日总订单数");
-                            UtilsHelper.setText(mDataView2,complete_num_1,"今日订单完成数");
-                            UtilsHelper.setText(mDataView3,balance,"账户可用额度");
-                            UtilsHelper.setText(mDataView4,freeze_balance,"账户冻结额度");
-                            UtilsHelper.setText(mDataView5,day_amount_2,"今日流水");
-                            UtilsHelper.setText(mDataView6,day_income_2,"今日收入");
-                            mDataView5.setVisibility(View.VISIBLE);
-                            mDataView6.setVisibility(View.VISIBLE);
+                            mDataViewData.add(new dataView("今日总订单数",object.optString("order_total_num")));
+                            mDataViewData.add(new dataView("今日订单完成数",object.optString("complete_num")));
+                            mDataViewData.add(new dataView("账户可用额度",object.optString("balance")));
+                            mDataViewData.add(new dataView("账户冻结额度",object.optString("freeze_balance")));
+                            mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
+                            mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
                             break;
                     }
+                    mDataViewAdapter.notifyDataSetChanged();
                 } else {
                     ToastUtils.showToast(context, "获取统计数据失败," + jsonObject.optString("msg"));
                 }
             }
         });
-    }
-
-    @OnClick({R.id.id_ll_tdgl, R.id.id_ll_cwgl, R.id.id_ll_jsgl, R.id.id_ll_yhgl, R.id.id_ll_ddgl, R.id.id_ll_mygl})
-    public void clickView(View view) {
-        switch (view.getId()) {
-            case R.id.id_ll_tdgl:
-                startActivity(new Intent(context, PayChannelActivity.class));
-                break;
-            case R.id.id_ll_cwgl:
-//                startActivity(new Intent(context, FinancialMagActivity.class));
-                break;
-            case R.id.id_ll_jsgl:
-                startActivity(new Intent(context, SettlementActivity.class));
-                break;
-            case R.id.id_ll_yhgl:
-                startActivity(new Intent(context, UserManagerActivity.class));
-                break;
-            case R.id.id_ll_ddgl:
-                startActivity(new Intent(context, OrderManager.class));
-                break;
-            case R.id.id_ll_mygl:
-//                startActivity(new Intent(context, KeyManagerActivity.class));
-                Dialog dialog = new Dialog(context, R.style.AlertDialogStyle);
-                dialog.setContentView(R.layout.layout_key_view);
-                dialog.show();
-                Window window = dialog.getWindow();
-                EditText editText = window.findViewById(R.id.id_edittext);
-                EditText et_key = window.findViewById(R.id.id_tv_key);
-                editText.setText("");
-                TextView submit = window.findViewById(R.id.id_submit);
-                submit.setOnClickListener(v -> {
-                    String content = editText.getText().toString();
-                    RequestParams params = new RequestParams(UrlAddress.LOOK_PS_KET);
-                    params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
-                    params.addBodyParameter("paypass", content);
-                    NetworkLoader.sendPost(context, params, new NetworkLoader.networkCallBack() {
-                        @Override
-                        public void onfailure(String errorMsg) {
-                            ToastUtils.showToast(context, "查看密钥失败,请检查您的网络");
-                        }
-
-                        @Override
-                        public void onsuccessful(JSONObject jsonObject) {
-                            if (UtilsHelper.parseResult(jsonObject)) {
-                                String key = jsonObject.optJSONObject("data").optString("secret_key");
-                                et_key.setText(key);
-                            } else {
-                                ToastUtils.showToast(context, "查看密钥失败," + jsonObject.optString("msg"));
-                            }
-                        }
-                    });
-                });
-                break;
-        }
     }
 }

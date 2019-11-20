@@ -88,15 +88,27 @@ public class NoticeUtils {
 
     /**
      * 判断是否是收款信息
+     * com.newland.satrpos.starposmanager   星管家
+     *
+     * com.chinatelecom.bestpay.yimatong   钱到啦
      */
     public static PayInfo parseIsPayInfo(String pkg, String title, String content){
-        //判断包名是否是支付宝或微信
         PayInfo payInfo = new PayInfo();
-        if (pkg.equals("com.tencent.mm")) {
+        if (pkg.equals("com.tencent.mm")) {//微信支付
             payInfo.payType = "wechat";
-        }else if(pkg.equals("com.eg.android.AlipayGphone")){
+        }else if(pkg.equals("com.eg.android.AlipayGphone")){//支付宝支付
             payInfo.payType = "alipay";
-        }else{
+        }else if(pkg.equals("com.newland.satrpos.starposmanager")){//星管家
+            payInfo.payType = "starPay";
+        }else if(pkg.equals("com.chinatelecom.bestpay.yimatong")){//钱到啦
+            payInfo.payType = "moneyPay";
+        }else if(pkg.equals("com.unionpay")){//云闪付
+            // TODO: 2019-11-19 暂时无法使用
+            payInfo.payType = "unionpay";
+        }else if(pkg.equals("com.lakala.shanghutong")){//拉卡拉
+            payInfo.payType = "lakalaPay";
+        }
+        else{
             return null;
         }
 

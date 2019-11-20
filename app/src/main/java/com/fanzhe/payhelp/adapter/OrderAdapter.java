@@ -4,27 +4,18 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import com.fanzhe.payhelp.R;
-import com.fanzhe.payhelp.config.App;
-import com.fanzhe.payhelp.config.UrlAddress;
-import com.fanzhe.payhelp.model.Channel;
-import com.fanzhe.payhelp.model.Order;
-import com.fanzhe.payhelp.utils.NetworkLoader;
-import com.fanzhe.payhelp.utils.ToastUtils;
-import com.fanzhe.payhelp.utils.UtilsHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
-import org.json.JSONObject;
-import org.xutils.http.RequestParams;
+import com.fanzhe.payhelp.R;
+import com.fanzhe.payhelp.model.Order;
+import com.fanzhe.payhelp.utils.UtilsHelper;
 
 import java.util.ArrayList;
 
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -54,25 +45,29 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.Holder> {
     public void onBindViewHolder(Holder holder, final int position) {
         //将数据设置到item上
         Order order = data.get(position);
-        holder.getTextView(1).setText("外部订单号:    " + order.getOut_trade_no());
-        holder.getTextView(2).setText("订单生成时间:    " + UtilsHelper.parseDateLong(order.getCreate_time() + "000","yyyy/MM/dd HH:mm:ss"));
-        holder.getTextView(3).setText("支付码商名:    " + order.getOrder_name());
-        holder.getTextView(4).setText("支付通道:    " + order.getChannel_name());
-        holder.getTextView(5).setText("支付设备号:    " + order.getDevice_info());
-        holder.getTextView(6).setText("支付完成时间:    " + UtilsHelper.parseDateLong(order.getComplete_time() + "000","yyyy/MM/dd HH:mm:ss"));
-        ((TextView)((LinearLayout)holder.itemView.getChildAt(0)).getChildAt(0)).setText("订单号:    " + order.getOrder_sn());
+        holder.orderNum.setText(order.getOrder_sn());
+        holder.outOrderNum.setText(order.getOut_trade_no());
+        holder.createTime.setText(UtilsHelper.parseDateLong(order.getCreate_time() + "000","yyyy/MM/dd HH:mm:ss"));
+        holder.codeName.setText(order.getOrder_name());
+        holder.channelName.setText(order.getChannel_name());
+        holder.equiName.setText(order.getDevice_info());
+        holder.completeTime.setText(UtilsHelper.parseDateLong(order.getComplete_time() + "000","yyyy/MM/dd HH:mm:ss"));
         switch (order.getOrder_status()) {
             case "10":
-                ((TextView)((LinearLayout)holder.itemView.getChildAt(0)).getChildAt(1)).setText("支付中");
-                ((TextView)((LinearLayout)holder.itemView.getChildAt(0)).getChildAt(1)).setTextColor(Color.parseColor("#FF9800"));
+                holder.status.setText("支付中");
+                holder.status.setTextColor(Color.parseColor("#56ACF1"));
                 break;
             case "20":
-                ((TextView)((LinearLayout)holder.itemView.getChildAt(0)).getChildAt(1)).setText("已支付");
-                ((TextView)((LinearLayout)holder.itemView.getChildAt(0)).getChildAt(1)).setTextColor(Color.parseColor("#0000ff"));
+                holder.status.setText("已支付");
+                holder.status.setTextColor(Color.parseColor("#999999"));
+                break;
+            case "30":
+                holder.status.setText("支付失败");
+                holder.status.setTextColor(Color.parseColor("#FD0000"));
                 break;
         }
-        ((TextView)((LinearLayout)holder.itemView.getChildAt(7)).getChildAt(0)).setText("订单金额:    " + order.getOrder_amount());
-        ((TextView)((LinearLayout)holder.itemView.getChildAt(7)).getChildAt(1)).setText("支付金额:    " + order.getPay_amount());
+        holder.orderPrice.setText("¥ " + order.getOrder_amount());
+        holder.payPrice.setText("¥ " + order.getPay_amount());
     }
 
     @Override
@@ -82,15 +77,30 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.Holder> {
 
 
     class Holder extends RecyclerView.ViewHolder {
-        LinearLayout itemView;
+        @BindView(R.id.id_item_order_num)
+        TextView orderNum;
+        @BindView(R.id.id_item_order_status)
+        TextView status;
+        @BindView(R.id.id_item_order_out_num)
+        TextView outOrderNum;
+        @BindView(R.id.id_item_order_create_time)
+        TextView createTime;
+        @BindView(R.id.id_item_order_code_name)
+        TextView codeName;
+        @BindView(R.id.id_item_order_channel_name)
+        TextView channelName;
+        @BindView(R.id.id_item_order_equi_name)
+        TextView equiName;
+        @BindView(R.id.id_item_order_complete_time)
+        TextView completeTime;
+        @BindView(R.id.id_item_order_price)
+        TextView orderPrice;
+        @BindView(R.id.id_item_pay_price)
+        TextView payPrice;
+
         public Holder(LinearLayout itemView) {
             super(itemView);
-            this.itemView = itemView;
             ButterKnife.bind(this, itemView);
-        }
-
-        public TextView getTextView(int positon){
-            return (TextView) itemView.getChildAt(positon);
         }
     }
 }

@@ -142,7 +142,7 @@ public class AddBusinessActivity extends AppCompatActivity {
                     UtilsHelper.parseEditTextContent(mEtPayPwd,"支付密码不能为空",mContext) ||
                     UtilsHelper.parseEditTextContent(mEtTrueName,"姓名不能为空",mContext) ||
                     UtilsHelper.parseEditTextContent(mEtMobile,"手机号码不能为空",mContext) ||
-                    UtilsHelper.parseEditTextContent(mEtRate,"费率不能为空",mContext) ||
+//                    UtilsHelper.parseEditTextContent(mEtRate,"费率不能为空",mContext) ||
                     UtilsHelper.parseEditTextContent(mEtIdCard,"证件号码号码不能为空",mContext)) {
                 return;
             }
@@ -155,7 +155,7 @@ public class AddBusinessActivity extends AppCompatActivity {
             params.addBodyParameter("password",loginPwd);
             params.addBodyParameter("paypass",payPwd);
         }
-        params.addBodyParameter("pre_deposit",mEtYck.getText().toString());
+//        params.addBodyParameter("pre_deposit",mEtYck.getText().toString());
         params.addBodyParameter("user_name",userName );
         params.addBodyParameter("mobile",mobile );
         params.addBodyParameter("true_name",trueName );

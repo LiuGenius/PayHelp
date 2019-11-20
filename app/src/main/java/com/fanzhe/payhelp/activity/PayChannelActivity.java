@@ -70,7 +70,7 @@ public class PayChannelActivity extends AppCompatActivity {
     private void initView() {
         mRvContent.setLayoutManager(new LinearLayoutManager(mContext));
         mData = new ArrayList<>();
-        mAdapter = new ChannelAdapter(mData, this);
+        mAdapter = new ChannelAdapter(mData, this, result -> search());
         mRvContent.setAdapter(mAdapter);
 
         mState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -84,11 +84,10 @@ public class PayChannelActivity extends AppCompatActivity {
 
             }
         });
-
         search();
     }
 
-    @OnClick({R.id.id_back,R.id.id_search,R.id.id_add_channel})
+    @OnClick({R.id.id_back,R.id.id_search})
     public void clickView(View view){
         switch (view.getId()) {
             case R.id.id_back:
@@ -96,9 +95,6 @@ public class PayChannelActivity extends AppCompatActivity {
                 break;
             case R.id.id_search:
                 search();
-                break;
-            case R.id.id_add_channel:
-
                 break;
         }
     }

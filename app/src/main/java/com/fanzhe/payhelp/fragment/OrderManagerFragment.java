@@ -2,6 +2,7 @@ package com.fanzhe.payhelp.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,8 +35,11 @@ import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -65,6 +69,9 @@ public class OrderManagerFragment extends Fragment {
     ArrayList<Order> mData;
 
     OrderAdapter mAdapter;
+
+    @BindViews({R.id.id_tab_1, R.id.id_tab_2, R.id.id_tab_3, R.id.id_tab_4})
+    List<TextView> mTabs;
 
 
 
@@ -110,6 +117,9 @@ public class OrderManagerFragment extends Fragment {
                 }
             }
         });
+
+        mStartTime.setText(UtilsHelper.parseDateLong(new Date().getTime() + "","yyyy-MM-dd"));
+        mEndTime.setText(UtilsHelper.parseDateLong(new Date().getTime() + "","yyyy-MM-dd"));
     }
 
 
@@ -152,6 +162,10 @@ public class OrderManagerFragment extends Fragment {
         translateAnimation.setDuration(500);
         translateAnimation.setFillAfter(true);
         mTap.startAnimation(translateAnimation);
+        for (int i = 0; i < mTabs.size(); i++) {
+            mTabs.get(i).setTextColor(Color.parseColor("#A0A0A0"));
+        }
+        mTabs.get(index).setTextColor(Color.parseColor("#46A9F4"));
         lastPosition = index;
     }
 

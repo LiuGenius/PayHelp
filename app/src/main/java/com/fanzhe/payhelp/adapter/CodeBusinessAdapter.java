@@ -108,7 +108,7 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
                         if (UtilsHelper.parseResult(jsonObject)) {
                             ToastUtils.showToast(mContext, "入款成功");
                             holder.yck.setText((Integer.parseInt(content) + codeBusiness.getTotal_balance()) + "");
-                            holder.dj.setText(((Integer.parseInt(content) + codeBusiness.getTotal_balance()) - codeBusiness.getBalance()) + "");
+                            holder.sy.setText(((Integer.parseInt(content) + codeBusiness.getTotal_balance())));
                         }else{
                             ToastUtils.showToast(mContext, "入款失败," + jsonObject.optString("msg"));
                         }
@@ -170,25 +170,41 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
             });
         });
         holder.del.setOnClickListener(v -> {
-            RequestParams params = new RequestParams(UrlAddress.ORG_DEL_USER);
-            params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
-            params.addBodyParameter("uid", codeBusiness.getId());
-            NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
-                @Override
-                public void onfailure(String errorMsg) {
-                    ToastUtils.showToast(mContext,"删除用户失败，请检查您的网络");
-                }
-
-                @Override
-                public void onsuccessful(JSONObject jsonObject) {
-                    if (UtilsHelper.parseResult(jsonObject)) {
-                        ToastUtils.showToast(mContext, "删除成功");
-                        data.remove(position);
-                        notifyDataSetChanged();
-                    }else{
-                        ToastUtils.showToast(mContext,"删除用户失败，" + jsonObject.optString("msg"));
+            Dialog dialog = new Dialog(mContext, R.style.AlertDialogStyle);
+            dialog.setContentView(R.layout.layout_alert_logout_view);
+            dialog.setCancelable(false);
+            dialog.show();
+            Window window = dialog.getWindow();
+            TextView tips = window.findViewById(R.id.id_tips);
+            TextView title = window.findViewById(R.id.id_title);
+            tips.setText("确认删除用户?");
+            title.setText("删除用户");
+            window.findViewById(R.id.id_submit).setOnClickListener(a -> {
+                dialog.dismiss();
+                RequestParams params = new RequestParams(UrlAddress.ORG_DEL_USER);
+                params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
+                params.addBodyParameter("uid", codeBusiness.getId());
+                NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
+                    @Override
+                    public void onfailure(String errorMsg) {
+                        ToastUtils.showToast(mContext,"删除用户失败，请检查您的网络");
                     }
-                }
+
+                    @Override
+                    public void onsuccessful(JSONObject jsonObject) {
+                        if (UtilsHelper.parseResult(jsonObject)) {
+                            ToastUtils.showToast(mContext, "删除成功");
+                            data.remove(position);
+                            notifyDataSetChanged();
+                        }else{
+                            ToastUtils.showToast(mContext,"删除用户失败，" + jsonObject.optString("msg"));
+                        }
+                    }
+                });
+            });
+            window.findViewById(R.id.id_cancel).setVisibility(View.VISIBLE);
+            window.findViewById(R.id.id_cancel).setOnClickListener(view1 -> {
+                dialog.dismiss();
             });
         });
 

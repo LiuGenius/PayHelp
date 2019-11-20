@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="#fff"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,6 +16,7 @@
             android:layout_height="match_parent"
             android:text="用户管理"
             android:gravity="center"
+            android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="#101010"
             tools:ignore="MissingConstraints" />
@@ -28,30 +30,41 @@
             android:tint="#101010"
             android:padding="16dp"/>
     </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/id_business"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#0076FF"
             android:gravity="center"
-            android:text="商户管理"
-            android:textColor="#fff" />
+            android:padding="8dp"
+            android:text="商户"
+            android:textColor="#46A9F4"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/id_code"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="码商管理"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="#101010"
-            android:background="#E6E6E6"/>
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="码商"
+            android:textColor="#A0A0A0"
+            android:textSize="14sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp">
+
+        <View
+            android:id="@+id/id_v_tap"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#46A9F4"/>
     </LinearLayout>
 
     <FrameLayout

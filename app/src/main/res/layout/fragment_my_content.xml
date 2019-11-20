@@ -2,114 +2,140 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="#f7f7f7"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <TextView
+        android:paddingTop="40dp"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp">
+        android:layout_height="90dp"
+        android:gravity="center"
+        android:background="#fff"
+        android:text="我的"
+        android:textColor="#101010"
+        android:textSize="16sp"
+        tools:ignore="MissingConstraints" />
 
-        <TextView
+    <TextView
+        android:id="@+id/id_role"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/shape_me_bg"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="center|left"
+        android:textColor="#fff"
+        android:paddingLeft="20dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="我的角色: 平台"/>
+
+    <LinearLayout
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/shape_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/id_ll_change_pay_pwd"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="我的"
-            android:textColor="#101010"
-            android:textSize="16sp"
-            tools:ignore="MissingConstraints" />
+            android:layout_height="40dp">
 
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="#393939"
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="修改支付密码"
+                android:gravity="center|left"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#e5e5e5" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="12dp"
+                android:src="@mipmap/icon_more"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#d0d0d0"/>
+        <LinearLayout
+            android:id="@+id/id_ll_change_login_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
 
-    <LinearLayout
-        android:id="@+id/id_ll_rale"
-        android:paddingLeft="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="#393939"
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="修改登录密码"
+                android:gravity="center|left"/>
 
-        <TextView
-            android:id="@+id/id_role"
-            android:layout_width="wrap_content"
-            android:textColor="#101010"
-            android:layout_height="match_parent"
-            android:text="我的角色: 码商"
-            android:gravity="center"/>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="12dp"
+                android:src="@mipmap/icon_more"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#d0d0d0"/>
+        <LinearLayout
+            android:id="@+id/id_ll_check_version"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="#393939"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:layout_height="match_parent"
+                android:text="检测最新版本"
+                android:gravity="center|left"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="12dp"
+                android:src="@mipmap/icon_more"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#d0d0d0"/>
+        <LinearLayout
+            android:id="@+id/id_ll_logout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="#393939"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:layout_height="match_parent"
+                android:text="退出登录"
+                android:gravity="center|left"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="12dp"
+                android:src="@mipmap/icon_more"/>
+        </LinearLayout>
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#bbb"/>
 
-    <LinearLayout
-        android:id="@+id/id_ll_change_pay_pwd"
-        android:paddingLeft="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:textColor="#101010"
-            android:layout_height="match_parent"
-            android:text="修改支付密码"
-            android:gravity="center"/>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#bbb"/>
-    <LinearLayout
-        android:id="@+id/id_ll_change_login_pwd"
-        android:paddingLeft="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:textColor="#101010"
-            android:layout_height="match_parent"
-            android:text="修改登录密码"
-            android:gravity="center"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/id_ll_check_version"
-        android:paddingLeft="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:textColor="#101010"
-            android:layout_height="match_parent"
-            android:text="检测最新版本"
-            android:gravity="center"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#bbb"/>
-    <LinearLayout
-        android:id="@+id/id_ll_logout"
-        android:paddingLeft="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:textColor="#101010"
-            android:layout_height="match_parent"
-            android:text="退出登录"
-            android:gravity="center"/>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#bbb"/>
 
 </LinearLayout>

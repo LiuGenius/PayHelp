@@ -15,6 +15,7 @@ import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.activity.ChildChannelActivity;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
+import com.fanzhe.payhelp.iface.OnOver;
 import com.fanzhe.payhelp.model.Channel;
 import com.fanzhe.payhelp.utils.NetworkLoader;
 import com.fanzhe.payhelp.utils.ToastUtils;
@@ -39,9 +40,12 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.Holder> 
      */
     private ArrayList<Channel> data;
 
-    public ChannelAdapter(ArrayList<Channel> data, Activity context) {
+    OnOver onOver;
+
+    public ChannelAdapter(ArrayList<Channel> data, Activity context, OnOver onOver) {
         this.data = data;
         this.mContext = context;
+        this.onOver = onOver;
     }
 
     @Override
@@ -58,7 +62,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.Holder> 
         holder.state.setChecked(channel.getStatus().equals("1"));
         holder.state.setOnClickListener(v -> {
             RequestParams params = new RequestParams(UrlAddress.CHANNEL_SWITCH_STATE);
-            if (App.getInstance().getUSER_DATA().getRole_id().equals("3")) {
+            if (!App.getInstance().getUSER_DATA().getRole_id().equals("1")) {
                 params.setUri(UrlAddress.CODE_CHANNEL_SWITCH_STATE);
                 params.addBodyParameter("channel_id", channel.getId());
             }
@@ -76,6 +80,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.Holder> 
                 public void onsuccessful(JSONObject jsonObject) {
                     if (UtilsHelper.parseResult(jsonObject)) {
                         ToastUtils.showToast(mContext, jsonObject.optString("msg"));
+                        onOver.onResult("");
                     }else{
                         ToastUtils.showToast(mContext, "切换通道状态失败，" + jsonObject.optString("msg"));
                         holder.state.setChecked(!holder.state.isChecked());

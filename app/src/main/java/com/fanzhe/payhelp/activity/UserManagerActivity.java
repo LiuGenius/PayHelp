@@ -3,36 +3,44 @@ package com.fanzhe.payhelp.activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
-
-import com.fanzhe.payhelp.R;
-import com.fanzhe.payhelp.fragment.BusinessFragment;
-import com.fanzhe.payhelp.fragment.CodeFragment;
-import com.fanzhe.payhelp.fragment.IndexFragment;
-import com.fanzhe.payhelp.utils.UtilsHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.fanzhe.payhelp.R;
+import com.fanzhe.payhelp.fragment.BusinessFragment;
+import com.fanzhe.payhelp.fragment.CodeFragment;
+import com.fanzhe.payhelp.utils.UtilsHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class UserManagerActivity extends AppCompatActivity {
 
+
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
     Context mContext;
 
     ArrayList<Fragment> mFragmentList;
+
+    int lastPosition;
+    @BindView(R.id.id_v_tap)
+    View mTap;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +60,10 @@ public class UserManagerActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        ViewGroup.LayoutParams layoutParams = mTap.getLayoutParams();
+        layoutParams.width = UtilsHelper.getScreenWidth(mContext) / 2;
+        mTap.setLayoutParams(layoutParams);
+
         mFragmentManager = getSupportFragmentManager();
 
         mFragmentList = new ArrayList<>();
@@ -85,22 +97,30 @@ public class UserManagerActivity extends AppCompatActivity {
 
     @OnClick({R.id.id_business,R.id.id_code})
     public void clickTab(TextView tv){
-        for (TextView mtv : mTvs) {
-            mtv.setTextColor(Color.parseColor("#101010"));
-            mtv.setBackgroundColor(Color.parseColor("#E6E6E6"));
-        }
-
-        tv.setTextColor(Color.parseColor("#ffffff"));
-        tv.setBackgroundColor(Color.parseColor("#0076FF"));
-
         switch (tv.getId()){
             case R.id.id_business:
+                startAnim(0);
                 ShowFragment(0);
                 break;
             case R.id.id_code:
+                startAnim(1);
                 ShowFragment(1);
                 break;
         }
+    }
+
+    private void startAnim(int index) {
+        int width = mTap.getLayoutParams().width;
+        Animation translateAnimation = new TranslateAnimation(lastPosition * width,
+                index * width, 0, 0);
+        translateAnimation.setDuration(500);
+        translateAnimation.setFillAfter(true);
+        mTap.startAnimation(translateAnimation);
+        for (TextView mtv : mTvs) {
+            mtv.setTextColor(Color.parseColor("#A0A0A0"));
+        }
+        mTvs.get(index).setTextColor(Color.parseColor("#46A9F4"));
+        lastPosition = index;
     }
 
     @OnClick(R.id.id_back)

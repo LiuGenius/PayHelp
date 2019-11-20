@@ -69,6 +69,7 @@ public class RateActivity extends AppCompatActivity {
     }
 
     private void getData() {
+        mData.removeAll(mData);
         RequestParams params = new RequestParams(UrlAddress.RATE_LIST);
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
         params.addBodyParameter("uid",getIntent().getStringExtra("uid"));
@@ -119,13 +120,20 @@ public class RateActivity extends AppCompatActivity {
 
                             }else{
                                 ToastUtils.showToast(mContext,"修改费率失败," + jsonObject.optString("msg"));
+                                allSucces = false;
                             }
                         }
                     });
                 }
-                finish();
+                if (allSucces) {
+                    finish();
+                }else{
+                    getData();
+                }
                 break;
         }
 
     }
+
+    boolean allSucces = true;
 }

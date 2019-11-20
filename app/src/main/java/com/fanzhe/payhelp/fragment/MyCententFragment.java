@@ -3,7 +3,6 @@ package com.fanzhe.payhelp.fragment;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.fanzhe.payhelp.R;
-import com.fanzhe.payhelp.activity.LoginActivity;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
 import com.fanzhe.payhelp.utils.NetworkLoader;
@@ -84,10 +82,24 @@ public class MyCententFragment extends Fragment {
                 changePwd("2");
                 break;
             case R.id.id_ll_logout:
-                App.getInstance().setUSER_DATA(null);
-                WsClientTool.getInstance().disconnect();
-                startActivity(new Intent(mContext, LoginActivity.class));
-                getActivity().finish();
+                Dialog dialog = new Dialog(mContext, R.style.AlertDialogStyle);
+                dialog.setContentView(R.layout.layout_alert_logout_view);
+                dialog.setCancelable(false);
+                dialog.show();
+                Window window = dialog.getWindow();
+                TextView tips = window.findViewById(R.id.id_tips);
+                tips.setText("确认退出登录?");
+                window.findViewById(R.id.id_submit).setOnClickListener(v -> {
+                    dialog.dismiss();
+                    App.getInstance().setUSER_DATA(null);
+                    WsClientTool.getInstance().disconnect();
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                    System.exit(0);
+                });
+                window.findViewById(R.id.id_cancel).setVisibility(View.VISIBLE);
+                window.findViewById(R.id.id_cancel).setOnClickListener(view1 -> {
+                    dialog.dismiss();
+                });
                 break;
             case R.id.id_ll_check_version:
                 ToastUtils.showToast(mContext,"当前以及是最新版本");

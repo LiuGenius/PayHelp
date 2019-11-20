@@ -1,105 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_margin="16dp"
-    android:background="@drawable/shape_edit"
+    android:background="@drawable/shape_item_bg"
     android:layout_width="match_parent"
-    android:padding="16dp"
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="4dp"
+    android:paddingRight="16dp"
+    android:layout_marginTop="12dp"
     android:layout_height="wrap_content">
+
     <LinearLayout
+        android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:padding="4dp"
-            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="#101010"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="订单号:12321435346346436"/>
-
+            android:textColor="#969696"
+            android:text="订单号:"/>
         <TextView
-            android:layout_width="wrap_content"
-            android:textColor="#FF9800"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"
-            android:text="未支付"
+            android:id="@+id/id_item_order_num"
+            android:layout_marginLeft="12dp"
+            android:textSize="15sp"
+            android:textColor="#0D0D0D"
             android:layout_weight="1"
-            android:gravity="right"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12321435346346436"/>
 
+        <TextView
+            android:id="@+id/id_item_order_status"
+            android:layout_width="wrap_content"
+            android:textColor="#56ACF1"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:text="支付中"
+            android:gravity="right"/>
     </LinearLayout>
-    <TextView
-        android:padding="4dp"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:textColor="#101010"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="外部订单号:12321435346346436"/>
-    <TextView
-        android:padding="4dp"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:textColor="#101010"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="订单生成时间:2019-12-12 18:54:54"/>
-    <TextView
-        android:padding="4dp"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:textColor="#101010"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="支付码商名:码商名称"/>
-    <TextView
-        android:padding="4dp"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:textColor="#101010"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="支付通道:支付宝"/>
-    <TextView
-        android:padding="4dp"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:textColor="#101010"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="支付设备号:Android 9.0"/>
-    <TextView
-        android:padding="4dp"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:textColor="#101010"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="支付完成时间:2019-12-12 18:54:54"/>
 
     <LinearLayout
+        android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:padding="4dp"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:textColor="#FF9800"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="订单金额: 108.56"/>
+            android:textSize="14sp"
+            android:textColor="#969696"
+            android:text="外部订单号:"/>
+        <TextView
+            android:id="@+id/id_item_order_out_num"
+            android:layout_marginLeft="12dp"
+            android:textSize="15sp"
+            android:textColor="#0D0D0D"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12321435346346436"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
-            android:padding="4dp"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:textColor="#FF9800"
-            android:gravity="right"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="订单金额: 108.56"/>
+            android:textSize="14sp"
+            android:textColor="#969696"
+            android:text="订单生成时间:"/>
+        <TextView
+            android:id="@+id/id_item_order_create_time"
+            android:layout_marginLeft="12dp"
+            android:textSize="15sp"
+            android:textColor="#0D0D0D"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2019/11/09 11:03:14"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#969696"
+            android:text="支付码商名:"/>
+        <TextView
+            android:id="@+id/id_item_order_code_name"
+            android:layout_marginLeft="12dp"
+            android:textSize="15sp"
+            android:textColor="#0D0D0D"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="码商1"/>
+    </LinearLayout>
+    <LinearLayout
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#969696"
+            android:text="支付通道:"/>
+        <TextView
+            android:id="@+id/id_item_order_channel_name"
+            android:layout_marginLeft="12dp"
+            android:textSize="15sp"
+            android:textColor="#0D0D0D"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微信支付"/>
+    </LinearLayout>
+    <LinearLayout
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#969696"
+            android:text="支付设备号:"/>
+        <TextView
+            android:id="@+id/id_item_order_equi_name"
+            android:layout_marginLeft="12dp"
+            android:textSize="15sp"
+            android:textColor="#0D0D0D"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微信支付"/>
+    </LinearLayout>
+    <LinearLayout
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#969696"
+            android:text="支付完成时间:"/>
+        <TextView
+            android:id="@+id/id_item_order_complete_time"
+            android:layout_marginLeft="12dp"
+            android:textSize="15sp"
+            android:textColor="#0D0D0D"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2019/01/01 12:12:15"/>
+    </LinearLayout>
+
+    <View
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#F0F0F0"/>
+
+
+    <LinearLayout
+        android:padding="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#969696"
+            android:text="订单金额:"/>
+        <TextView
+            android:id="@+id/id_item_order_price"
+            android:layout_marginLeft="12dp"
+            android:textSize="16sp"
+            android:textColor="#FD0000"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¥1499.00"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#969696"
+            android:text="支付金额:"/>
+        <TextView
+            android:id="@+id/id_item_pay_price"
+            android:layout_marginLeft="12dp"
+            android:textSize="16sp"
+            android:textColor="#FD0000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¥1499.00"/>
 
     </LinearLayout>
 

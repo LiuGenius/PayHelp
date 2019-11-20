@@ -2,6 +2,7 @@ package com.fanzhe.payhelp.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -33,8 +34,11 @@ import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -59,6 +63,10 @@ public class OrderManager extends AppCompatActivity {
     ArrayList<Order> mData;
 
     OrderAdapter mAdapter;
+
+
+    @BindViews({R.id.id_tab_1, R.id.id_tab_2, R.id.id_tab_3, R.id.id_tab_4})
+    List<TextView> mTabs;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -88,12 +96,9 @@ public class OrderManager extends AppCompatActivity {
         mRvContent.setLayoutManager(new LinearLayoutManager(mContext));
         mRvContent.setAdapter(mAdapter);
 
-        startAnim(0);
-        search("0");
-
         mRvContent.setOnScrollChangeListener((view, i, i1, i2, i3) -> {
             if(!ViewCompat.canScrollVertically(view,1)){
-                if (isHaveMoreData) {
+                if (isHaveMoreData && mData.size() > 30) {
                     mPage ++;
                     search(status);
                 }else{
@@ -103,6 +108,12 @@ public class OrderManager extends AppCompatActivity {
                 }
             }
         });
+
+        mStartTime.setText(UtilsHelper.parseDateLong(new Date().getTime() + "","yyyy-MM-dd"));
+        mEndTime.setText(UtilsHelper.parseDateLong(new Date().getTime() + "","yyyy-MM-dd"));
+
+        startAnim(0);
+        search("0");
     }
 
 
@@ -113,6 +124,7 @@ public class OrderManager extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.id_tab_1:
             case R.id.id_search:
+                mPage = 1;
                 startAnim(0);
                 search("0");
                 break;
@@ -149,6 +161,11 @@ public class OrderManager extends AppCompatActivity {
         translateAnimation.setDuration(500);
         translateAnimation.setFillAfter(true);
         mTap.startAnimation(translateAnimation);
+
+        for (int i = 0; i < mTabs.size(); i++) {
+            mTabs.get(i).setTextColor(Color.parseColor("#A0A0A0"));
+        }
+        mTabs.get(index).setTextColor(Color.parseColor("#46A9F4"));
         lastPosition = index;
     }
 
@@ -161,6 +178,7 @@ public class OrderManager extends AppCompatActivity {
         status = order_status;
         if (mPage == 1) {
             mData.removeAll(mData);
+            mAdapter.notifyDataSetChanged();
         }
         RequestParams params = new RequestParams(UrlAddress.ORDER_LIST);
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());

@@ -7,12 +7,13 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.fanzhe.payhelp.R;
-import com.fanzhe.payhelp.utils.UtilsHelper;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.fanzhe.payhelp.R;
+import com.fanzhe.payhelp.utils.UtilsHelper;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -43,9 +44,6 @@ public class FinancialMagActivity extends AppCompatActivity {
     private void initView() {
         findViewById(R.id.id_ll_state_view).setVisibility(View.GONE);
         findViewById(R.id.id_ll_t_view).setVisibility(View.VISIBLE);
-        findViewById(R.id.id_add_channel).setVisibility(View.GONE);
-
-
         mTitle.setText("财务管理");
     }
 

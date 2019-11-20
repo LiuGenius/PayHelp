@@ -157,6 +157,7 @@
                         android:entries="@array/sexArray" />
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_marginLeft="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -164,6 +165,7 @@
                         android:textColor="#101010" />
 
                     <EditText
+                        android:visibility="gone"
                         android:inputType="text"
                         android:maxLength="2"
                         android:id="@+id/id_rate"
@@ -173,6 +175,7 @@
                         android:background="@drawable/shape_edit"/>
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_marginLeft="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

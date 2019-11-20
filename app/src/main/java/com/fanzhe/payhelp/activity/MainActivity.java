@@ -11,6 +11,7 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);//remove title bar  即隐藏标题栏
         getSupportActionBar().hide();// 隐藏ActionBar
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 //        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         setContentView(R.layout.activity_main);
 
@@ -110,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         AndPermission.with(this)
                 .permission(
                         Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WAKE_LOCK,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.CAMERA
                 )
@@ -174,21 +177,28 @@ public class MainActivity extends AppCompatActivity {
     @BindViews({R.id.id_ll_index, R.id.id_ll_om, R.id.id_ll_usm, R.id.id_ll_me})
     List<LinearLayout> mLls;
 
-    @OnClick({R.id.id_ll_index, R.id.id_ll_om, R.id.id_ll_usm, R.id.id_ll_me})
+    @OnClick({R.id.id_ll_index,/* R.id.id_ll_om, R.id.id_ll_usm,*/ R.id.id_ll_me})
     public void clickTab(LinearLayout v) {
-        for (LinearLayout mLl : mLls) {
-            TextView tv = (TextView) mLl.getChildAt(1);
-            ImageView iv = (ImageView) mLl.getChildAt(0);
-            tv.setTextColor(Color.parseColor("#101010"));
+
+        for (int i = 0; i < mLls.size(); i++) {
+            TextView tv = (TextView) mLls.get(i).getChildAt(1);
+            ImageView iv = (ImageView) mLls.get(i).getChildAt(0);
+            tv.setTextColor(Color.parseColor("#969696"));
+            if (i == 0) {
+                iv.setImageResource(R.mipmap.icon_tab_index_nosel);
+            }else{
+                iv.setImageResource(R.mipmap.icon_tab_me_nosel);
+            }
         }
         TextView tv = (TextView) v.getChildAt(1);
         ImageView iv = (ImageView) v.getChildAt(0);
 
-        tv.setTextColor(Color.BLUE);
+        tv.setTextColor(Color.parseColor("#539FDC"));
 
         switch (v.getId()) {
             case R.id.id_ll_index:
                 ShowFragment(0);
+                iv.setImageResource(R.mipmap.icon_tab_index_sel);
                 break;
             case R.id.id_ll_om:
                 ShowFragment(2);
@@ -198,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.id_ll_me:
                 ShowFragment(3);
+                iv.setImageResource(R.mipmap.icon_tab_me_sel);
                 break;
         }
 
@@ -252,6 +263,9 @@ public class MainActivity extends AppCompatActivity {
                     jsonObject.put("msg", "offline");
                     L.i("监听服务离线");
                     mTips.setText("当前监听服务离线     " + UtilsHelper.parseDateLong(String.valueOf(new Date().getTime()), "yyyy/MM/dd HH:mm:ss"));
+//                    NoticeUtils.startServer(mContext);
+                    Intent intent = new Intent(mContext,HelperNotificationListenerService.class);
+                    startService(intent);
                 }
                 WsClientTool.getInstance().sendText(jsonObject.toString());
             } catch (JSONException e) {

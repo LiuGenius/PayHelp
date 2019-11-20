@@ -75,6 +75,9 @@ public class WsClientTool implements WebSocketListener {
         if (null != ws && ws.isOpen()) {
             ws.sendText(content);
             L.i("发送： " + content);
+        }else{
+            L.i("WEBSOCKET  CLOSE");
+            reconnect();
         }
     }
 
@@ -100,7 +103,7 @@ public class WsClientTool implements WebSocketListener {
     public void onDisconnected(WebSocket websocket, WebSocketFrame serverCloseFrame, WebSocketFrame clientCloseFrame, boolean closedByServer) throws Exception {
         L.i( "ws.disconnected  链接中断  开始重连");
 
-//        reconnect();
+        reconnect();
     }
 
     @Override
