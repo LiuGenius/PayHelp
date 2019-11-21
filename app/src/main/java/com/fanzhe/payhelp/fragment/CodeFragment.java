@@ -85,7 +85,6 @@ public class CodeFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 status = position - 1;
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 

@@ -42,10 +42,10 @@ public class RadarView extends FrameLayout {
 
     }
     //默认为顺时针呢
-    private final static int DEFAULT_DIERCTION=CLOCK_WISE;
+    private final static int DEFAULT_DIERCTION = CLOCK_WISE;
 
     //设定雷达扫描方向
-    private int direction=DEFAULT_DIERCTION;
+    private int direction = DEFAULT_DIERCTION;
 
     private boolean threadRunning = true;
 
@@ -67,29 +67,29 @@ public class RadarView extends FrameLayout {
 
         //宽度=5，抗锯齿，描边效果的白色画笔
         mPaintLine = new Paint();
-        mPaintLine.setStrokeWidth(5);
+        mPaintLine.setStrokeWidth(3);
         mPaintLine.setAntiAlias(true);
         mPaintLine.setStyle(Paint.Style.STROKE);
         mPaintLine.setColor(Color.WHITE);
 
         //宽度=5，抗锯齿，描边效果的浅绿色画笔
         mPaintCircle = new Paint();
-        mPaintCircle.setStrokeWidth(5);
+        mPaintCircle.setStrokeWidth(3);
         mPaintCircle.setAntiAlias(true);
         mPaintCircle.setStyle(Paint.Style.FILL);
         mPaintCircle.setColor(0x99000000);
 
         //暗绿色的画笔
         mPaintSector = new Paint();
-        mPaintSector.setColor(0x9D00ff00);
+        mPaintSector.setColor(0x9D32B5E7);
         mPaintSector.setAntiAlias(true);
-        mShader = new SweepGradient(viewSize / 2, viewSize / 2, Color.TRANSPARENT, Color.GREEN);
+        mShader = new SweepGradient(viewSize / 2, viewSize / 2, Color.TRANSPARENT, Color.parseColor("#32B5E7"));
         mPaintSector.setShader(mShader);
 
         //白色实心画笔
         mPaintPoint=new Paint();
         mPaintPoint.setColor(Color.WHITE);
-        mPaintPoint.setStyle(Paint.Style.FILL);
+        mPaintPoint.setStyle(Paint.Style.FILL_AND_STROKE);
 
         //随机生成的点，模拟雷达扫描结果
         point_x = UtilsHelper.Getrandomarray(15, 300);
@@ -126,45 +126,58 @@ public class RadarView extends FrameLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         // TODO Auto-generated method stub
-        canvas.drawCircle(viewSize / 2, viewSize / 2, 350, mPaintCircle);
-        canvas.drawCircle(viewSize / 2, viewSize / 2, 255, mPaintLine);
-        canvas.drawCircle(viewSize / 2, viewSize / 2, 125, mPaintLine);
-        canvas.drawCircle(viewSize / 2, viewSize / 2, 350, mPaintLine);
+        canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 2, mPaintCircle);
+
+        canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 16 * 8, mPaintLine);
+        canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 16 * 7, mPaintLine);
+        canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 16 * 6, mPaintLine);
+        canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 16 * 5, mPaintLine);
+        canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 16 * 4, mPaintLine);
+        canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 16 * 3, mPaintLine);
+        canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 16 * 2, mPaintLine);
+        canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 16 * 1, mPaintLine);
         //绘制两条十字线
         canvas.drawLine(viewSize / 2, 0, viewSize / 2, viewSize, mPaintLine);
         canvas.drawLine(0, viewSize / 2, viewSize, viewSize / 2, mPaintLine);
 
 
-        //这里在雷达扫描过制定圆周度数后，将随机绘制一些白点，模拟搜索结果
-        if (start > 100) {
-            for (int i = 0; i < 2; i++) {
-                canvas.drawCircle(viewSize / 2 + point_x[i], viewSize / 2 + point_y[i], 10, mPaintPoint);
-            }
-        }
-        if (start > 200) {
-            for (int i = 2; i < 5; i++) {
-                canvas.drawCircle(viewSize / 2 + point_x[i], viewSize / 2 + point_y[i], 10, mPaintPoint);
-            }
-        }
-        if (start > 300) {
-            for (int i = 5; i < 9; i++) {
-                canvas.drawCircle(viewSize / 2 + point_x[i], viewSize / 2 + point_y[i], 10, mPaintPoint);
-            }
-        }
-        if (start > 500) {
-            for (int i = 9; i < 11; i++) {
-                canvas.drawCircle(viewSize / 2 + point_x[i], viewSize / 2 + point_y[i], 10, mPaintPoint);
-            }
-        }
-        if (start > 800) {
-            for (int i = 11; i < point_x.length; i++) {
-                canvas.drawCircle(viewSize / 2 + point_x[i], viewSize / 2 + point_y[i], 10, mPaintPoint);
-            }
-        }
+//        if (start % 1000 == 0) {
+////            mPaintPoint.setColor(Color.rgb(new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255)));
+//            start = 0;
+//            point_x = UtilsHelper.Getrandomarray(15, 300);
+//            point_y = UtilsHelper.Getrandomarray(15, 300);
+//        }
+//
+//        //这里在雷达扫描过制定圆周度数后，将随机绘制一些白点，模拟搜索结果
+//        if (start > 100) {
+//            for (int i = 0; i < 2; i++) {
+//                canvas.drawCircle(viewSize / 2 + point_x[i], viewSize / 2 + point_y[i], 10, mPaintPoint);
+//            }
+//        }
+//        if (start > 200) {
+//            for (int i = 2; i < 5; i++) {
+//                canvas.drawCircle(viewSize / 2 + point_x[i], viewSize / 2 + point_y[i], 10, mPaintPoint);
+//            }
+//        }
+//        if (start > 300) {
+//            for (int i = 5; i < 9; i++) {
+//                canvas.drawCircle(viewSize / 2 + point_x[i], viewSize / 2 + point_y[i], 10, mPaintPoint);
+//            }
+//        }
+//        if (start > 500) {
+//            for (int i = 9; i < 11; i++) {
+//                canvas.drawCircle(viewSize / 2 + point_x[i], viewSize / 2 + point_y[i], 10, mPaintPoint);
+//            }
+//        }
+//        if (start > 800) {
+//            for (int i = 11; i < point_x.length; i++) {
+//                canvas.drawCircle(viewSize / 2 + point_x[i], viewSize / 2 + point_y[i], 10, mPaintPoint);
+//            }
+//        }
 
         //根据matrix中设定角度，不断绘制shader,呈现出一种扇形扫描效果
         canvas.concat(matrix);
-        canvas.drawCircle(viewSize / 2, viewSize / 2, 350, mPaintSector);
+        canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 2, mPaintSector);
         super.onDraw(canvas);
     }
 
@@ -189,22 +202,18 @@ public class RadarView extends FrameLayout {
             // TODO Auto-generated method stub
             while (threadRunning) {
                 if (isstart) {
-                    view.post(new Runnable() {
-                        public void run() {
-                            start = start + 1;
-                            matrix = new Matrix();
-                            //设定旋转角度,制定进行转转操作的圆心
+                    view.post(() -> {
+                        start = start + 1;
+                        matrix = new Matrix();
+                        //设定旋转角度,制定进行转转操作的圆心
 //                            matrix.postRotate(start, viewSize / 2, viewSize / 2);
 //                            matrix.setRotate(start,viewSize/2,viewSize/2);
-                            matrix.preRotate(direction*start,viewSize/2,viewSize/2);
-                            view.invalidate();
-
-                        }
+                        matrix.preRotate(direction * start,viewSize / 2,viewSize / 2);
+                        view.invalidate();
                     });
                     try {
-                        Thread.sleep(5);
+                        Thread.sleep(7);
                     } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }

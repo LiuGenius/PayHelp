@@ -328,7 +328,7 @@ public class IndexFragment extends Fragment {
     private void startServer(){
         mRadarView.setVisibility(View.VISIBLE);
         //开启雷达图
-        mRadar.setDirection(RadarView.ANTI_CLOCK_WISE);
+        mRadar.setDirection(RadarView.CLOCK_WISE);
         mRadar.start();
     }
 
