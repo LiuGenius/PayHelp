@@ -111,8 +111,13 @@ public class NoticeUtils {
         }else if(pkg.equals("com.xiaomi.xmsf")){
             if(title.contains("拉卡拉收款成功")){
                 payInfo.payType = "lakalaPay";
-            }else if(title.contains("钱到了")){
-
+            }else if(title.contains("支付宝收款")){
+                payInfo.payType = "alipay";
+            } else if(title.contains("微信收款")){
+                payInfo.payType = "wechat";
+            }
+            else{
+                return null;
             }
         }
         else{

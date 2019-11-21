@@ -102,7 +102,6 @@ public class WsClientTool implements WebSocketListener {
     @Override
     public void onDisconnected(WebSocket websocket, WebSocketFrame serverCloseFrame, WebSocketFrame clientCloseFrame, boolean closedByServer) throws Exception {
         L.i( "ws.disconnected  链接中断  开始重连");
-
         reconnect();
     }
 

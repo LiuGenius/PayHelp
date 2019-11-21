@@ -7,9 +7,9 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_marginTop="20dp"
+        android:paddingTop="30dp"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="80dp">
         <TextView
             android:id="@+id/id_tv_title"
             android:layout_width="match_parent"
@@ -30,113 +30,137 @@
             android:padding="16dp"/>
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#e5e5e5"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:gravity="center"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:layout_height="50dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
             android:gravity="center"
+            android:textSize="14sp"
             android:text="订单时间"
             android:textColor="#101010" />
 
         <TextView
+            android:layout_marginLeft="12dp"
             android:id="@+id/id_tv_startTime"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1"
             android:paddingLeft="8dp"
-            android:gravity="center|left"
-            android:background="@drawable/shape_edit"
-            android:drawableRight="@mipmap/icon_time"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:text="2019-12-12"
+            android:background="@drawable/shape_time_text_bg"
             android:inputType="time"
             android:paddingRight="4dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="12dp"
             android:gravity="center"
-            android:text="一"
-            android:textColor="#bbb" />
+            android:text="至"
+            android:textColor="#101010" />
 
         <TextView
-            android:paddingLeft="8dp"
             android:id="@+id/id_tv_endTime"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
+            android:textSize="12sp"
             android:layout_height="35dp"
-            android:gravity="center|left"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text="2019-12-12"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             android:layout_weight="1"
-            android:background="@drawable/shape_edit"
-            android:drawableRight="@mipmap/icon_time"
+            android:background="@drawable/shape_time_text_bg"
             android:inputType="time"
             android:paddingRight="4dp" />
 
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/id_ll_state_view"
-        android:layout_marginLeft="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="状态"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#101010"
-            android:layout_marginLeft="10dp"/>
-
-        <Spinner
-            android:id="@+id/id_sp_state"
-            android:layout_marginLeft="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:entries="@array/settlementArray"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
         <TextView
             android:id="@+id/id_search"
-            android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="搜索"
-            android:background="@drawable/shape_login_btn"
+            android:background="@drawable/shape_btn_bg"
             android:gravity="center"
-            android:textColor="#fff"
+            android:textStyle="bold"
+            android:textSize="14sp"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp"/>
+            android:paddingRight="20dp"
+            android:text="搜索"
+            android:textColor="#fff" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/id_tab_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="全部"
+            android:textColor="#46A9F4"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/id_tab_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="已结算"
+            android:textColor="#A0A0A0"
+            android:textSize="14sp"/>
+
+
+
+        <TextView
+            android:id="@+id/id_tab_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="未结算"
+            android:textColor="#A0A0A0"
+            android:textSize="14sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp">
+
+        <View
+            android:id="@+id/id_v_tap"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#46A9F4"/>
     </LinearLayout>
     <TextView
+        android:background="#f7f7f7"
         android:text=""
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#121210"
-        android:padding="8dp"
+        android:paddingLeft="12dp"
+        android:padding="12dp"
         android:id="@+id/id_total"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:background="#f7f7f7"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:id="@+id/id_rv_content"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
@@ -144,27 +168,37 @@
 
 
     <LinearLayout
+        android:background="#f7f7f7"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:gravity="right"
+        android:paddingBottom="8dp"
+        android:paddingRight="12dp"
+        android:layout_height="wrap_content">
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/id_settlement"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="去结算"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="结算"
             android:gravity="center"
-            android:layout_weight="1"
+            android:textSize="12sp"
             android:textColor="#fff"
-            android:background="#009688"/>
+            android:background="@drawable/shape_btn_bg"/>
         <TextView
+            android:layout_marginLeft="12dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:id="@+id/id_info"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
             android:text="查看明细"
             android:gravity="center"
-            android:layout_weight="1"
+            android:textSize="12sp"
             android:textColor="#fff"
-            android:background="#8BC34A"/>
+            android:background="@drawable/shape_btn_bg"/>
     </LinearLayout>
 
 

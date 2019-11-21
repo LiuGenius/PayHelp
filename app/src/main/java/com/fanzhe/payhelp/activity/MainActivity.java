@@ -1,13 +1,10 @@
 package com.fanzhe.payhelp.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -31,18 +28,14 @@ import com.fanzhe.payhelp.fragment.UserManagerFragment;
 import com.fanzhe.payhelp.servers.HelperNotificationListenerService;
 import com.fanzhe.payhelp.utils.L;
 import com.fanzhe.payhelp.utils.NoticeUtils;
+import com.fanzhe.payhelp.utils.ToastUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
 import com.fanzhe.payhelp.utils.WsClientTool;
 import com.yanzhenjie.permission.AndPermission;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -54,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
     Context mContext;
 
     ArrayList<Fragment> mFragmentList;
-
-    @BindView(R.id.id_tips)
-    TextView mTips;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,38 +67,15 @@ public class MainActivity extends AppCompatActivity {
         initView();
 
         if (App.getInstance().getUSER_DATA().getRole_id().equals("3")) {
-            WsClientTool.getInstance().connect("ws://47.98.182.50:9511");
             L.d("开始判断通知栏读取权限");
-            //判断是否有通知栏读取权限
             if (NoticeUtils.isNotificationListenerEnabled(this)) {
                 L.d("已经拥有通知栏权限，开启服务");
-                //有权限启动服务
-                Intent intent = new Intent(this, HelperNotificationListenerService.class);
-                startService(intent);
+                ToastUtils.showToast(mContext,"已经获取到权限,可以开始监听服务");
             } else {
                 L.d("没有权限获取权限并且开启回调");
-                //没有权限获取权限并且开启回调
                 NoticeUtils.startGetNotification(this, 1);
             }
-
-            //循环判断服务是否运行中
-            L.d("开启循环不断读取服务是否在运行");
-            new Thread() {
-                @Override
-                public void run() {
-                    super.run();
-                    while (true) {
-                        try {
-                            Thread.sleep(1000 * 3);
-                            handler.sendEmptyMessage(2);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }.start();
         }
-
         AndPermission.with(this)
                 .permission(
                         Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -156,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.id_ll_usm).setVisibility(View.GONE);
                 break;
             case "3":
-                mTips.setVisibility(View.VISIBLE);
                 findViewById(R.id.id_ll_usm).setVisibility(View.GONE);
                 break;
         }
@@ -245,34 +211,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @SuppressLint("HandlerLeak")
-    Handler handler = new Handler() {
-        @SuppressLint("SetTextI18n")
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("type", "activeInfo");
-                //判断服务是否在运行
-                if (NoticeUtils.isWorked(MainActivity.this, getPackageName() + ".servers.HelperNotificationListenerService")) {
-                    jsonObject.put("msg", "online");
-                    L.i("监听服务在线");
-                    mTips.setText("当前监听服务在线    "  + UtilsHelper.parseDateLong(String.valueOf(new Date().getTime()), "yyyy/MM/dd HH:mm:ss"));
-                } else {
-                    jsonObject.put("msg", "offline");
-                    L.i("监听服务离线");
-                    mTips.setText("当前监听服务离线     " + UtilsHelper.parseDateLong(String.valueOf(new Date().getTime()), "yyyy/MM/dd HH:mm:ss"));
-//                    NoticeUtils.startServer(mContext);
-                    Intent intent = new Intent(mContext,HelperNotificationListenerService.class);
-                    startService(intent);
-                }
-                WsClientTool.getInstance().sendText(jsonObject.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    };
+
 
 
     @Override

@@ -16,9 +16,4 @@
         <item>女</item>
     </array>
 
-    <array name="settlementArray">
-        <item>全部</item>
-        <item>未结算</item>
-        <item>已结算</item>
-    </array>
 </resources>

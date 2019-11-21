@@ -43,7 +43,7 @@ public class SettlementAdapter extends RecyclerView.Adapter<SettlementAdapter.Ho
     public void onBindViewHolder(Holder holder, final int position) {
         //将数据设置到item上
         Settlement settlement = data.get(position);
-        holder.name.setText(settlement.getUser_name() + " , 获得: " + settlement.getTotal());
+        holder.name.setText(settlement.getUser_name() + " , 获得: " + settlement.getTotal() + " 元");
     }
 
     @Override

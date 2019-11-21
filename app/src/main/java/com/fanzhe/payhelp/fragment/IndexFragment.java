@@ -1,10 +1,19 @@
 package com.fanzhe.payhelp.fragment;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,21 +22,33 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fanzhe.payhelp.R;
+import com.fanzhe.payhelp.activity.OrderManager;
+import com.fanzhe.payhelp.activity.PayChannelActivity;
+import com.fanzhe.payhelp.activity.SettlementActivity;
+import com.fanzhe.payhelp.activity.UserManagerActivity;
 import com.fanzhe.payhelp.adapter.IndexDataShowAdapter;
 import com.fanzhe.payhelp.adapter.IndexMenuAdapter;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
+import com.fanzhe.payhelp.servers.HelperNotificationListenerService;
 import com.fanzhe.payhelp.utils.NetworkLoader;
+import com.fanzhe.payhelp.utils.NoticeUtils;
 import com.fanzhe.payhelp.utils.ToastUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
+import com.fanzhe.payhelp.utils.WsClientTool;
+import com.fanzhe.payhelp.view.RadarView;
+import com.fanzhe.payhelp.view.RecyclerViewClickListener;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class IndexFragment extends Fragment {
@@ -104,6 +125,18 @@ public class IndexFragment extends Fragment {
         }
     }
 
+    @BindView(R.id.id_radarView)
+    RelativeLayout mRadarView;
+    @BindView(R.id.id_radar)
+    RadarView mRadar;
+    @BindView(R.id.id_serverState)
+    TextView mServerState;
+    @BindView(R.id.id_listeningState)
+    TextView mListeningState;
+    @BindView(R.id.id_time)
+    TextView mTime;
+    @BindView(R.id.id_stop)
+    TextView mStop;
 
 
     @Nullable
@@ -140,12 +173,90 @@ public class IndexFragment extends Fragment {
                 mMenuData.add(new dataMenu("密钥管理",R.mipmap.icon_mygl));
                 break;
             case "3":
+                mMenuData.add(new dataMenu("接单状态",R.mipmap.icon_get_order));
+                //开启监听服务
+                Intent intent = new Intent(context, HelperNotificationListenerService.class);
+                context.startService(intent);
+                //连接ws
+                WsClientTool.getInstance().connect("ws://47.98.182.50:9511");
+                //循环判断服务是否运行中
+                new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+                        while (true) {
+                            try {
+                                Thread.sleep(1000);
+                                handler.sendEmptyMessage(2);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }.start();
+                ToastUtils.showToast(context,"已经在后台开始接单");
                 break;
         }
 
         mMenuAdapter = new IndexMenuAdapter(mMenuData,context);
         mRvMenuContent.setLayoutManager(new GridLayoutManager(context,4));
         mRvMenuContent.setAdapter(mMenuAdapter);
+        mRvMenuContent.addOnItemTouchListener(new RecyclerViewClickListener(context, mRvMenuContent, (view, position) -> {
+            switch (mMenuData.get(position).getMenuName()) {
+                case "接单状态":
+                    startServer();
+                    break;
+                case "通道管理":
+                    startActivity(new Intent(context, PayChannelActivity.class));
+                    break;
+                case "结算管理":
+                    startActivity(new Intent(context, SettlementActivity.class));
+                    break;
+                case "用户管理":
+                    startActivity(new Intent(context, UserManagerActivity.class));
+                    break;
+                case "订单管理":
+                    startActivity(new Intent(context, OrderManager.class));
+                    break;
+                case "密钥管理":
+                    Dialog dialog = new Dialog(context, R.style.AlertDialogStyle);
+                    dialog.setContentView(R.layout.layout_key_view);
+                    dialog.show();
+                    Window window = dialog.getWindow();
+                    EditText editText = window.findViewById(R.id.id_edittext);
+                    EditText et_key = window.findViewById(R.id.id_tv_key);
+                    editText.setText("");
+                    TextView submit = window.findViewById(R.id.id_submit);
+                    submit.setOnClickListener(v -> {
+                        String content = editText.getText().toString();
+                        RequestParams params = new RequestParams(UrlAddress.LOOK_PS_KET);
+                        params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
+                        params.addBodyParameter("paypass", content);
+                        NetworkLoader.sendPost(context, params, new NetworkLoader.networkCallBack() {
+                            @Override
+                            public void onfailure(String errorMsg) {
+                                ToastUtils.showToast(context, "查看密钥失败,请检查您的网络");
+                            }
+
+                            @Override
+                            public void onsuccessful(JSONObject jsonObject) {
+                                if (UtilsHelper.parseResult(jsonObject)) {
+                                    String key = jsonObject.optJSONObject("data").optString("secret_key");
+                                    et_key.setText(key);
+                                } else {
+                                    ToastUtils.showToast(context, "查看密钥失败," + jsonObject.optString("msg"));
+                                }
+                            }
+                        });
+                    });
+                    break;
+            }
+        }));
+
+        mRadarView.setOnClickListener(view -> {
+
+        });
+
 
     }
 
@@ -191,4 +302,55 @@ public class IndexFragment extends Fragment {
             }
         });
     }
+
+    @OnClick(R.id.id_stop)
+    public void stopServer(){
+        mRadarView.setVisibility(View.GONE);
+//        //停止监听服务
+//        Intent intent = new Intent(context, HelperNotificationListenerService.class);
+//        context.stopService(intent);
+//        //断开ws
+//        WsClientTool.getInstance().disconnect();
+        //停止雷达图
+        ToastUtils.showToast(context,"服务正在后台运行,请不要关闭当前页面");
+        mRadar.stop();
+    }
+
+    private void startServer(){
+        mRadarView.setVisibility(View.VISIBLE);
+        //开启雷达图
+        mRadar.setDirection(RadarView.ANTI_CLOCK_WISE);
+        mRadar.start();
+    }
+
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("type", "activeInfo");
+                //判断监听服务是否在运行
+                if (NoticeUtils.isWorked(context, context.getPackageName() + ".servers.HelperNotificationListenerService")) {
+                    jsonObject.put("msg", "online");
+                    mListeningState.setText("当前监听服务在线");
+                } else {
+                    jsonObject.put("msg", "offline");
+                    mListeningState.setText("当前监听服务离线");
+                }
+                //判断ws连接
+                if (WsClientTool.getInstance().isConnected()) {
+                    mServerState.setText("当前服务器连接正常");
+                }else{
+                    mServerState.setText("当前服务器连接异常");
+                }
+                mTime.setText(UtilsHelper.parseDateLong(String.valueOf(new Date().getTime()), "yyyy/MM/dd HH:mm:ss"));
+                WsClientTool.getInstance().sendText(jsonObject.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 }

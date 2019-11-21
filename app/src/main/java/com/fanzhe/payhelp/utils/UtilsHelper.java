@@ -365,4 +365,17 @@ public class UtilsHelper {
         return file;
     }
 
+    /**
+     * @param log 数组长度
+     * @param top 随机数上限
+     * @return 生成随机数数组，内容为[-top,top]
+     */
+    public static int[] Getrandomarray(int log, int top) {
+        int[] result = new int[log];
+        for (int i = 0; i < log; i++) {
+            int random = (int) (top * (2 * Math.random() - 1));
+            result[i] = random;
+        }
+        return result;
+    }
 }

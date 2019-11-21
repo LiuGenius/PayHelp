@@ -1,96 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="#F7F7F7"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
-        android:background="#fff"
-        android:paddingTop="30dp"
+        android:background="#F7F7F7"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:background="#fff"
+            android:paddingTop="30dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="首页"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#101010"
+                tools:ignore="MissingConstraints" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="20dp"
+            android:background="@drawable/shape_item_bg"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="40dp">
+
+                <View
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="4dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/shape_index_tag_view"/>
+
+                <TextView
+                    android:layout_marginLeft="16dp"
+                    android:textSize="16sp"
+                    android:layout_width="match_parent"
+                    android:gravity="center|left"
+                    android:textColor="#101010"
+                    android:layout_height="match_parent"
+                    android:text="数据展示"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:paddingLeft="45dp"
+                android:paddingRight="45dp"
+                android:layout_marginBottom="24dp"
+                android:id="@+id/id_rv_data_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/shape_item_bg"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="40dp">
+
+                <View
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="4dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/shape_index_tag_view"/>
+
+                <TextView
+                    android:layout_marginLeft="16dp"
+                    android:textSize="16sp"
+                    android:layout_width="match_parent"
+                    android:gravity="center|left"
+                    android:textColor="#101010"
+                    android:layout_height="match_parent"
+                    android:text="功能入口"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/id_rv_menu_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:background="#99000000"
+        android:id="@+id/id_radarView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.fanzhe.payhelp.view.RadarView
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/id_radar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <TextView
+            android:layout_marginTop="20dp"
+            android:id="@+id/id_serverState"
+            android:layout_below="@id/id_radar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="首页"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
             android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:textColor="#101010"
-            tools:ignore="MissingConstraints" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_margin="20dp"
-        android:background="@drawable/shape_item_bg"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:text="当前服务器连接在线"/>
+        <TextView
+            android:id="@+id/id_listeningState"
+            android:layout_marginTop="12dp"
+            android:layout_below="@id/id_serverState"
+            android:textColor="#fff"
             android:gravity="center"
-            android:layout_height="40dp">
-
-            <View
-                android:layout_marginLeft="16dp"
-                android:layout_width="4dp"
-                android:layout_height="20dp"
-                android:background="@drawable/shape_index_tag_view"/>
-
-            <TextView
-                android:layout_marginLeft="16dp"
-                android:textSize="16sp"
-                android:layout_width="match_parent"
-                android:gravity="center|left"
-                android:textColor="#101010"
-                android:layout_height="match_parent"
-                android:text="数据展示"/>
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:paddingLeft="45dp"
-            android:paddingRight="45dp"
-            android:layout_marginBottom="24dp"
-            android:id="@+id/id_rv_data_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/shape_item_bg"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="当前监听服务在线"/>
+        <TextView
+            android:id="@+id/id_time"
+            android:layout_marginTop="12dp"
+            android:layout_below="@id/id_listeningState"
+            android:textColor="#fff"
             android:gravity="center"
-            android:layout_height="40dp">
-
-            <View
-                android:layout_marginLeft="16dp"
-                android:layout_width="4dp"
-                android:layout_height="20dp"
-                android:background="@drawable/shape_index_tag_view"/>
-
-            <TextView
-                android:layout_marginLeft="16dp"
-                android:textSize="16sp"
-                android:layout_width="match_parent"
-                android:gravity="center|left"
-                android:textColor="#101010"
-                android:layout_height="match_parent"
-                android:text="功能入口"/>
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/id_rv_menu_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-</LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="2019/12/12 12:12:12"/>
+
+        <TextView
+            android:id="@+id/id_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:textSize="12sp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:text="后台运行"
+            android:background="@drawable/shape_btn_bg"/>
+    </RelativeLayout>
+
+</RelativeLayout>

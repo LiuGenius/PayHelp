@@ -45,14 +45,14 @@ public class SettlementInfoAdapter extends RecyclerView.Adapter<SettlementInfoAd
     public void onBindViewHolder(Holder holder, final int position) {
         //将数据设置到item上
         SettlementInfo settlementInfo = data.get(position);
-        holder.key1.setText("支付时间:" + UtilsHelper.parseDateLong(settlementInfo.getCreate_time(),"yyyy/MM/dd HH:mm:ss"));
-        holder.key2.setText("支付金额:" + settlementInfo.getPay_amount() + "元");
-        holder.key3.setText("商户获得金额:" + settlementInfo.getMerchants() + "元");
-        holder.key4.setText("码商获得金额:" + settlementInfo.getCode() + "元");
-        holder.key5.setText("平台获得金额:" + settlementInfo.getOrg() + "元");
+        holder.key1.setText(UtilsHelper.parseDateLong(settlementInfo.getCreate_time(),"yyyy/MM/dd HH:mm:ss"));
+        holder.key2.setText(settlementInfo.getPay_amount() + " 元");
+        holder.key3.setText(settlementInfo.getMerchants() + " 元");
+        holder.key4.setText(settlementInfo.getCode() + " 元");
+        holder.key5.setText(settlementInfo.getOrg() + " 元");
         holder.key6.setText(settlementInfo.getStatus());
         if (settlementInfo.getStatus().equals("已结算")) {
-            holder.key6.setTextColor(Color.BLUE);
+            holder.key6.setTextColor(Color.parseColor("#539FDC"));
         }else{
             holder.key6.setTextColor(Color.RED);
         }
