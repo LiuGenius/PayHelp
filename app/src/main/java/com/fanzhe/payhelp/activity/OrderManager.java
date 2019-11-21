@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.adapter.OrderAdapter;
@@ -68,6 +69,8 @@ public class OrderManager extends AppCompatActivity {
     @BindViews({R.id.id_tab_1, R.id.id_tab_2, R.id.id_tab_3, R.id.id_tab_4})
     List<TextView> mTabs;
 
+    @BindView(R.id.id_swiperefreshlayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -109,7 +112,14 @@ public class OrderManager extends AppCompatActivity {
             }
         });
 
-        mStartTime.setText(UtilsHelper.parseDateLong(new Date().getTime() + "","yyyy-MM-dd"));
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            startAnim(0);
+            search("0");
+        });
+
+        mStartTime.setText(UtilsHelper.parseDateLong(new Date().getTime() + "","yyyy-MM-01"));
         mEndTime.setText(UtilsHelper.parseDateLong(new Date().getTime() + "","yyyy-MM-dd"));
 
         startAnim(0);
@@ -192,11 +202,13 @@ public class OrderManager extends AppCompatActivity {
             @Override
             public void onfailure(String errorMsg) {
                 ToastUtils.showToast(mContext, "获取订单信息失败,请检查网络");
+                mSwipeRefreshLayout.setRefreshing(false);
             }
 
             @SuppressLint("SetTextI18n")
             @Override
             public void onsuccessful(JSONObject jsonObject) {
+                mSwipeRefreshLayout.setRefreshing(false);
                 if (UtilsHelper.parseResult(jsonObject)) {
                     JSONArray jsonArray = jsonObject.optJSONArray("data");
                     for (int i = 0; i < jsonArray.length(); i++) {

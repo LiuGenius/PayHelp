@@ -94,4 +94,12 @@ public class UrlAddress {
      * 首页数据
      */
     public static final String INDEX_DATA = Host + "/v1/pay/settlement/index-data";
+    /**
+     * 掉单处理
+     */
+    public static final String OFF_SINGLE = Host + "/v1/pay/order/edit-order";
+    /**
+     * 切换用户状态
+     */
+    public static final String USER_SWITCH_STATUS = Host + "/v1/admin/user/switch-status";
 }

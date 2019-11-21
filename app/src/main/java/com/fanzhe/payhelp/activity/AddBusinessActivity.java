@@ -31,10 +31,6 @@ public class AddBusinessActivity extends AppCompatActivity {
 
     Context mContext;
 
-    @BindView(R.id.id_rate)
-    EditText mEtRate;
-    @BindView(R.id.id_et_yck)
-    EditText mEtYck;//预存款
     @BindView(R.id.id_et_user_name)
     EditText mEtUserName;//用户名
     @BindView(R.id.id_et_login_password1)
@@ -85,16 +81,6 @@ public class AddBusinessActivity extends AppCompatActivity {
             mEtLoginPwd.setVisibility(View.GONE);
             mEtPayPwd.setVisibility(View.GONE);
         }
-
-        switch (getIntent().getStringExtra("tag")){
-            case "addBusiness":
-                mEtYck.setVisibility(View.GONE);
-                break;
-            case "addCode":
-                mEtYck.setVisibility(View.GONE);
-                break;
-        }
-
 
         mSpSex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -173,7 +159,7 @@ public class AddBusinessActivity extends AppCompatActivity {
             @Override
             public void onsuccessful(JSONObject jsonObject) {
                 if (UtilsHelper.parseResult(jsonObject)) {
-                    ToastUtils.showToast(mContext,"添加成功");
+                    ToastUtils.showToast(mContext,"保存成功");
                     finish();
                 }else{
                     ToastUtils.showToast(mContext,"添加用户失败，" + jsonObject.optString("msg"));

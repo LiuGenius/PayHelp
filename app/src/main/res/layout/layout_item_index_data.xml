@@ -26,19 +26,6 @@
             android:layout_marginTop="4dp"
             android:textColor="#101100"
             android:text="商户数"/>
-
-        <View
-            android:id="@+id/id_dever1"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#eee"/>
     </LinearLayout>
-
-    <View
-        android:id="@+id/id_dever2"
-        android:background="#eee"
-        android:layout_width="1px"
-        android:layout_height="match_parent" />
 
 </LinearLayout>

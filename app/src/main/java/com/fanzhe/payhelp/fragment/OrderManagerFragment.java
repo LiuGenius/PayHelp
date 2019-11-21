@@ -118,7 +118,7 @@ public class OrderManagerFragment extends Fragment {
             }
         });
 
-        mStartTime.setText(UtilsHelper.parseDateLong(new Date().getTime() + "","yyyy-MM-dd"));
+        mStartTime.setText(UtilsHelper.parseDateLong(new Date().getTime() + "","yyyy-MM-01"));
         mEndTime.setText(UtilsHelper.parseDateLong(new Date().getTime() + "","yyyy-MM-dd"));
     }
 

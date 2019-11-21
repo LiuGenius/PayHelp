@@ -207,14 +207,33 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
                 dialog.dismiss();
             });
         });
-
         holder.rate.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, RateActivity.class);
             intent.putExtra("uid",codeBusiness.getId());
             intent.putExtra("name",codeBusiness.getUser_name());
             mContext.startActivity(intent);
         });
+        holder.status.setOnCheckedChangeListener((compoundButton, b) -> {
+            RequestParams params = new RequestParams(UrlAddress.USER_SWITCH_STATUS);
+            params.addBodyParameter("auth_key",App.getInstance().getUSER_DATA().getAuth_key());
+            params.addBodyParameter("status",b ? "1":"0");//1:启用 2禁用
+            params.addBodyParameter("uid",codeBusiness.getId());
+            NetworkLoader.sendPost(mContext, params, new NetworkLoader.networkCallBack() {
+                @Override
+                public void onfailure(String errorMsg) {
+                    ToastUtils.showToast(mContext,"修改用户状态失败,请检查网络");
+                }
 
+                @Override
+                public void onsuccessful(JSONObject jsonObject) {
+                    if (UtilsHelper.parseResult(jsonObject)) {
+                        ToastUtils.showToast(mContext,"修改成功");
+                    }else{
+                        ToastUtils.showToast(mContext,"修改用户状态失败," + jsonObject.optString("msg"));
+                    }
+                }
+            });
+        });
     }
 
     @Override

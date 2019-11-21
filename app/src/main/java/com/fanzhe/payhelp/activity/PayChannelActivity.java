@@ -70,7 +70,7 @@ public class PayChannelActivity extends AppCompatActivity {
     private void initView() {
         mRvContent.setLayoutManager(new LinearLayoutManager(mContext));
         mData = new ArrayList<>();
-        mAdapter = new ChannelAdapter(mData, this, result -> search());
+        mAdapter = new ChannelAdapter(mData, this);
         mRvContent.setAdapter(mAdapter);
 
         mState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -102,7 +102,7 @@ public class PayChannelActivity extends AppCompatActivity {
     private void search(){
         mData.removeAll(mData);
         RequestParams params = new RequestParams(UrlAddress.CHANNEL_LIST);
-        if (App.getInstance().getUSER_DATA().getRole_id().equals("3")) {
+        if (!App.getInstance().getUSER_DATA().getRole_id().equals("1")) {
             params.setUri(UrlAddress.CODE_CHANNEL_LIST);
             params.addBodyParameter("uid", App.getInstance().getUSER_DATA().getUid());
         }

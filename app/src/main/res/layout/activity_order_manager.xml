@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#fff"
     android:layout_height="match_parent"
+    android:background="#fff"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -32,51 +32,51 @@
     </RelativeLayout>
 
     <EditText
-        android:drawableLeft="@mipmap/icon_search"
-        android:paddingLeft="20dp"
-        android:drawablePadding="12dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginLeft="12dp"
         android:id="@+id/id_et_name"
-        android:textSize="14sp"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/shape_input_edit"
+        android:drawableLeft="@mipmap/icon_search"
+        android:drawablePadding="12dp"
+        android:hint="请输入订单编号搜索"
+        android:paddingLeft="20dp"
+        android:singleLine="true"
         android:textColor="#101010"
         android:textColorHint="#999"
-        android:singleLine="true"
-        android:background="@drawable/shape_input_edit"
-        android:hint="请输入订单编号搜索" />
+        android:textSize="14sp" />
 
     <LinearLayout
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:gravity="center"
+        android:layout_height="40dp"
         android:layout_marginLeft="12dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="12dp"
-        android:layout_height="40dp">
+        android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textSize="14sp"
             android:text="订单时间"
-            android:textColor="#101010" />
+            android:textColor="#101010"
+            android:textSize="14sp" />
 
         <TextView
-            android:layout_marginLeft="12dp"
             android:id="@+id/id_tv_startTime"
             android:layout_width="0dp"
             android:layout_height="35dp"
+            android:layout_marginLeft="12dp"
             android:layout_weight="1"
-            android:paddingLeft="8dp"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:text="2019-12-12"
             android:background="@drawable/shape_time_text_bg"
+            android:gravity="center"
             android:inputType="time"
-            android:paddingRight="4dp" />
+            android:paddingLeft="8dp"
+            android:paddingRight="4dp"
+            android:text="2019-12-12"
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -89,16 +89,16 @@
         <TextView
             android:id="@+id/id_tv_endTime"
             android:layout_width="0dp"
-            android:textSize="12sp"
             android:layout_height="35dp"
-            android:gravity="center"
-            android:text="2019-12-12"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/shape_time_text_bg"
+            android:gravity="center"
             android:inputType="time"
-            android:paddingRight="4dp" />
+            android:paddingRight="4dp"
+            android:text="2019-12-12"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/id_search"
@@ -106,21 +106,22 @@
             android:layout_height="35dp"
             android:background="@drawable/shape_btn_bg"
             android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="14sp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="搜索"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="10dp"
         android:background="#F7F7F7"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -145,8 +146,7 @@
                 android:padding="8dp"
                 android:text="支付中"
                 android:textColor="#A0A0A0"
-                android:textSize="14sp"/>
-
+                android:textSize="14sp" />
 
 
             <TextView
@@ -158,7 +158,8 @@
                 android:padding="8dp"
                 android:text="已支付"
                 android:textColor="#A0A0A0"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/id_tab_4"
                 android:layout_width="0dp"
@@ -166,10 +167,11 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="支付失败"
+                android:text="支付超时"
                 android:textColor="#A0A0A0"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="2dp">
@@ -178,25 +180,30 @@
                 android:id="@+id/id_v_tap"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:background="#46A9F4"/>
+                android:background="#46A9F4" />
         </LinearLayout>
 
         <TextView
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="* 订单2分钟内支付有效"
-            android:textColor="#FD434B"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginRight="12dp"
             android:layout_marginLeft="12dp"
-            android:id="@+id/id_rv_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+            android:layout_marginTop="8dp"
+            android:text="* 订单2分钟内支付有效"
+            android:textColor="#FD434B" />
 
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/id_swiperefreshlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/id_rv_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

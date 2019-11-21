@@ -2,10 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#f7f7f7"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:background="#fff"
         android:layout_height="80dp"
         android:paddingTop="30dp"
         android:layout_width="match_parent">
@@ -30,10 +32,6 @@
             android:tint="#101010" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#e5e5e5" />
 
     <ScrollView
         android:scrollbars="none"
@@ -50,7 +48,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:background="@drawable/shape_edit"
+                android:background="@drawable/shape_item_bg"
                 android:orientation="vertical"
                 android:padding="16dp"
                 android:layout_width="match_parent"
@@ -59,8 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#101010"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:textSize="16sp"
                     android:text="设置:"/>
 
                 <EditText
@@ -70,20 +67,10 @@
                     android:singleLine="true"
                     android:layout_marginTop="12dp"
                     android:maxLength="8"
-                    android:background="@drawable/shape_edit"
-                    android:hint="商户名称"
-                    android:paddingLeft="10dp" />
-
-                <EditText
-                    android:id="@+id/id_et_yck"
-                    android:singleLine="true"
-                    android:inputType="number"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/shape_edit"
-                    android:hint="预存款额度"
-                    android:paddingLeft="10dp" />
+                    android:textSize="14sp"
+                    android:background="@drawable/shape_input_edit"
+                    android:hint="名称"
+                    android:paddingLeft="16dp" />
 
                 <EditText
                     android:singleLine="true"
@@ -92,27 +79,29 @@
                     android:layout_height="40dp"
                     android:inputType="textVisiblePassword"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/shape_edit"
+                    android:textSize="14sp"
+                    android:background="@drawable/shape_input_edit"
                     android:hint="登录密码"
-                    android:paddingLeft="10dp" />
+                    android:paddingLeft="16dp" />
 
 
                 <EditText
                     android:singleLine="true"
+                    android:textSize="14sp"
                     android:id="@+id/id_et_pay_password1"
                     android:inputType="textVisiblePassword"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/shape_edit"
+                    android:background="@drawable/shape_input_edit"
                     android:hint="支付密码"
-                    android:paddingLeft="10dp" />
+                    android:paddingLeft="16dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/shape_edit"
+                android:background="@drawable/shape_item_bg"
                 android:orientation="vertical"
                 android:padding="16dp"
                 android:layout_width="match_parent"
@@ -121,8 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#101010"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:textSize="16sp"
                     android:text="信息:"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -134,9 +122,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="状态"
+                        android:textSize="14sp"
                         android:textColor="#101010" />
 
                     <Switch
+                        android:checked="true"
                         android:id="@+id/id_sw_state"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -147,6 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:text="性别"
+                        android:textSize="14sp"
                         android:textColor="#101010" />
 
                     <Spinner
@@ -155,33 +146,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:entries="@array/sexArray" />
-
-                    <TextView
-                        android:visibility="gone"
-                        android:layout_marginLeft="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="费率"
-                        android:textColor="#101010" />
-
-                    <EditText
-                        android:visibility="gone"
-                        android:inputType="text"
-                        android:maxLength="2"
-                        android:id="@+id/id_rate"
-                        android:layout_marginLeft="10dp"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_edit"/>
-
-                    <TextView
-                        android:visibility="gone"
-                        android:layout_marginLeft="4dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="%"
-                        android:textColor="#101010" />
-
                 </LinearLayout>
 
                 <EditText
@@ -189,34 +153,37 @@
                     android:id="@+id/id_et_true_name"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:textSize="14sp"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/shape_edit"
+                    android:background="@drawable/shape_input_edit"
                     android:hint="姓名"
                     android:maxLength="5"
-                    android:paddingLeft="10dp" />
+                    android:paddingLeft="16dp" />
 
                 <EditText
                     android:singleLine="true"
+                    android:textSize="14sp"
                     android:id="@+id/id_et_id_card"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/shape_edit"
+                    android:background="@drawable/shape_input_edit"
                     android:hint="身份证号"
                     android:maxLength="21"
-                    android:paddingLeft="10dp" />
+                    android:paddingLeft="16dp" />
 
                 <EditText
                     android:singleLine="true"
+                    android:textSize="14sp"
                     android:id="@+id/id_et_mobile"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="12dp"
                     android:maxLength="11"
-                    android:background="@drawable/shape_edit"
+                    android:background="@drawable/shape_input_edit"
                     android:hint="手机号码"
                     android:inputType="phone"
-                    android:paddingLeft="10dp" />
+                    android:paddingLeft="16dp" />
             </LinearLayout>
 
 
@@ -228,11 +195,12 @@
         android:id="@+id/id_save"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="保存"
+        android:text="保 存"
         android:textColor="#fff"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:background="#FF9800"/>
+        android:background="#3C3949"/>
 
 
 </LinearLayout>

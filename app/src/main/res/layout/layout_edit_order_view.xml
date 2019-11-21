@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/shape_item_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e5e5e5"/>
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="#101010"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="掉单处理"/>
+    <LinearLayout
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/id_edittext"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/shape_input_edit"
+            android:layout_width="0dp"
+            android:paddingLeft="16dp"
+            android:textSize="13sp"
+            android:gravity="left|center"
+            android:layout_height="match_parent"
+            android:hint="输入入款金额"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:background="@drawable/shape_btn_bg"
+            android:textSize="12sp"
+            android:layout_marginLeft="12dp"
+            android:id="@+id/id_submit"
+            android:textColor="#fff"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="确认"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>

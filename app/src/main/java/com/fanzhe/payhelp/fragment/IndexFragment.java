@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.activity.OrderManager;
@@ -57,6 +58,9 @@ public class IndexFragment extends Fragment {
     Unbinder unbinder;
 
     Context context;
+
+    @BindView(R.id.id_swiperefreshlayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @BindView(R.id.id_rv_data_content)
     RecyclerView mRvDataContent;
@@ -257,10 +261,14 @@ public class IndexFragment extends Fragment {
 
         });
 
-
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
+        mSwipeRefreshLayout.setOnRefreshListener(() -> getData());
     }
 
     private void getData() {
+        mDataViewData.removeAll(mDataViewData);
+        mDataViewAdapter.notifyDataSetChanged();
         RequestParams params = new RequestParams(UrlAddress.INDEX_DATA);
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
         NetworkLoader.sendPost(context, params, new NetworkLoader.networkCallBack() {
@@ -296,6 +304,7 @@ public class IndexFragment extends Fragment {
                             break;
                     }
                     mDataViewAdapter.notifyDataSetChanged();
+                    mSwipeRefreshLayout.setRefreshing(false);
                 } else {
                     ToastUtils.showToast(context, "获取统计数据失败," + jsonObject.optString("msg"));
                 }

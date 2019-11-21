@@ -15,7 +15,6 @@ import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.activity.ChildChannelActivity;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
-import com.fanzhe.payhelp.iface.OnOver;
 import com.fanzhe.payhelp.model.Channel;
 import com.fanzhe.payhelp.utils.NetworkLoader;
 import com.fanzhe.payhelp.utils.ToastUtils;
@@ -40,12 +39,9 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.Holder> 
      */
     private ArrayList<Channel> data;
 
-    OnOver onOver;
-
-    public ChannelAdapter(ArrayList<Channel> data, Activity context, OnOver onOver) {
+    public ChannelAdapter(ArrayList<Channel> data, Activity context) {
         this.data = data;
         this.mContext = context;
-        this.onOver = onOver;
     }
 
     @Override
@@ -60,30 +56,27 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.Holder> 
         Channel channel = data.get(position);
         holder.name.setText(channel.getChannel_name());
         holder.state.setChecked(channel.getStatus().equals("1"));
-        holder.state.setOnClickListener(v -> {
+        holder.state.setOnCheckedChangeListener((compoundButton, b) -> {
             RequestParams params = new RequestParams(UrlAddress.CHANNEL_SWITCH_STATE);
             if (!App.getInstance().getUSER_DATA().getRole_id().equals("1")) {
                 params.setUri(UrlAddress.CODE_CHANNEL_SWITCH_STATE);
                 params.addBodyParameter("channel_id", channel.getId());
             }
             params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
-            params.addBodyParameter("status",holder.state.isChecked() ? "1" : "0");
+            params.addBodyParameter("status",b ? "1" : "0");
             params.addBodyParameter("id", channel.getId());
             NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
                 @Override
                 public void onfailure(String errorMsg) {
                     ToastUtils.showToast(mContext, "切换通道状态失败，请检查网络");
-                    holder.state.setChecked(!holder.state.isChecked());
                 }
 
                 @Override
                 public void onsuccessful(JSONObject jsonObject) {
                     if (UtilsHelper.parseResult(jsonObject)) {
                         ToastUtils.showToast(mContext, jsonObject.optString("msg"));
-                        onOver.onResult("");
                     }else{
                         ToastUtils.showToast(mContext, "切换通道状态失败，" + jsonObject.optString("msg"));
-                        holder.state.setChecked(!holder.state.isChecked());
                     }
                 }
             });

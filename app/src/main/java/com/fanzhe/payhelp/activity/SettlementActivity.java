@@ -59,7 +59,7 @@ public class SettlementActivity extends AppCompatActivity {
     @BindViews({R.id.id_tab_1, R.id.id_tab_2, R.id.id_tab_3})
     List<TextView> mTabs;
     int lastPosition;
-    String state;
+    String state = "";
 
 
     @Override
@@ -88,11 +88,11 @@ public class SettlementActivity extends AppCompatActivity {
         mAdapter = new SettlementAdapter(mData,mContext);
         mRvContent.setAdapter(mAdapter);
 
-        mStartTime.setText(UtilsHelper.parseDateLong(new Date().getTime() + "",""));
-        mEndTime.setText(UtilsHelper.parseDateLong(new Date().getTime() + "",""));
+        mStartTime.setText(UtilsHelper.parseDateLong(new Date().getTime() + "","yyyy-MM-01"));
+        mEndTime.setText(UtilsHelper.parseDateLong(new Date().getTime() + "","yyyy-MM-dd"));
 
         startAnim(0);
-        search("0");
+        search("");
 
         if (App.getInstance().getUSER_DATA().getRole_id().equals("1")) {
             findViewById(R.id.id_settlement).setVisibility(View.VISIBLE);
@@ -110,17 +110,17 @@ public class SettlementActivity extends AppCompatActivity {
                 break;
             case R.id.id_tab_2:
                 startAnim(1);
-                search("0");
+                search("1");
                 break;
             case R.id.id_tab_3:
                 startAnim(2);
-                search("1");
+                search("0");
                 break;
             case R.id.id_info:
                 Intent intent = new Intent(mContext, SettlementInfoActivity.class);
                 intent.putExtra("start_time",mStartTime.getText().toString());
                 intent.putExtra("end_time",mEndTime.getText().toString());
-                intent.putExtra("status",state);
+                intent.putExtra("status","");
                 startActivity(intent);
                 break;
             case R.id.id_settlement:
@@ -141,6 +141,7 @@ public class SettlementActivity extends AppCompatActivity {
     private void search(String state) {
         this.state = state;
         mData.removeAll(mData);
+        mAdapter.notifyDataSetChanged();
         RequestParams params = new RequestParams(UrlAddress.SETTLEMENT_LIST);
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
         params.addBodyParameter("start_time", mStartTime.getText().toString());
