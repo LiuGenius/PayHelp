@@ -102,7 +102,25 @@ public class MyCententFragment extends Fragment {
                 });
                 break;
             case R.id.id_ll_check_version:
-                ToastUtils.showToast(mContext,"当前以及是最新版本");
+                new NetworkLoader().sendGet(mContext,new RequestParams(UrlAddress.CHECK_NEW_VERSION), new NetworkLoader.networkCallBack() {
+                    @Override
+                    public void onfailure(String errorMsg) {
+                        ToastUtils.showToast(mContext, "当前已经是最新版本");
+                    }
+                    @Override
+                    public void onsuccessful(JSONObject jsonObject) {
+                        if (jsonObject.optInt("errcode") == 0) {
+                            if (jsonObject.optJSONObject("data").optBoolean("update")) {
+                                String url = jsonObject.optJSONObject("data").optString("downloadUrl");
+                                UtilsHelper.downloadUpdateApk(getActivity(), url);
+                            }else{
+                                ToastUtils.showToast(mContext, "当前已经是最新版本");
+                            }
+                        }else{
+                            ToastUtils.showToast(mContext, "当前已经是最新版本");
+                        }
+                    }
+                });
                 break;
         }
     }

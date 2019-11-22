@@ -14,6 +14,8 @@ import java.lang.reflect.Field;
 public class App extends Application {
     static App app;
 
+    private static final String app_key = "99f8bddda21812d1";
+
     public static App getInstance(){
         if (app == null) {
             app = new App();

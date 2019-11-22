@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -12,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -25,6 +28,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.FileProvider;
+
 import com.fanzhe.payhelp.iface.OnOver;
 import com.fanzhe.payhelp.iface.OnParseQrCodeImgToString;
 import com.google.zxing.BinaryBitmap;
@@ -37,6 +42,9 @@ import com.google.zxing.qrcode.QRCodeReader;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -377,5 +385,82 @@ public class UtilsHelper {
             result[i] = random;
         }
         return result;
+    }
+
+    /**
+     * 下载服务器端更新后最新的apk
+     */
+    public static void downloadUpdateApk(Activity context,String downloadUrl) {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            ProgressDialog progressDialog = new ProgressDialog(context);
+            progressDialog.setCancelable(false);
+            // mDownloadUrl为JSON从服务器端解析出来的下载地址
+            RequestParams requestParams = new RequestParams(downloadUrl);
+            // 为RequestParams设置文件下载后的保存路径
+            requestParams.setSaveFilePath(Environment.getDownloadCacheDirectory().getPath());
+            // 下载完成后自动为文件命名
+            requestParams.setAutoRename(true);
+            x.http().get(requestParams, new Callback.ProgressCallback<File>() {
+
+                @Override
+                public void onSuccess(File result) {
+                    ToastUtils.showToast(context,"下载完成");
+                    progressDialog.dismiss();
+                    installApk(context,result);
+                }
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    ToastUtils.showToast(context,"下载失败" + ex.getStackTrace());
+                    ex.printStackTrace();
+                    progressDialog.dismiss();
+                }
+
+                @Override
+                public void onCancelled(CancelledException cex) {
+                }
+
+                @Override
+                public void onFinished() {
+                }
+
+                @Override
+                public void onWaiting() {
+                }
+
+                @Override
+                public void onStarted() {
+                }
+
+                @Override
+                public void onLoading(long total, long current, boolean isDownloading) {
+                    // 当前的下载进度和文件总大小
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    progressDialog.setMessage("正在下载中......");
+                    progressDialog.show();
+                    progressDialog.setMax(((int) total / 1024 / 1024));
+                    progressDialog.setProgress(((int) current / 1024 / 1024));
+                }
+            });
+        }
+    }
+
+    /**
+     * 安装apk
+     */
+    private static void installApk(Activity activity, File newApkFile) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        String type = "application/vnd.android.package-archive";
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            uri = FileProvider.getUriForFile(activity, activity.getPackageName(), newApkFile);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            uri = Uri.fromFile(newApkFile);
+        }
+        intent.setDataAndType(uri, type);
+        activity.startActivity(intent);
     }
 }

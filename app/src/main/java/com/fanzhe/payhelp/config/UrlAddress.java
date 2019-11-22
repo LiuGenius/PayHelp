@@ -7,6 +7,10 @@ public class UrlAddress {
      */
     public static final String USER_LOGIN = Host + "/v1/admin/connect/login";
     /**
+     * 检查版本
+     */
+    public static final String CHECK_NEW_VERSION = Host + "";
+    /**
      * 通道列表
      */
     public static final String CHANNEL_LIST = Host + "/v1/pay/channel/channel-list";

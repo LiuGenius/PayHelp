@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -345,15 +346,19 @@ public class IndexFragment extends Fragment {
                 if (NoticeUtils.isWorked(context, context.getPackageName() + ".servers.HelperNotificationListenerService")) {
                     jsonObject.put("msg", "online");
                     mListeningState.setText("当前监听服务在线");
+                    mListeningState.setTextColor(Color.WHITE);
                 } else {
                     jsonObject.put("msg", "offline");
                     mListeningState.setText("当前监听服务离线");
+                    mListeningState.setTextColor(Color.RED);
                 }
                 //判断ws连接
                 if (WsClientTool.getInstance().isConnected()) {
                     mServerState.setText("当前服务器连接正常");
+                    mServerState.setTextColor(Color.WHITE);
                 }else{
                     mServerState.setText("当前服务器连接异常");
+                    mServerState.setTextColor(Color.RED);
                 }
                 mTime.setText(UtilsHelper.parseDateLong(String.valueOf(new Date().getTime()), "yyyy/MM/dd HH:mm:ss"));
                 WsClientTool.getInstance().sendText(jsonObject.toString());

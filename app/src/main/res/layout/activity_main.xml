@@ -45,7 +45,7 @@
                     android:textColor="@color/colorAccent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="首页" />
+                    android:text="首-页" />
             </LinearLayout>
             <LinearLayout
                 android:visibility="gone"
@@ -114,7 +114,7 @@
                     android:textColor="#969696"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="我的" />
+                    android:text="我-的" />
             </LinearLayout>
 
         </LinearLayout>
