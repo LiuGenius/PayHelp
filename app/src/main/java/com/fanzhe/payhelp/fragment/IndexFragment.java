@@ -168,17 +168,20 @@ public class IndexFragment extends Fragment {
 
         mMenuData = new ArrayList<>();
         mMenuData.add(new dataMenu("订单管理",R.mipmap.icon_ddgl));
-        mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
         mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
         switch (App.getInstance().getUSER_DATA().getRole_id()) {
-            case "1":
+            case "1"://平台
                 mMenuData.add(new dataMenu("用户管理",R.mipmap.icon_yhgl));
+                mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
                 break;
-            case "2":
+            case "2"://商户
                 mMenuData.add(new dataMenu("密钥管理",R.mipmap.icon_mygl));
+                mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
                 break;
-            case "3":
+            case "3"://码农
                 mMenuData.add(new dataMenu("接单状态",R.mipmap.icon_get_order));
+                mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
+                mMenuData.add(new dataMenu("充值",R.mipmap.icon_tdgl));
                 //开启监听服务
                 Intent intent = new Intent(context, HelperNotificationListenerService.class);
                 context.startService(intent);
@@ -200,6 +203,9 @@ public class IndexFragment extends Fragment {
                     }
                 }.start();
                 ToastUtils.showToast(context,"已经在后台开始接单");
+                break;
+            case "4"://码商
+                mMenuData.add(new dataMenu("码农管理",R.mipmap.icon_yhgl));
                 break;
         }
 
@@ -283,25 +289,33 @@ public class IndexFragment extends Fragment {
                 if (UtilsHelper.parseResult(jsonObject)) {
                     JSONObject object = jsonObject.optJSONObject("data");
                     switch (App.getInstance().getUSER_DATA().getRole_id()) {
-                        case "1":
+                        case "1"://平台
                             mDataViewData.add(new dataView("商户数",object.optString("mch_nums")));
                             mDataViewData.add(new dataView("码商数",object.optString("coder_nums")));
                             mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
                             mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
                             break;
-                        case "2":
+                        case "2"://商户
                             mDataViewData.add(new dataView("今日总订单数",object.optString("order_total_num")));
                             mDataViewData.add(new dataView("今日订单完成数",object.optString("complete_num")));
                             mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
                             mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
                             break;
-                        case "3":
+                        case "3"://码农
                             mDataViewData.add(new dataView("今日总订单数",object.optString("order_total_num")));
                             mDataViewData.add(new dataView("今日订单完成数",object.optString("complete_num")));
                             mDataViewData.add(new dataView("账户可用额度",object.optString("balance")));
                             mDataViewData.add(new dataView("账户冻结额度",object.optString("freeze_balance")));
                             mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
                             mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
+                            break;
+                        case "4"://码商
+                            mDataViewData.add(new dataView("今日总订单数",object.optString("order_total_num")));
+                            mDataViewData.add(new dataView("今日订单完成数",object.optString("complete_num")));
+                            mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
+                            mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
+                            // TODO: 2019-11-25 码商添加码农数字段
+                            mDataViewData.add(new dataView("码农数",object.optString("码农数")));
                             break;
                     }
                     mDataViewAdapter.notifyDataSetChanged();
