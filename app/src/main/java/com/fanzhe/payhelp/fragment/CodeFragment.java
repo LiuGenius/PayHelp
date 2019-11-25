@@ -100,7 +100,7 @@ public class CodeFragment extends Fragment {
         switch (textView.getId()) {
             case R.id.id_add:
                 Intent intent = new Intent(context, AddBusinessActivity.class);
-                intent.putExtra("tag", "addCode");
+                intent.putExtra("tag", "4");
                 startActivity(intent);
                 break;
             case R.id.id_search:

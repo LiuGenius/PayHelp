@@ -148,7 +148,7 @@ public class AddBusinessActivity extends AppCompatActivity {
         params.addBodyParameter("status",mSwState.isChecked() ? "1" : "0");
         params.addBodyParameter("sex",sex);
         params.addBodyParameter("id_card",idCard );
-        params.addBodyParameter("type",getIntent().getStringExtra("tag").equals("addBusiness") ? "2" : "3");
+        params.addBodyParameter("type",getIntent().getStringExtra("tag"));
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
         NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override

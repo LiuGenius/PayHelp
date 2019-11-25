@@ -60,7 +60,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Holder
         holder.edit.setText("编辑");
         holder.edit.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, AddBusinessActivity.class);
-            intent.putExtra("tag", "addBusiness");
+            intent.putExtra("tag", "2");
             intent.putExtra("editData", business);
             mContext.startActivity(intent);
         });

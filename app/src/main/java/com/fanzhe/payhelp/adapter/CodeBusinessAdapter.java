@@ -72,7 +72,7 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
 
         holder.edit.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, AddBusinessActivity.class);
-            intent.putExtra("tag", "addCode");
+            intent.putExtra("tag", "4");
             intent.putExtra("editData", codeBusiness);
             mContext.startActivity(intent);
         });

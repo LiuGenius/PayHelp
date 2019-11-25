@@ -100,7 +100,7 @@ public class BusinessFragment extends Fragment {
         switch (textView.getId()) {
             case R.id.id_add:
                 Intent intent = new Intent(context, AddBusinessActivity.class);
-                intent.putExtra("tag", "addBusiness");
+                intent.putExtra("tag", "2");
                 startActivity(intent);
                 break;
             case R.id.id_search:
