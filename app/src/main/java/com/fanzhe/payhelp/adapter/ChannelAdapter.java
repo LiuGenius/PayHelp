@@ -56,14 +56,14 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.Holder> 
         Channel channel = data.get(position);
         holder.name.setText(channel.getChannel_name());
         holder.state.setChecked(channel.getStatus().equals("1"));
-        holder.state.setOnCheckedChangeListener((compoundButton, b) -> {
+        holder.state.setOnClickListener(view -> {
             RequestParams params = new RequestParams(UrlAddress.CHANNEL_SWITCH_STATE);
             if (!App.getInstance().getUSER_DATA().getRole_id().equals("1")) {
                 params.setUri(UrlAddress.CODE_CHANNEL_SWITCH_STATE);
                 params.addBodyParameter("channel_id", channel.getId());
             }
             params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
-            params.addBodyParameter("status",b ? "1" : "0");
+            params.addBodyParameter("status",channel.getStatus().equals("1") ? "0" : "1");
             params.addBodyParameter("id", channel.getId());
             NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
                 @Override

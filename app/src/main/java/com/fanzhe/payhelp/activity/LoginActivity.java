@@ -1,6 +1,7 @@
 package com.fanzhe.payhelp.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.config.App;
@@ -28,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends Activity {
 
     @BindView(R.id.id_et_userName)
     EditText mUserName;
@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);//remove title bar  即隐藏标题栏
-        getSupportActionBar().hide();// 隐藏ActionBar
+//        getSupportActionBar().hide();// 隐藏ActionBar
 //        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         setContentView(R.layout.activity_login);
 

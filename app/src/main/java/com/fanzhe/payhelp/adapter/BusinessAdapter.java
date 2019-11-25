@@ -109,10 +109,10 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Holder
             intent.putExtra("name",business.getUser_name());
             mContext.startActivity(intent);
         });
-        holder.state.setOnCheckedChangeListener((compoundButton, b) -> {
+        holder.state.setOnClickListener(view -> {
             RequestParams params = new RequestParams(UrlAddress.USER_SWITCH_STATUS);
             params.addBodyParameter("auth_key",App.getInstance().getUSER_DATA().getAuth_key());
-            params.addBodyParameter("status",b ? "1":"0");//1:启用 2禁用
+            params.addBodyParameter("status",business.getStatus().equals("1") ? "0":"1");//1:启用 2禁用
             params.addBodyParameter("uid",business.getId());
             NetworkLoader.sendPost(mContext, params, new NetworkLoader.networkCallBack() {
                 @Override

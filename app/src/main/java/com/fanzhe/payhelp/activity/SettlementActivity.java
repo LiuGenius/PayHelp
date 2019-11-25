@@ -30,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -158,7 +159,7 @@ public class SettlementActivity extends AppCompatActivity {
                 if (UtilsHelper.parseResult(jsonObject)) {
                     JSONObject object = jsonObject.optJSONObject("data");
                     String order_total = object.optString("order_total");
-                    mTotal.setText("平台获得: " + order_total + " 元");
+                    mTotal.setText("平台获得: " + new DecimalFormat("#.##").format(Double.parseDouble(order_total)) + " 元");
                     JSONArray jsonArray = object.optJSONArray("list");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         mData.add(new Settlement(jsonArray.optJSONObject(i)));

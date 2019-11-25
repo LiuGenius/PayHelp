@@ -111,6 +111,7 @@ public class CodeFragment extends Fragment {
 
     private void search(){
         mData.removeAll(mData);
+        mAdapter.notifyDataSetChanged();
         RequestParams params = new RequestParams(UrlAddress.USER_LIST);
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
         params.addBodyParameter("status",status + "");

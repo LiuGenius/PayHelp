@@ -142,11 +142,11 @@ public class AddBusinessActivity extends AppCompatActivity {
             params.addBodyParameter("paypass",payPwd);
         }
 //        params.addBodyParameter("pre_deposit",mEtYck.getText().toString());
-        params.addBodyParameter("user_name",userName );
-        params.addBodyParameter("mobile",mobile );
-        params.addBodyParameter("true_name",trueName );
+        params.addBodyParameter("user_name",userName);
+        params.addBodyParameter("mobile",mobile);
+        params.addBodyParameter("true_name",trueName);
         params.addBodyParameter("status",mSwState.isChecked() ? "1" : "0");
-        params.addBodyParameter("sex",sex );
+        params.addBodyParameter("sex",sex);
         params.addBodyParameter("id_card",idCard );
         params.addBodyParameter("type",getIntent().getStringExtra("tag").equals("addBusiness") ? "2" : "3");
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
