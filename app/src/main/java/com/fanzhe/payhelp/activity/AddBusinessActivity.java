@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +33,9 @@ public class AddBusinessActivity extends AppCompatActivity {
 
     Context mContext;
 
+    @BindView(R.id.id_tv_title)
+    TextView mTitle;
+
     @BindView(R.id.id_et_user_name)
     EditText mEtUserName;//用户名
     @BindView(R.id.id_et_login_password1)
@@ -50,7 +55,13 @@ public class AddBusinessActivity extends AppCompatActivity {
 
     String sex;
 
+    @BindView(R.id.id_ll_special)
+    LinearLayout mLlSpecial;
+    @BindView(R.id.id_sw_special)
+    Switch mSpecial;
+
     CodeBusiness mEditData;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +82,21 @@ public class AddBusinessActivity extends AppCompatActivity {
     private void initView() {
         mEditData = getIntent().getParcelableExtra("editData");
 
+
+        switch (getIntent().getStringExtra("tag")) {
+            case "2":
+                mTitle.setText("添加/编辑商户");
+                mLlSpecial.setVisibility(View.VISIBLE);
+                break;
+            case "3":
+                mTitle.setText("添加/编辑码农");
+                mLlSpecial.setVisibility(View.VISIBLE);
+                break;
+            case "4":
+                mTitle.setText("添加/编辑码商");
+                break;
+        }
+
         if (mEditData != null) {
             mEtUserName.setText(mEditData.getUser_name());
             mEtTrueName.setText(mEditData.getTrue_name());
@@ -85,16 +111,17 @@ public class AddBusinessActivity extends AppCompatActivity {
         mSpSex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                sex = (position == 0) ? "男":"女";
+                sex = (position == 0) ? "男" : "女";
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
     }
 
-    @OnClick({R.id.id_back,R.id.id_save})
-    public void clickView(View view){
+    @OnClick({R.id.id_back, R.id.id_save})
+    public void clickView(View view) {
         switch (view.getId()) {
             case R.id.id_back:
                 finish();
@@ -105,7 +132,7 @@ public class AddBusinessActivity extends AppCompatActivity {
         }
     }
 
-    private void save(){
+    private void save() {
         String userName = mEtUserName.getText().toString();
         String loginPwd = mEtLoginPwd.getText().toString();
         String payPwd = mEtPayPwd.getText().toString();
@@ -114,22 +141,21 @@ public class AddBusinessActivity extends AppCompatActivity {
         String mobile = mEtMobile.getText().toString();
 
 
-
-        if(mEditData != null){
-            if (UtilsHelper.parseEditTextContent(mEtUserName,"用户名不能为空",mContext) ||
-                    UtilsHelper.parseEditTextContent(mEtTrueName,"姓名不能为空",mContext) ||
-                    UtilsHelper.parseEditTextContent(mEtMobile,"手机号码不能为空",mContext) ||
-                    UtilsHelper.parseEditTextContent(mEtIdCard,"证件号码号码不能为空",mContext)) {
+        if (mEditData != null) {
+            if (UtilsHelper.parseEditTextContent(mEtUserName, "用户名不能为空", mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtTrueName, "姓名不能为空", mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtMobile, "手机号码不能为空", mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtIdCard, "证件号码号码不能为空", mContext)) {
                 return;
             }
-        }else{
-            if (UtilsHelper.parseEditTextContent(mEtUserName,"用户名不能为空",mContext) ||
-                    UtilsHelper.parseEditTextContent(mEtLoginPwd,"登录密码不能为空",mContext) ||
-                    UtilsHelper.parseEditTextContent(mEtPayPwd,"支付密码不能为空",mContext) ||
-                    UtilsHelper.parseEditTextContent(mEtTrueName,"姓名不能为空",mContext) ||
-                    UtilsHelper.parseEditTextContent(mEtMobile,"手机号码不能为空",mContext) ||
+        } else {
+            if (UtilsHelper.parseEditTextContent(mEtUserName, "用户名不能为空", mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtLoginPwd, "登录密码不能为空", mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtPayPwd, "支付密码不能为空", mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtTrueName, "姓名不能为空", mContext) ||
+                    UtilsHelper.parseEditTextContent(mEtMobile, "手机号码不能为空", mContext) ||
 //                    UtilsHelper.parseEditTextContent(mEtRate,"费率不能为空",mContext) ||
-                    UtilsHelper.parseEditTextContent(mEtIdCard,"证件号码号码不能为空",mContext)) {
+                    UtilsHelper.parseEditTextContent(mEtIdCard, "证件号码号码不能为空", mContext)) {
                 return;
             }
         }
@@ -137,32 +163,33 @@ public class AddBusinessActivity extends AppCompatActivity {
         RequestParams params = new RequestParams(UrlAddress.USER_EDIT_ADD);
         if (mEditData != null) {
             params.addBodyParameter("id", mEditData.getId());
-        }else{
-            params.addBodyParameter("password",loginPwd);
-            params.addBodyParameter("paypass",payPwd);
+        } else {
+            params.addBodyParameter("password", loginPwd);
+            params.addBodyParameter("paypass", payPwd);
         }
 //        params.addBodyParameter("pre_deposit",mEtYck.getText().toString());
-        params.addBodyParameter("user_name",userName);
-        params.addBodyParameter("mobile",mobile);
-        params.addBodyParameter("true_name",trueName);
-        params.addBodyParameter("status",mSwState.isChecked() ? "1" : "0");
-        params.addBodyParameter("sex",sex);
-        params.addBodyParameter("id_card",idCard );
-        params.addBodyParameter("type",getIntent().getStringExtra("tag"));
+        params.addBodyParameter("user_name", userName);
+        params.addBodyParameter("mobile", mobile);
+        params.addBodyParameter("true_name", trueName);
+        params.addBodyParameter("status", mSwState.isChecked() ? "1" : "0");
+        params.addBodyParameter("sex", sex);
+        params.addBodyParameter("id_card", idCard);
+        params.addBodyParameter("type", getIntent().getStringExtra("tag"));
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
-        NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
+        params.addBodyParameter("is_special", mSpecial.isChecked() ? "1" : "0");
+        NetworkLoader.sendPost(mContext, params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
-                ToastUtils.showToast(mContext,"添加用户失败，请检查您的网络");
+                ToastUtils.showToast(mContext, "添加用户失败，请检查您的网络");
             }
 
             @Override
             public void onsuccessful(JSONObject jsonObject) {
                 if (UtilsHelper.parseResult(jsonObject)) {
-                    ToastUtils.showToast(mContext,"保存成功");
+                    ToastUtils.showToast(mContext, "保存成功,请刷新查看");
                     finish();
-                }else{
-                    ToastUtils.showToast(mContext,"添加用户失败，" + jsonObject.optString("msg"));
+                } else {
+                    ToastUtils.showToast(mContext, "添加用户失败，" + jsonObject.optString("msg"));
                 }
             }
         });

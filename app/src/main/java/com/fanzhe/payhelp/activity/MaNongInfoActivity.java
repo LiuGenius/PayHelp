@@ -1,12 +1,11 @@
 package com.fanzhe.payhelp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fanzhe.payhelp.R;
-import com.fanzhe.payhelp.adapter.Org_CodeChannelAdapter;
+import com.fanzhe.payhelp.adapter.AcmenAdapter;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
-import com.fanzhe.payhelp.model.Channel;
+import com.fanzhe.payhelp.model.CodeBusiness;
 import com.fanzhe.payhelp.utils.NetworkLoader;
 import com.fanzhe.payhelp.utils.ToastUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
@@ -33,21 +32,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CodePayChannelActivity extends AppCompatActivity {
-    @BindView(R.id.id_et_name)
-    EditText mName;
+public class MaNongInfoActivity extends AppCompatActivity {
     @BindView(R.id.id_rv_content)
     RecyclerView mRvContent;
-    @BindView(R.id.id_sp_state)
-    Spinner mState;
-
     Context mContext;
 
-    ArrayList<Channel> mData;
+    ArrayList<CodeBusiness> mData;
 
-    Org_CodeChannelAdapter mAdapter;
+    AcmenAdapter mAdapter;
 
-    int status = -1;
+    @BindView(R.id.id_tv_title)
+    TextView mTitle;
+
+    @BindView(R.id.id_add)
+    TextView mAdd;
+
     @BindView(R.id.id_swiperefreshlayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -65,59 +64,71 @@ public class CodePayChannelActivity extends AppCompatActivity {
 
         mContext = this;
 
-        initView();
-    }
+        switch (getIntent().getStringExtra("tag")){
+            case "1":
+                mTitle.setText("平台-商户码农");
+                mAdd.setVisibility(View.VISIBLE);
+                break;
+            case "2":
+                mTitle.setText("平台-码商码农");
+                break;
+        }
 
-    private void initView() {
-        mRvContent.setLayoutManager(new LinearLayoutManager(mContext));
-        mData = new ArrayList<>();
-        mAdapter = new Org_CodeChannelAdapter(mData, mContext);
-        mRvContent.setAdapter(mAdapter);
+        findViewById(R.id.id_search_view).setVisibility(View.GONE);
+        findViewById(R.id.id_ll_state_view).setVisibility(View.GONE);
 
-        mState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                status = position - 1;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             search();
         });
 
+        initView();
+    }
+
+    private void initView() {
+        mRvContent.setLayoutManager(new LinearLayoutManager(mContext));
+        mData = new ArrayList<>();
+        mAdapter = new AcmenAdapter(mData, this);
+        mRvContent.setAdapter(mAdapter);
+
         search();
     }
 
-    @OnClick({R.id.id_back,R.id.id_search})
+    @OnClick({R.id.id_back,R.id.id_add})
     public void clickView(View view){
         switch (view.getId()) {
             case R.id.id_back:
                 finish();
                 break;
-            case R.id.id_search:
-                search();
+            case R.id.id_add:
+                Intent intent = new Intent(mContext,MaNongListActivity.class);
+                intent.putExtra("mch_id",getIntent().getStringExtra("mch_id"));
+                startActivityForResult(intent,1);
                 break;
         }
     }
 
     private void search(){
         mData.removeAll(mData);
-        RequestParams params = new RequestParams(UrlAddress.ORG_CODE_CHANNEL_LIST);
-        params.addBodyParameter("uid", getIntent().getStringExtra("uid"));
+        RequestParams params = new RequestParams();
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
-        params.addBodyParameter("status",status + "");
-        params.addBodyParameter("channel_name", mName.getText().toString());
+        switch (getIntent().getStringExtra("tag")){
+            case "1":
+                params.setUri(UrlAddress.ORG_LOOK_MCH_MA_NONG);
+                params.addBodyParameter("mch_id",getIntent().getStringExtra("mch_id"));
+                break;
+            case "2":
+                params.setUri(UrlAddress.USER_LIST);
+                params.addBodyParameter("coder_id",getIntent().getStringExtra("coder_id"));
+                params.addBodyParameter("type","5");
+                break;
+        }
         NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                ToastUtils.showToast(mContext, "获取通道列表失败，请检查网络");
+                ToastUtils.showToast(mContext, "获取码农列表失败，请检查网络");
             }
 
             @Override
@@ -126,13 +137,21 @@ public class CodePayChannelActivity extends AppCompatActivity {
                 if (UtilsHelper.parseResult(jsonObject)) {
                     JSONArray dataArray = jsonObject.optJSONArray("data");
                     for (int i = 0; i < dataArray.length(); i++) {
-                        mData.add(new Channel(dataArray.optJSONObject(i)));
+                        mData.add(new CodeBusiness(dataArray.optJSONObject(i)));
                     }
                     mAdapter.notifyDataSetChanged();
                 }else{
-                    ToastUtils.showToast(mContext, "获取通道列表失败，" + jsonObject.optString("msg"));
+                    ToastUtils.showToast(mContext, "获取码农列表失败，" + jsonObject.optString("msg"));
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            search();
+        }
     }
 }

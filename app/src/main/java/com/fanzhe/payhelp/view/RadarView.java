@@ -104,7 +104,6 @@ public class RadarView extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        // TODO Auto-generated method stub
         setMeasuredDimension(viewSize, viewSize);
     }
 
@@ -125,7 +124,6 @@ public class RadarView extends FrameLayout {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // TODO Auto-generated method stub
         canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 2, mPaintCircle);
 
         canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 16 * 8, mPaintLine);
@@ -193,13 +191,11 @@ public class RadarView extends FrameLayout {
         private RadarView view;
 
         public ScanThread(RadarView view) {
-            // TODO Auto-generated constructor stub
             this.view = view;
         }
 
         @Override
         public void run() {
-            // TODO Auto-generated method stub
             while (threadRunning) {
                 if (isstart) {
                     view.post(() -> {

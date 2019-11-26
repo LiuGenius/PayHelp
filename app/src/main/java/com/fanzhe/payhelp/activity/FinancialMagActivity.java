@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.utils.UtilsHelper;
@@ -27,6 +28,8 @@ public class FinancialMagActivity extends AppCompatActivity {
     TextView mTitle;
 
     Context mContext;
+    @BindView(R.id.id_swiperefreshlayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,11 @@ public class FinancialMagActivity extends AppCompatActivity {
         findViewById(R.id.id_ll_state_view).setVisibility(View.GONE);
         findViewById(R.id.id_ll_t_view).setVisibility(View.VISIBLE);
         mTitle.setText("财务管理");
+
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+        });
     }
 
     @OnClick(R.id.id_back)

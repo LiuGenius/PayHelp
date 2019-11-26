@@ -61,6 +61,9 @@ public class MyCententFragment extends Fragment {
                 mRole.setText("我的角色 : " + App.getInstance().getUSER_DATA().getUser_name() + "  (商户)");
                 break;
             case "3":
+                mRole.setText("我的角色 : " + App.getInstance().getUSER_DATA().getUser_name() + "  (码农)");
+                break;
+            case "4":
                 mRole.setText("我的角色 : " + App.getInstance().getUSER_DATA().getUser_name() + "  (码商)");
                 break;
         }

@@ -57,6 +57,10 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".activity.SettlementInfoActivity" />
         <activity android:name=".activity.CodePayChannelActivity" />
+        <activity android:name=".activity.MaNongManagerActivity" />
+        <activity android:name=".activity.RechargeActivity" />
+        <activity android:name=".activity.MaNongInfoActivity" />
+        <activity android:name=".activity.MaNongListActivity" />
 
 
 

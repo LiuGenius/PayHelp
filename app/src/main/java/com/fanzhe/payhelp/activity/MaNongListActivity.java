@@ -1,12 +1,11 @@
 package com.fanzhe.payhelp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,13 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fanzhe.payhelp.R;
-import com.fanzhe.payhelp.adapter.Org_CodeChannelAdapter;
+import com.fanzhe.payhelp.adapter.AcmenAdapter;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
-import com.fanzhe.payhelp.model.Channel;
+import com.fanzhe.payhelp.model.CodeBusiness;
 import com.fanzhe.payhelp.utils.NetworkLoader;
 import com.fanzhe.payhelp.utils.ToastUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
+import com.fanzhe.payhelp.view.RecyclerViewClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,21 +33,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CodePayChannelActivity extends AppCompatActivity {
-    @BindView(R.id.id_et_name)
-    EditText mName;
+public class MaNongListActivity extends AppCompatActivity {
     @BindView(R.id.id_rv_content)
     RecyclerView mRvContent;
-    @BindView(R.id.id_sp_state)
-    Spinner mState;
-
     Context mContext;
 
-    ArrayList<Channel> mData;
+    ArrayList<CodeBusiness> mData;
 
-    Org_CodeChannelAdapter mAdapter;
+    AcmenAdapter mAdapter;
 
-    int status = -1;
+    @BindView(R.id.id_tv_title)
+    TextView mTitle;
+
+    @BindView(R.id.id_add)
+    TextView mAdd;
+
     @BindView(R.id.id_swiperefreshlayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -65,26 +65,44 @@ public class CodePayChannelActivity extends AppCompatActivity {
 
         mContext = this;
 
+        mTitle.setText("单击码农建立对应关系");
+        findViewById(R.id.id_search_view).setVisibility(View.GONE);
+        findViewById(R.id.id_ll_state_view).setVisibility(View.GONE);
+        mAdd.setVisibility(View.GONE);
+
         initView();
     }
 
     private void initView() {
         mRvContent.setLayoutManager(new LinearLayoutManager(mContext));
         mData = new ArrayList<>();
-        mAdapter = new Org_CodeChannelAdapter(mData, mContext);
+        mAdapter = new AcmenAdapter(mData, this);
         mRvContent.setAdapter(mAdapter);
 
-        mState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                status = position - 1;
-            }
+        mRvContent.addOnItemTouchListener(new RecyclerViewClickListener(mContext, mRvContent, (view, position) -> {
+            RequestParams params = new RequestParams(UrlAddress.ORG_BIND_ACMEN);
+            params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
+            params.addBodyParameter("mch_id",getIntent().getStringExtra("mch_id"));
+            params.addBodyParameter("acmen_id",mData.get(position).getId());
+            NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
+                @Override
+                public void onfailure(String errorMsg) {
+                    ToastUtils.showToast(mContext, "操作失败，请检查网络");
+                }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                @Override
+                public void onsuccessful(JSONObject jsonObject) {
+                    if (UtilsHelper.parseResult(jsonObject)) {
+                        ToastUtils.showToast(mContext, "操作成功");
+                        setResult(RESULT_OK);
+                        finish();
+                    }else{
+                        ToastUtils.showToast(mContext, "操作失败，" + jsonObject.optString("msg"));
+                    }
+                }
+            });
+        }));
 
-            }
-        });
         mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
@@ -94,30 +112,25 @@ public class CodePayChannelActivity extends AppCompatActivity {
         search();
     }
 
-    @OnClick({R.id.id_back,R.id.id_search})
+    @OnClick({R.id.id_back,R.id.id_add})
     public void clickView(View view){
         switch (view.getId()) {
             case R.id.id_back:
                 finish();
-                break;
-            case R.id.id_search:
-                search();
                 break;
         }
     }
 
     private void search(){
         mData.removeAll(mData);
-        RequestParams params = new RequestParams(UrlAddress.ORG_CODE_CHANNEL_LIST);
-        params.addBodyParameter("uid", getIntent().getStringExtra("uid"));
+        RequestParams params = new RequestParams(UrlAddress.USER_LIST);
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
-        params.addBodyParameter("status",status + "");
-        params.addBodyParameter("channel_name", mName.getText().toString());
+        params.addBodyParameter("type","4");
         NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                ToastUtils.showToast(mContext, "获取通道列表失败，请检查网络");
+                ToastUtils.showToast(mContext, "获取码农列表失败，请检查网络");
             }
 
             @Override
@@ -126,13 +139,21 @@ public class CodePayChannelActivity extends AppCompatActivity {
                 if (UtilsHelper.parseResult(jsonObject)) {
                     JSONArray dataArray = jsonObject.optJSONArray("data");
                     for (int i = 0; i < dataArray.length(); i++) {
-                        mData.add(new Channel(dataArray.optJSONObject(i)));
+                        mData.add(new CodeBusiness(dataArray.optJSONObject(i)));
                     }
                     mAdapter.notifyDataSetChanged();
                 }else{
-                    ToastUtils.showToast(mContext, "获取通道列表失败，" + jsonObject.optString("msg"));
+                    ToastUtils.showToast(mContext, "获取码农列表失败，" + jsonObject.optString("msg"));
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            search();
+        }
     }
 }

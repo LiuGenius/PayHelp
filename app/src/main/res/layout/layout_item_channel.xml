@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:text="状态: "
                 android:textColor="#0D0D0D"
-                android:textSize="16sp"/>
+                android:textSize="14sp"/>
 
             <Switch
                 android:checked="true"
@@ -57,6 +57,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="费率设置"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textSize="12sp"
+                android:paddingTop="8dp"
+                android:textColor="#fff"
+                android:background="@drawable/shape_btn_bg"
+                android:paddingBottom="8dp"/>
+            <TextView
+                android:visibility="gone"
+                android:layout_marginLeft="12dp"
+                android:id="@+id/id_agriculture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看码农"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="12sp"

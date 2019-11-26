@@ -24,8 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fanzhe.payhelp.R;
+import com.fanzhe.payhelp.activity.MaNongManagerActivity;
 import com.fanzhe.payhelp.activity.OrderManager;
 import com.fanzhe.payhelp.activity.PayChannelActivity;
+import com.fanzhe.payhelp.activity.RechargeActivity;
 import com.fanzhe.payhelp.activity.SettlementActivity;
 import com.fanzhe.payhelp.activity.UserManagerActivity;
 import com.fanzhe.payhelp.adapter.IndexDataShowAdapter;
@@ -214,6 +216,12 @@ public class IndexFragment extends Fragment {
         mRvMenuContent.setAdapter(mMenuAdapter);
         mRvMenuContent.addOnItemTouchListener(new RecyclerViewClickListener(context, mRvMenuContent, (view, position) -> {
             switch (mMenuData.get(position).getMenuName()) {
+                case "充值":
+                    startActivity(new Intent(context, RechargeActivity.class));
+                    break;
+                case "码农管理":
+                    startActivity(new Intent(context, MaNongManagerActivity.class));
+                    break;
                 case "接单状态":
                     startServer();
                     break;
@@ -314,8 +322,7 @@ public class IndexFragment extends Fragment {
                             mDataViewData.add(new dataView("今日订单完成数",object.optString("complete_num")));
                             mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
                             mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
-                            // TODO: 2019-11-25 码商添加码农数字段
-                            mDataViewData.add(new dataView("码农数",object.optString("码农数")));
+                            mDataViewData.add(new dataView("码农数",object.optString("acmen")));
                             break;
                     }
                     mDataViewAdapter.notifyDataSetChanged();

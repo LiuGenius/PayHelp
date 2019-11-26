@@ -1,12 +1,14 @@
 package com.fanzhe.payhelp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,10 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fanzhe.payhelp.R;
-import com.fanzhe.payhelp.adapter.Org_CodeChannelAdapter;
+import com.fanzhe.payhelp.adapter.MaNongAdapter;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
-import com.fanzhe.payhelp.model.Channel;
+import com.fanzhe.payhelp.model.CodeBusiness;
 import com.fanzhe.payhelp.utils.NetworkLoader;
 import com.fanzhe.payhelp.utils.ToastUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
@@ -33,9 +35,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CodePayChannelActivity extends AppCompatActivity {
+public class MaNongManagerActivity extends AppCompatActivity {
     @BindView(R.id.id_et_name)
-    EditText mName;
+    EditText mEtName;
     @BindView(R.id.id_rv_content)
     RecyclerView mRvContent;
     @BindView(R.id.id_sp_state)
@@ -43,11 +45,18 @@ public class CodePayChannelActivity extends AppCompatActivity {
 
     Context mContext;
 
-    ArrayList<Channel> mData;
+    ArrayList<CodeBusiness> mData;
 
-    Org_CodeChannelAdapter mAdapter;
+    MaNongAdapter mAdapter;
 
     int status = -1;
+
+    @BindView(R.id.id_tv_title)
+    TextView mTitle;
+
+    @BindView(R.id.id_add)
+    TextView mAdd;
+
     @BindView(R.id.id_swiperefreshlayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -65,13 +74,17 @@ public class CodePayChannelActivity extends AppCompatActivity {
 
         mContext = this;
 
+        mTitle.setText("码农管理");
+
+        mAdd.setVisibility(View.VISIBLE);
+
         initView();
     }
 
     private void initView() {
         mRvContent.setLayoutManager(new LinearLayoutManager(mContext));
         mData = new ArrayList<>();
-        mAdapter = new Org_CodeChannelAdapter(mData, mContext);
+        mAdapter = new MaNongAdapter(mData, this);
         mRvContent.setAdapter(mAdapter);
 
         mState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -90,11 +103,10 @@ public class CodePayChannelActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             search();
         });
-
         search();
     }
 
-    @OnClick({R.id.id_back,R.id.id_search})
+    @OnClick({R.id.id_back,R.id.id_search,R.id.id_add})
     public void clickView(View view){
         switch (view.getId()) {
             case R.id.id_back:
@@ -103,16 +115,21 @@ public class CodePayChannelActivity extends AppCompatActivity {
             case R.id.id_search:
                 search();
                 break;
+            case R.id.id_add:
+                Intent intent = new Intent(mContext, AddBusinessActivity.class);
+                intent.putExtra("tag", "3");
+                startActivity(intent);
+                break;
         }
     }
 
     private void search(){
         mData.removeAll(mData);
-        RequestParams params = new RequestParams(UrlAddress.ORG_CODE_CHANNEL_LIST);
-        params.addBodyParameter("uid", getIntent().getStringExtra("uid"));
+        RequestParams params = new RequestParams(UrlAddress.USER_LIST);
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
         params.addBodyParameter("status",status + "");
-        params.addBodyParameter("channel_name", mName.getText().toString());
+        params.addBodyParameter("user_name", mEtName.getText().toString());
+        params.addBodyParameter("type", "6");
         NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
@@ -126,7 +143,7 @@ public class CodePayChannelActivity extends AppCompatActivity {
                 if (UtilsHelper.parseResult(jsonObject)) {
                     JSONArray dataArray = jsonObject.optJSONArray("data");
                     for (int i = 0; i < dataArray.length(); i++) {
-                        mData.add(new Channel(dataArray.optJSONObject(i)));
+                        mData.add(new CodeBusiness(dataArray.optJSONObject(i)));
                     }
                     mAdapter.notifyDataSetChanged();
                 }else{
@@ -134,5 +151,13 @@ public class CodePayChannelActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            search();
+        }
     }
 }
