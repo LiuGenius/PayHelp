@@ -58,7 +58,7 @@ public class RechargeActivity extends AppCompatActivity {
         });
         mRgPayType.setOnCheckedChangeListener((radioGroup, i) -> {
             RadioButton rb = findViewById(radioGroup.getCheckedRadioButtonId());
-            payType = rb.getText().toString().equals("微信") ? "微信" : "支付宝";
+            payType = rb.getText().toString().equals("微信") ? "wechat" : "alipay";
         });
     }
 

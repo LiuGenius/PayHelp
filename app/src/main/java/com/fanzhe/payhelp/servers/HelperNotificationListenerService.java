@@ -10,8 +10,6 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-
-import com.fanzhe.payhelp.activity.MainActivity;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.model.PayInfo;
 import com.fanzhe.payhelp.utils.L;
@@ -138,8 +136,14 @@ public class HelperNotificationListenerService extends NotificationListenerServi
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        L.d("监听服务 ==== onCreate");
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        L.d("onDestroy");
+        L.d("监听服务 ==== onDestroy");
     }
 }

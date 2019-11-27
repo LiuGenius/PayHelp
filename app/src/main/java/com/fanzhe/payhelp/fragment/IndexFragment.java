@@ -372,6 +372,10 @@ public class IndexFragment extends Fragment {
                     jsonObject.put("msg", "offline");
                     mListeningState.setText("当前监听服务离线");
                     mListeningState.setTextColor(Color.RED);
+
+                    //开启监听服务
+//                    Intent intent = new Intent(context, HelperNotificationListenerService.class);
+//                    context.startService(intent);
                 }
                 //判断ws连接
                 if (WsClientTool.getInstance().isConnected()) {
@@ -381,7 +385,8 @@ public class IndexFragment extends Fragment {
                     mServerState.setText("当前服务器连接异常");
                     mServerState.setTextColor(Color.RED);
                 }
-                mTime.setText(UtilsHelper.parseDateLong(String.valueOf(new Date().getTime()), "yyyy/MM/dd HH:mm:ss"));
+                String time = UtilsHelper.parseDateLong(String.valueOf(new Date().getTime()), "yyyy/MM/dd HH:mm:ss");
+                mTime.setText(time);
                 WsClientTool.getInstance().sendText(jsonObject.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
