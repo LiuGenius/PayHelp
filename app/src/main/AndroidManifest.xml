@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
 
     <application
@@ -64,6 +65,16 @@
 
 
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.fanzhe.payhelp.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <activity
             android:name="com.yanzhenjie.album.AlbumActivity"

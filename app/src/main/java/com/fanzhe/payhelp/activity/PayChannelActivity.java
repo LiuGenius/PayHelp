@@ -108,6 +108,7 @@ public class PayChannelActivity extends AppCompatActivity {
 
     private void search(){
         mData.removeAll(mData);
+        mAdapter.notifyDataSetChanged();
         RequestParams params = new RequestParams(UrlAddress.CHANNEL_LIST);
         if (!App.getInstance().getUSER_DATA().getRole_id().equals("1")) {
             params.setUri(UrlAddress.CODE_CHANNEL_LIST);

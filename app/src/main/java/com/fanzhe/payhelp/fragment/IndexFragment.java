@@ -169,18 +169,23 @@ public class IndexFragment extends Fragment {
         mRvDataContent.setAdapter(mDataViewAdapter);
 
         mMenuData = new ArrayList<>();
-        mMenuData.add(new dataMenu("订单管理",R.mipmap.icon_ddgl));
-        mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
+
         switch (App.getInstance().getUSER_DATA().getRole_id()) {
             case "1"://平台
+                mMenuData.add(new dataMenu("订单管理",R.mipmap.icon_ddgl));
+                mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
                 mMenuData.add(new dataMenu("用户管理",R.mipmap.icon_yhgl));
                 mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
                 break;
             case "2"://商户
+                mMenuData.add(new dataMenu("订单管理",R.mipmap.icon_ddgl));
+                mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
                 mMenuData.add(new dataMenu("密钥管理",R.mipmap.icon_mygl));
                 mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
                 break;
             case "3"://码农
+                mMenuData.add(new dataMenu("订单管理",R.mipmap.icon_ddgl));
+                mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
                 mMenuData.add(new dataMenu("接单状态",R.mipmap.icon_get_order));
                 mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
                 mMenuData.add(new dataMenu("充值",R.mipmap.icon_tdgl));
@@ -207,6 +212,7 @@ public class IndexFragment extends Fragment {
                 ToastUtils.showToast(context,"已经在后台开始接单");
                 break;
             case "4"://码商
+                mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
                 mMenuData.add(new dataMenu("码农管理",R.mipmap.icon_yhgl));
                 break;
         }
@@ -244,6 +250,7 @@ public class IndexFragment extends Fragment {
                     Window window = dialog.getWindow();
                     EditText editText = window.findViewById(R.id.id_edittext);
                     EditText et_key = window.findViewById(R.id.id_tv_key);
+                    TextView mch_id = window.findViewById(R.id.id_mch_id);
                     editText.setText("");
                     TextView submit = window.findViewById(R.id.id_submit);
                     submit.setOnClickListener(v -> {
@@ -261,6 +268,7 @@ public class IndexFragment extends Fragment {
                             public void onsuccessful(JSONObject jsonObject) {
                                 if (UtilsHelper.parseResult(jsonObject)) {
                                     String key = jsonObject.optJSONObject("data").optString("secret_key");
+                                    mch_id.setText("商户号:" + jsonObject.optJSONObject("data").optString("mch_id"));
                                     et_key.setText(key);
                                 } else {
                                     ToastUtils.showToast(context, "查看密钥失败," + jsonObject.optString("msg"));
@@ -290,10 +298,12 @@ public class IndexFragment extends Fragment {
             @Override
             public void onfailure(String errorMsg) {
                 ToastUtils.showToast(context, "获取统计数据失败,请检查网络");
+                mSwipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onsuccessful(JSONObject jsonObject) {
+                mSwipeRefreshLayout.setRefreshing(false);
                 if (UtilsHelper.parseResult(jsonObject)) {
                     JSONObject object = jsonObject.optJSONObject("data");
                     switch (App.getInstance().getUSER_DATA().getRole_id()) {
@@ -326,7 +336,6 @@ public class IndexFragment extends Fragment {
                             break;
                     }
                     mDataViewAdapter.notifyDataSetChanged();
-                    mSwipeRefreshLayout.setRefreshing(false);
                 } else {
                     ToastUtils.showToast(context, "获取统计数据失败," + jsonObject.optString("msg"));
                 }

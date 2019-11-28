@@ -123,9 +123,10 @@ public class MaNongListActivity extends AppCompatActivity {
 
     private void search(){
         mData.removeAll(mData);
+        mAdapter.notifyDataSetChanged();
         RequestParams params = new RequestParams(UrlAddress.USER_LIST);
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
-        params.addBodyParameter("type","4");
+        params.addBodyParameter("type","3");
         NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {

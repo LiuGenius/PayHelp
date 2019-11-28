@@ -108,6 +108,7 @@ public class CodePayChannelActivity extends AppCompatActivity {
 
     private void search(){
         mData.removeAll(mData);
+        mAdapter.notifyDataSetChanged();
         RequestParams params = new RequestParams(UrlAddress.ORG_CODE_CHANNEL_LIST);
         params.addBodyParameter("uid", getIntent().getStringExtra("uid"));
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());

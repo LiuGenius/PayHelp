@@ -178,6 +178,7 @@ public class OrderManagerFragment extends Fragment {
         status = order_status;
         if (mPage == 1) {
             mData.removeAll(mData);
+            mAdapter.notifyDataSetChanged();
         }
         RequestParams params = new RequestParams(UrlAddress.ORDER_LIST);
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());

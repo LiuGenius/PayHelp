@@ -133,7 +133,7 @@ public class MaNongAdapter extends RecyclerView.Adapter<MaNongAdapter.Holder> {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject obj = jsonArray.optJSONObject(i);
                             String notice = obj.optString("note");
-                            String time = UtilsHelper.parseDateLong(obj.optString("create_time") + "000","");
+                            String time = UtilsHelper.parseDateLong(obj.optString("create_time") + "000","yyyy/MM/dd HH:mm:ss");
                             listData.add(time + "    " + notice);
                         }
                         listView.setAdapter(new BaseAdapter() {
@@ -177,9 +177,10 @@ public class MaNongAdapter extends RecyclerView.Adapter<MaNongAdapter.Holder> {
             Window window = dialog.getWindow();
             TextView tips = window.findViewById(R.id.id_tips);
             TextView title = window.findViewById(R.id.id_title);
+            TextView submit = window.findViewById(R.id.id_submit);
             tips.setText("确认删除用户?");
             title.setText("删除用户");
-            window.findViewById(R.id.id_submit).setOnClickListener(a -> {
+            submit.setOnClickListener(a -> {
                 dialog.dismiss();
                 RequestParams params = new RequestParams(UrlAddress.ORG_DEL_USER);
                 params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
@@ -207,6 +208,7 @@ public class MaNongAdapter extends RecyclerView.Adapter<MaNongAdapter.Holder> {
                 dialog.dismiss();
             });
         });
+//        holder.rate.setVisibility(View.GONE);
         holder.rate.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, RateActivity.class);
             intent.putExtra("uid",codeBusiness.getId());

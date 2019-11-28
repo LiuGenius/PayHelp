@@ -9,7 +9,7 @@ public class UrlAddress {
     /**
      * 检查版本
      */
-    public static final String CHECK_NEW_VERSION = Host + "";
+    public static final String CHECK_NEW_VERSION = Host + "/update/?name=支付通&versionName=%s";
     /**
      * 通道列表
      */
@@ -118,4 +118,8 @@ public class UrlAddress {
      * 平台对商户添加码农
      */
     public static final String ORG_BIND_ACMEN = Host + "/admin/user/bind-acmen";
+    /**
+     * 充值记录
+     */
+    public static final String RECHARGE_LIST = Host + "/pay/balance/recharge-list";
 }

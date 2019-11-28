@@ -106,6 +106,7 @@ public class AddBusinessActivity extends AppCompatActivity {
 
             mEtLoginPwd.setVisibility(View.GONE);
             mEtPayPwd.setVisibility(View.GONE);
+            mSpecial.setChecked(mEditData.getSpecial().equals("1"));
         }
 
         mSpSex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

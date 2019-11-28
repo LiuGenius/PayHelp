@@ -111,6 +111,7 @@ public class MaNongInfoActivity extends AppCompatActivity {
 
     private void search(){
         mData.removeAll(mData);
+        mAdapter.notifyDataSetChanged();
         RequestParams params = new RequestParams();
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
         switch (getIntent().getStringExtra("tag")){

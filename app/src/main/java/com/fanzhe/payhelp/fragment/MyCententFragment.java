@@ -105,14 +105,14 @@ public class MyCententFragment extends Fragment {
                 });
                 break;
             case R.id.id_ll_check_version:
-                new NetworkLoader().sendGet(mContext,new RequestParams(UrlAddress.CHECK_NEW_VERSION), new NetworkLoader.networkCallBack() {
+                new NetworkLoader().sendGet(mContext,new RequestParams(String.format(UrlAddress.CHECK_NEW_VERSION,UtilsHelper.getAppVersionCode(mContext))), new NetworkLoader.networkCallBack() {
                     @Override
                     public void onfailure(String errorMsg) {
                         ToastUtils.showToast(mContext, "当前已经是最新版本");
                     }
                     @Override
                     public void onsuccessful(JSONObject jsonObject) {
-                        if (jsonObject.optInt("errcode") == 0) {
+                        if (UtilsHelper.parseResult(jsonObject)) {
                             if (jsonObject.optJSONObject("data").optBoolean("update")) {
                                 String url = jsonObject.optJSONObject("data").optString("downloadUrl");
                                 UtilsHelper.downloadUpdateApk(getActivity(), url);

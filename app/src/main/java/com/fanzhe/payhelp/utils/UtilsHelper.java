@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 
 import com.fanzhe.payhelp.iface.OnOver;
@@ -390,14 +391,15 @@ public class UtilsHelper {
     /**
      * 下载服务器端更新后最新的apk
      */
-    public static void downloadUpdateApk(Activity context,String downloadUrl) {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void downloadUpdateApk(Activity context, String downloadUrl) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             ProgressDialog progressDialog = new ProgressDialog(context);
             progressDialog.setCancelable(false);
             // mDownloadUrl为JSON从服务器端解析出来的下载地址
             RequestParams requestParams = new RequestParams(downloadUrl);
             // 为RequestParams设置文件下载后的保存路径
-            requestParams.setSaveFilePath(Environment.getDownloadCacheDirectory().getPath());
+            requestParams.setSaveFilePath(context.getDataDir().getPath() + "/" + System.currentTimeMillis() + ".apk");
             // 下载完成后自动为文件命名
             requestParams.setAutoRename(true);
             x.http().get(requestParams, new Callback.ProgressCallback<File>() {
@@ -455,7 +457,7 @@ public class UtilsHelper {
         String type = "application/vnd.android.package-archive";
         Uri uri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            uri = FileProvider.getUriForFile(activity, activity.getPackageName(), newApkFile);
+            uri = FileProvider.getUriForFile(activity, activity.getPackageName() + ".fileprovider", newApkFile);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } else {
             uri = Uri.fromFile(newApkFile);
