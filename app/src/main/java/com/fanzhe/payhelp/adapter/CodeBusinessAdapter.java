@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.activity.AddBusinessActivity;
 import com.fanzhe.payhelp.activity.MaNongInfoActivity;
+import com.fanzhe.payhelp.activity.RateActivity;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
 import com.fanzhe.payhelp.model.CodeBusiness;
@@ -131,6 +132,15 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
             intent.putExtra("tag","2");
             mContext.startActivity(intent);
         });
+        if (App.getInstance().getUSER_DATA().getRole_id().equals("1")) {
+            holder.rate.setVisibility(View.VISIBLE);
+            holder.rate.setOnClickListener(view -> {
+                Intent intent = new Intent(mContext, RateActivity.class);
+                intent.putExtra("uid",codeBusiness.getId());
+                intent.putExtra("name",codeBusiness.getUser_name());
+                mContext.startActivity(intent);
+            });
+        }
     }
 
     @Override
@@ -150,6 +160,8 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
         TextView del;
         @BindView(R.id.id_item_manong)
         TextView manong;
+        @BindView(R.id.id_item_rate)
+        TextView rate;
         public Holder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

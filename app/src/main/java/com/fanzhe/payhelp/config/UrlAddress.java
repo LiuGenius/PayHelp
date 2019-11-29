@@ -1,7 +1,7 @@
 package com.fanzhe.payhelp.config;
 
 public class UrlAddress {
-    private static final String Host = "http://xinpay.yc699.com/v2";
+    private static final String Host = "http://zhif.33th.me/v2";
     /**
      * 用户登录
      */

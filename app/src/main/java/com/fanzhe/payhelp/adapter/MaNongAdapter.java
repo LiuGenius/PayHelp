@@ -208,7 +208,9 @@ public class MaNongAdapter extends RecyclerView.Adapter<MaNongAdapter.Holder> {
                 dialog.dismiss();
             });
         });
-//        holder.rate.setVisibility(View.GONE);
+        if (App.getInstance().getUSER_DATA().getRole_id().equals("4")) {
+            holder.rate.setVisibility(View.GONE);
+        }
         holder.rate.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, RateActivity.class);
             intent.putExtra("uid",codeBusiness.getId());
