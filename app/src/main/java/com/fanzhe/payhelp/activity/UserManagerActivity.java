@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.fragment.BusinessFragment;
 import com.fanzhe.payhelp.fragment.CodeFragment;
+import com.fanzhe.payhelp.fragment.MaNongFragment;
 import com.fanzhe.payhelp.utils.UtilsHelper;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class UserManagerActivity extends AppCompatActivity {
 
     private void initView() {
         ViewGroup.LayoutParams layoutParams = mTap.getLayoutParams();
-        layoutParams.width = UtilsHelper.getScreenWidth(mContext) / 2;
+        layoutParams.width = UtilsHelper.getScreenWidth(mContext) / 3;
         mTap.setLayoutParams(layoutParams);
 
         mFragmentManager = getSupportFragmentManager();
@@ -69,6 +70,7 @@ public class UserManagerActivity extends AppCompatActivity {
         mFragmentList = new ArrayList<>();
         mFragmentList.add(new BusinessFragment());
         mFragmentList.add(new CodeFragment());
+        mFragmentList.add(new MaNongFragment());
 
 
         mFragmentTransaction = mFragmentManager.beginTransaction();
@@ -92,10 +94,10 @@ public class UserManagerActivity extends AppCompatActivity {
         mFragmentTransaction.show(mFragmentList.get(position)).commit();
     }
 
-    @BindViews({R.id.id_business,R.id.id_code})
+    @BindViews({R.id.id_business,R.id.id_code,R.id.id_manong})
     List<TextView> mTvs;
 
-    @OnClick({R.id.id_business,R.id.id_code})
+    @OnClick({R.id.id_business,R.id.id_code,R.id.id_manong})
     public void clickTab(TextView tv){
         switch (tv.getId()){
             case R.id.id_business:
@@ -105,6 +107,10 @@ public class UserManagerActivity extends AppCompatActivity {
             case R.id.id_code:
                 startAnim(1);
                 ShowFragment(1);
+                break;
+            case R.id.id_manong:
+                startAnim(2);
+                ShowFragment(2);
                 break;
         }
     }

@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
 
     <application
@@ -57,9 +58,24 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".activity.SettlementInfoActivity" />
         <activity android:name=".activity.CodePayChannelActivity" />
+        <activity android:name=".activity.MaNongManagerActivity" />
+        <activity android:name=".activity.RechargeActivity" />
+        <activity android:name=".activity.MaNongInfoActivity" />
+        <activity android:name=".activity.MaNongListActivity" />
+        <activity android:name=".activity.MoneySettingActivity" />
 
 
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.fanzhe.payhelp.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <activity
             android:name="com.yanzhenjie.album.AlbumActivity"

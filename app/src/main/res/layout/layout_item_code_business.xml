@@ -38,77 +38,6 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_marginTop="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/id_item_yck"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0.00"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_marginTop="4dp"
-                    android:textColor="#969696"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="预存款额度"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/id_item_dj"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0.00"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorAccent"/>
-
-                <TextView
-                    android:layout_marginTop="4dp"
-                    android:textColor="#969696"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="冻结额度"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/id_item_sy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="30000.00"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_marginTop="4dp"
-                    android:textColor="#969696"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="剩余额度"/>
-            </LinearLayout>
-        </LinearLayout>
         <View
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
@@ -116,15 +45,31 @@
             android:background="#F0F0F0"/>
         <LinearLayout
             android:layout_marginTop="10dp"
-            android:gravity="center"
+            android:gravity="center|right"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
+                android:visibility="gone"
+                android:layout_marginLeft="12dp"
                 android:id="@+id/id_item_rate"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="费率"
+                android:text="费率设置"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:paddingTop="8dp"
+                android:textColor="#fff"
+                android:background="@drawable/shape_btn_bg"
+                android:paddingBottom="8dp"/>
+            <TextView
+                android:layout_marginLeft="12dp"
+                android:id="@+id/id_item_manong"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="查看码农"
                 android:textSize="12sp"
                 android:paddingTop="8dp"
                 android:textColor="#fff"
@@ -133,7 +78,7 @@
                 android:paddingBottom="8dp"/>
 
             <TextView
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="12dp"
                 android:id="@+id/id_item_edit"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -146,33 +91,7 @@
                 android:background="@drawable/shape_btn_bg"
                 android:paddingBottom="8dp"/>
             <TextView
-                android:layout_marginLeft="10dp"
-                android:id="@+id/id_item_channel"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="通道"
-                android:textSize="12sp"
-                android:paddingTop="8dp"
-                android:textColor="#fff"
-                android:background="@drawable/shape_btn_bg"
-                android:paddingBottom="8dp"/>
-            <TextView
-                android:layout_marginLeft="10dp"
-                android:id="@+id/id_item_rk"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="入款"
-                android:textSize="12sp"
-                android:paddingTop="8dp"
-                android:gravity="center"
-                android:textColor="#fff"
-                android:background="@drawable/shape_btn_bg"
-                android:paddingBottom="8dp"/>
-            <TextView
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="12dp"
                 android:id="@+id/id_item_del"
                 android:layout_width="0dp"
                 android:layout_weight="1"

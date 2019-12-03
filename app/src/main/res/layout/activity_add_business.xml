@@ -131,8 +131,31 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp" />
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/id_ll_special"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_marginLeft="12dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="是否特殊"
+                            android:textSize="14sp"
+                            android:textColor="#101010" />
+
+                        <Switch
+                            android:checked="true"
+                            android:id="@+id/id_sw_special"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp" />
+                    </LinearLayout>
+
+
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
@@ -141,6 +164,7 @@
                         android:textColor="#101010" />
 
                     <Spinner
+                        android:visibility="gone"
                         android:id="@+id/id_sp_sex"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

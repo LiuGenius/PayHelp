@@ -24,8 +24,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fanzhe.payhelp.R;
+import com.fanzhe.payhelp.activity.MaNongManagerActivity;
+import com.fanzhe.payhelp.activity.MoneySettingActivity;
 import com.fanzhe.payhelp.activity.OrderManager;
 import com.fanzhe.payhelp.activity.PayChannelActivity;
+import com.fanzhe.payhelp.activity.RechargeActivity;
 import com.fanzhe.payhelp.activity.SettlementActivity;
 import com.fanzhe.payhelp.activity.UserManagerActivity;
 import com.fanzhe.payhelp.adapter.IndexDataShowAdapter;
@@ -167,39 +170,32 @@ public class IndexFragment extends Fragment {
         mRvDataContent.setAdapter(mDataViewAdapter);
 
         mMenuData = new ArrayList<>();
-        mMenuData.add(new dataMenu("订单管理",R.mipmap.icon_ddgl));
-        mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
-        mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
+
         switch (App.getInstance().getUSER_DATA().getRole_id()) {
-            case "1":
+            case "1"://平台
+                mMenuData.add(new dataMenu("订单管理",R.mipmap.icon_ddgl));
+                mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
                 mMenuData.add(new dataMenu("用户管理",R.mipmap.icon_yhgl));
+                mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
+                mMenuData.add(new dataMenu("金额管理",R.mipmap.icon_tdgl));
                 break;
-            case "2":
+            case "2"://商户
+                mMenuData.add(new dataMenu("订单管理",R.mipmap.icon_ddgl));
+                mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
                 mMenuData.add(new dataMenu("密钥管理",R.mipmap.icon_mygl));
+                mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
                 break;
-            case "3":
-                mMenuData.add(new dataMenu("接单状态",R.mipmap.icon_get_order));
-                //开启监听服务
-                Intent intent = new Intent(context, HelperNotificationListenerService.class);
-                context.startService(intent);
-                //连接ws
-                WsClientTool.getInstance().connect("ws://47.98.182.50:9511");
-                //循环判断服务是否运行中
-                new Thread() {
-                    @Override
-                    public void run() {
-                        super.run();
-                        while (true) {
-                            try {
-                                Thread.sleep(1000);
-                                handler.sendEmptyMessage(2);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }.start();
-                ToastUtils.showToast(context,"已经在后台开始接单");
+            case "3"://码农
+                mMenuData.add(new dataMenu("订单管理",R.mipmap.icon_ddgl));
+                mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
+                mMenuData.add(new dataMenu("抢单",R.mipmap.icon_get_order));
+                mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
+                mMenuData.add(new dataMenu("充值",R.mipmap.icon_tdgl));
+                mMenuData.add(new dataMenu("掉单管理",R.mipmap.icon_get_order));
+                break;
+            case "4"://码商
+                mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
+                mMenuData.add(new dataMenu("码农管理",R.mipmap.icon_yhgl));
                 break;
         }
 
@@ -208,7 +204,16 @@ public class IndexFragment extends Fragment {
         mRvMenuContent.setAdapter(mMenuAdapter);
         mRvMenuContent.addOnItemTouchListener(new RecyclerViewClickListener(context, mRvMenuContent, (view, position) -> {
             switch (mMenuData.get(position).getMenuName()) {
-                case "接单状态":
+                case "金额管理":
+                    startActivity(new Intent(context, MoneySettingActivity.class));
+                    break;
+                case "充值":
+                    startActivity(new Intent(context, RechargeActivity.class));
+                    break;
+                case "码农管理":
+                    startActivity(new Intent(context, MaNongManagerActivity.class));
+                    break;
+                case "抢单":
                     startServer();
                     break;
                 case "通道管理":
@@ -230,6 +235,7 @@ public class IndexFragment extends Fragment {
                     Window window = dialog.getWindow();
                     EditText editText = window.findViewById(R.id.id_edittext);
                     EditText et_key = window.findViewById(R.id.id_tv_key);
+                    TextView mch_id = window.findViewById(R.id.id_mch_id);
                     editText.setText("");
                     TextView submit = window.findViewById(R.id.id_submit);
                     submit.setOnClickListener(v -> {
@@ -247,6 +253,7 @@ public class IndexFragment extends Fragment {
                             public void onsuccessful(JSONObject jsonObject) {
                                 if (UtilsHelper.parseResult(jsonObject)) {
                                     String key = jsonObject.optJSONObject("data").optString("secret_key");
+                                    mch_id.setText("商户号:" + jsonObject.optJSONObject("data").optString("mch_id"));
                                     et_key.setText(key);
                                 } else {
                                     ToastUtils.showToast(context, "查看密钥失败," + jsonObject.optString("msg"));
@@ -276,26 +283,28 @@ public class IndexFragment extends Fragment {
             @Override
             public void onfailure(String errorMsg) {
                 ToastUtils.showToast(context, "获取统计数据失败,请检查网络");
+                mSwipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onsuccessful(JSONObject jsonObject) {
+                mSwipeRefreshLayout.setRefreshing(false);
                 if (UtilsHelper.parseResult(jsonObject)) {
                     JSONObject object = jsonObject.optJSONObject("data");
                     switch (App.getInstance().getUSER_DATA().getRole_id()) {
-                        case "1":
+                        case "1"://平台
                             mDataViewData.add(new dataView("商户数",object.optString("mch_nums")));
                             mDataViewData.add(new dataView("码商数",object.optString("coder_nums")));
                             mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
                             mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
                             break;
-                        case "2":
+                        case "2"://商户
                             mDataViewData.add(new dataView("今日总订单数",object.optString("order_total_num")));
                             mDataViewData.add(new dataView("今日订单完成数",object.optString("complete_num")));
                             mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
                             mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
                             break;
-                        case "3":
+                        case "3"://码农
                             mDataViewData.add(new dataView("今日总订单数",object.optString("order_total_num")));
                             mDataViewData.add(new dataView("今日订单完成数",object.optString("complete_num")));
                             mDataViewData.add(new dataView("账户可用额度",object.optString("balance")));
@@ -303,9 +312,15 @@ public class IndexFragment extends Fragment {
                             mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
                             mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
                             break;
+                        case "4"://码商
+                            mDataViewData.add(new dataView("今日总订单数",object.optString("order_total_num")));
+                            mDataViewData.add(new dataView("今日订单完成数",object.optString("complete_num")));
+                            mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
+                            mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
+                            mDataViewData.add(new dataView("码农数",object.optString("acmen")));
+                            break;
                     }
                     mDataViewAdapter.notifyDataSetChanged();
-                    mSwipeRefreshLayout.setRefreshing(false);
                 } else {
                     ToastUtils.showToast(context, "获取统计数据失败," + jsonObject.optString("msg"));
                 }
@@ -326,11 +341,41 @@ public class IndexFragment extends Fragment {
         mRadar.stop();
     }
 
+    boolean isOpenServer = false;
     private void startServer(){
+        dataView dataView = mDataViewData.get(2);
+        if (dataView.getKey().equals("账户可用额度")) {
+            checkMoney(Double.parseDouble(dataView.getValue()));
+            return;
+        }
+        if (!isOpenServer) {
+            //开启监听服务
+            Intent intent = new Intent(context, HelperNotificationListenerService.class);
+            context.startService(intent);
+            //连接ws
+            WsClientTool.getInstance().connect(UrlAddress.WEB_SOCKET_URL);
+            //循环判断服务是否运行中
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    while (true) {
+                        try {
+                            Thread.sleep(1000 * 10);
+                            handler.sendEmptyMessage(2);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }.start();
+            isOpenServer = true;
+        }
         mRadarView.setVisibility(View.VISIBLE);
         //开启雷达图
         mRadar.setDirection(RadarView.CLOCK_WISE);
         mRadar.start();
+
     }
 
     @SuppressLint("HandlerLeak")
@@ -360,11 +405,19 @@ public class IndexFragment extends Fragment {
                     mServerState.setText("当前服务器连接异常");
                     mServerState.setTextColor(Color.RED);
                 }
-                mTime.setText(UtilsHelper.parseDateLong(String.valueOf(new Date().getTime()), "yyyy/MM/dd HH:mm:ss"));
+                String time = UtilsHelper.parseDateLong(String.valueOf(new Date().getTime()), "yyyy/MM/dd HH:mm:ss");
+                mTime.setText(time);
                 WsClientTool.getInstance().sendText(jsonObject.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     };
+
+    private void checkMoney(double money){
+        if (money < 100) {
+            ToastUtils.showToast(context,"账户可用额度不足100元,请先充值");
+            startActivity(new Intent(context, RechargeActivity.class));
+        }
+    }
 }

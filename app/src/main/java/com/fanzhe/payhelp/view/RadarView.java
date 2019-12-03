@@ -1,6 +1,8 @@
 package com.fanzhe.payhelp.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -12,7 +14,9 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.IntDef;
 
-import com.fanzhe.payhelp.utils.UtilsHelper;
+import com.fanzhe.payhelp.R;
+
+import java.util.ArrayList;
 
 public class RadarView extends FrameLayout {
 
@@ -27,8 +31,8 @@ public class RadarView extends FrameLayout {
     //旋转效果起始角度
     private int start = 0;
 
-    private int[] point_x;
-    private int[] point_y;
+    private ArrayList<Integer> point_x;
+    private ArrayList<Integer> point_y;
 
     private Shader mShader;
 
@@ -36,6 +40,8 @@ public class RadarView extends FrameLayout {
 
     public final static int CLOCK_WISE=1;
     public final static int ANTI_CLOCK_WISE=-1;
+
+    Bitmap bm;
 
     @IntDef({ CLOCK_WISE, ANTI_CLOCK_WISE })
     public @interface RADAR_DIRECTION {
@@ -91,10 +97,12 @@ public class RadarView extends FrameLayout {
         mPaintPoint.setColor(Color.WHITE);
         mPaintPoint.setStyle(Paint.Style.FILL_AND_STROKE);
 
-        //随机生成的点，模拟雷达扫描结果
-        point_x = UtilsHelper.Getrandomarray(15, 300);
-        point_y = UtilsHelper.Getrandomarray(15, 300);
+        point_x = new ArrayList<>();
+        point_y = new ArrayList<>();
 
+        bm = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_redar);
+
+        bm = warmthFilter(bm,0,0);
     }
 
     public void setViewSize(int size) {
@@ -104,7 +112,6 @@ public class RadarView extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        // TODO Auto-generated method stub
         setMeasuredDimension(viewSize, viewSize);
     }
 
@@ -125,7 +132,6 @@ public class RadarView extends FrameLayout {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // TODO Auto-generated method stub
         canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 2, mPaintCircle);
 
         canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 16 * 8, mPaintLine);
@@ -135,10 +141,24 @@ public class RadarView extends FrameLayout {
         canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 16 * 4, mPaintLine);
         canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 16 * 3, mPaintLine);
         canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 16 * 2, mPaintLine);
-        canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 16 * 1, mPaintLine);
+        canvas.drawCircle(viewSize / 2, viewSize / 2, viewSize / 16, mPaintLine);
         //绘制两条十字线
         canvas.drawLine(viewSize / 2, 0, viewSize / 2, viewSize, mPaintLine);
         canvas.drawLine(0, viewSize / 2, viewSize, viewSize / 2, mPaintLine);
+
+        if (start % 50 == 0 && start > 50) {
+            point_x.add(0,(int) (300 * (2 * Math.random() - 1)));
+            point_y.add(0,(int) (300 * (2 * Math.random() - 1)));
+            point_x.add(0,(int) (300 * (2 * Math.random() - 1)));
+            point_y.add(0,(int) (300 * (2 * Math.random() - 1)));
+        }
+
+
+
+        for (int i = 0; i < (point_x.size() > 15 ? 15 : point_x.size()); i++) {
+            canvas.drawCircle(viewSize / 2 + point_x.get(i), viewSize / 2 + point_y.get(i), 10, mPaintPoint);
+//            canvas.drawBitmap(bm,viewSize / 2 + point_x.get(i),viewSize / 2 + point_y.get(i),mPaintPoint);
+        }
 
 
 //        if (start % 1000 == 0) {
@@ -193,13 +213,11 @@ public class RadarView extends FrameLayout {
         private RadarView view;
 
         public ScanThread(RadarView view) {
-            // TODO Auto-generated constructor stub
             this.view = view;
         }
 
         @Override
         public void run() {
-            // TODO Auto-generated method stub
             while (threadRunning) {
                 if (isstart) {
                     view.post(() -> {
@@ -212,12 +230,94 @@ public class RadarView extends FrameLayout {
                         view.invalidate();
                     });
                     try {
-                        Thread.sleep(7);
+                        Thread.sleep(5);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
             }
         }
+    }
+
+    /**
+     * 暖意特效
+     *
+     * @param bmp
+     *            原图片
+     * @param centerX
+     *            光源横坐标
+     * @param centerY
+     *            光源纵坐标
+     * @return 暖意特效图片
+     */
+    public static Bitmap warmthFilter(Bitmap bmp, int centerX, int centerY) {
+        int width = bmp.getWidth();
+        int height = bmp.getHeight();
+        int dst[] = new int[width * height];
+        bmp.getPixels(dst, 0, width, 0, 0, width, height);
+
+        int ratio = width > height ? height * 32768 / width : width * 32768 / height;
+        int cx = width >> 1;
+        int cy = height >> 1;
+        int max = cx * cx + cy * cy;
+        int min = (int) (max * (1 - 0.8f));
+        int diff = max - min;
+
+        int ri, gi, bi;
+        int dx, dy, distSq, v;
+
+        int R, G, B;
+
+        int value;
+        int pos, pixColor;
+        int newR, newG, newB;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                pos = y * width + x;
+                pixColor = dst[pos];
+                R = Color.red(pixColor);
+                G = Color.green(pixColor);
+                B = Color.blue(pixColor);
+
+                value = R < 128 ? R : 256 - R;
+                newR = (value * value * value) / 64 / 256;
+                newR = (R < 128 ? newR : 255 - newR);
+
+                value = G < 128 ? G : 256 - G;
+                newG = (value * value) / 128;
+                newG = (G < 128 ? newG : 255 - newG);
+
+                newB = B / 2 + 0x25;
+
+                // ==========边缘黑暗==============//
+                dx = cx - x;
+                dy = cy - y;
+                if (width > height)
+                    dx = (dx * ratio) >> 15;
+                else
+                    dy = (dy * ratio) >> 15;
+
+                distSq = dx * dx + dy * dy;
+                if (distSq > min) {
+                    v = ((max - distSq) << 8) / diff;
+                    v *= v;
+
+                    ri = newR * v >> 16;
+                    gi = newG * v >> 16;
+                    bi = newB * v >> 16;
+
+                    newR = ri > 255 ? 255 : (ri < 0 ? 0 : ri);
+                    newG = gi > 255 ? 255 : (gi < 0 ? 0 : gi);
+                    newB = bi > 255 ? 255 : (bi < 0 ? 0 : bi);
+                }
+                // ==========边缘黑暗end==============//
+
+                dst[pos] = Color.rgb(newR, newG, newB);
+            }
+        }
+
+        Bitmap acrossFlushBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        acrossFlushBitmap.setPixels(dst, 0, width, 0, 0, width, height);
+        return acrossFlushBitmap;
     }
 }

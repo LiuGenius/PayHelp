@@ -16,6 +16,8 @@ public class CodeBusiness implements Parcelable {
     private String true_name;
     private String mobile;
 
+    private String special;
+
     public CodeBusiness(JSONObject jsonObject) {
         this.id = jsonObject.optString("id");
         this.user_name = jsonObject.optString("user_name");
@@ -26,6 +28,15 @@ public class CodeBusiness implements Parcelable {
         this.id_card = jsonObject.optString("id_card");
         this.true_name = jsonObject.optString("true_name");
         this.mobile = jsonObject.optString("mobile");
+        this.special = jsonObject.optString("is_special");
+    }
+
+    public String getSpecial() {
+        return special;
+    }
+
+    public void setSpecial(String special) {
+        this.special = special;
     }
 
     protected CodeBusiness(Parcel in) {
@@ -38,6 +49,7 @@ public class CodeBusiness implements Parcelable {
         id_card = in.readString();
         true_name = in.readString();
         mobile = in.readString();
+        special = in.readString();
     }
 
     public static final Creator<CodeBusiness> CREATOR = new Creator<CodeBusiness>() {
@@ -140,5 +152,6 @@ public class CodeBusiness implements Parcelable {
         dest.writeString(id_card);
         dest.writeString(true_name);
         dest.writeString(mobile);
+        dest.writeString(special);
     }
 }

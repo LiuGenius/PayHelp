@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f7f7"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="#fff"
+            android:paddingTop="30dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="金额设置"
+                android:textColor="#101010"
+                android:textSize="16sp"
+                tools:ignore="MissingConstraints" />
+
+            <ImageView
+                android:id="@+id/id_back"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="16dp"
+                android:src="@mipmap/icon_back"
+                android:tint="#101010" />
+        </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:text="* 未填数值的项目不会进行保存"
+            android:textColor="#FD434B" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="请设置充值金额"
+            android:textColor="#101010"
+            android:textSize="16sp" />
+        <LinearLayout
+            android:background="@drawable/shape_item_bg"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical"
+            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_height="36dp"
+                android:hint="充值金额一"
+                android:inputType="number"
+                android:textSize="14sp"
+                android:paddingLeft="12dp"
+                android:background="@drawable/shape_input_edit"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_height="36dp"
+                android:hint="充值金额二"
+                android:inputType="number"
+                android:textSize="14sp"
+                android:paddingLeft="12dp"
+                android:background="@drawable/shape_input_edit"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_height="36dp"
+                android:hint="充值金额三"
+                android:inputType="number"
+                android:textSize="14sp"
+                android:paddingLeft="12dp"
+                android:background="@drawable/shape_input_edit"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_margin="12dp"
+                android:layout_height="36dp"
+                android:hint="充值金额四"
+                android:inputType="number"
+                android:textSize="14sp"
+                android:paddingLeft="12dp"
+                android:background="@drawable/shape_input_edit"/>
+        </LinearLayout>
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="请设置抢单预存款最低金额"
+            android:textColor="#101010"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:background="@drawable/shape_item_bg"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical"
+            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_margin="12dp"
+                android:layout_height="36dp"
+                android:hint="抢单预存款最低金额"
+                android:textSize="14sp"
+                android:paddingLeft="12dp"
+                android:inputType="number"
+                android:background="@drawable/shape_input_edit"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/id_submit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_btn_bg"
+            android:gravity="center"
+            android:text="保存"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>

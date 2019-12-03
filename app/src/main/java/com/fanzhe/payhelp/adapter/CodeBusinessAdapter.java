@@ -4,15 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -20,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.activity.AddBusinessActivity;
-import com.fanzhe.payhelp.activity.CodePayChannelActivity;
+import com.fanzhe.payhelp.activity.MaNongInfoActivity;
 import com.fanzhe.payhelp.activity.RateActivity;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
@@ -29,7 +24,6 @@ import com.fanzhe.payhelp.utils.NetworkLoader;
 import com.fanzhe.payhelp.utils.ToastUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 
@@ -65,109 +59,13 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
         //将数据设置到item上
         CodeBusiness codeBusiness = data.get(position);
         holder.name.setText(codeBusiness.getUser_name());
-        holder.yck.setText(codeBusiness.getTotal_balance() + "");
-        holder.dj.setText((codeBusiness.getTotal_balance() - codeBusiness.getBalance()) + "");
-        holder.sy.setText(codeBusiness.getBalance() + "");
         holder.status.setChecked(codeBusiness.getStatus().equals("1"));
 
         holder.edit.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, AddBusinessActivity.class);
-            intent.putExtra("tag", "addCode");
+            intent.putExtra("tag", "4");
             intent.putExtra("editData", codeBusiness);
             mContext.startActivity(intent);
-        });
-        holder.channel.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, CodePayChannelActivity.class);
-            intent.putExtra("uid", codeBusiness.getId());
-            mContext.startActivity(intent);
-        });
-        holder.rk.setOnClickListener(v -> {
-            Dialog dialog = new Dialog(mContext, R.style.AlertDialogStyle);
-            dialog.setContentView(R.layout.layout_rk_view);
-            dialog.show();
-            Window window = dialog.getWindow();
-            EditText editText = window.findViewById(R.id.id_edittext);
-            ListView listView = window.findViewById(R.id.id_lv_deposit);
-            editText.setText("");
-            TextView submit = window.findViewById(R.id.id_submit);
-            submit.setOnClickListener(view -> {
-                String content = editText.getText().toString();
-                RequestParams params = new RequestParams(UrlAddress.ORG_PRE_DEPOSIT);
-                params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
-                params.addBodyParameter("balance",content);
-                params.addBodyParameter("uid",codeBusiness.getId());
-                NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
-                    @Override
-                    public void onfailure(String errorMsg) {
-                        dialog.dismiss();
-                        ToastUtils.showToast(mContext, "入款失败,请检查网络");
-                    }
-                    @Override
-                    public void onsuccessful(JSONObject jsonObject) {
-                        dialog.dismiss();
-                        if (UtilsHelper.parseResult(jsonObject)) {
-                            ToastUtils.showToast(mContext, "入款成功");
-                            holder.yck.setText((Integer.parseInt(content) + codeBusiness.getTotal_balance()) + "");
-                            holder.sy.setText(((Integer.parseInt(content) + codeBusiness.getTotal_balance())));
-                        }else{
-                            ToastUtils.showToast(mContext, "入款失败," + jsonObject.optString("msg"));
-                        }
-                    }
-                });
-            });
-
-            RequestParams params = new RequestParams(UrlAddress.ORH_IMPORT_DEPOSIT);
-            params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
-            params.addBodyParameter("uid", codeBusiness.getId());
-            NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
-                @Override
-                public void onfailure(String errorMsg) {
-                    ToastUtils.showToast(mContext,"读取入款明细失败，请检查您的网络");
-                }
-
-                @Override
-                public void onsuccessful(JSONObject jsonObject) {
-                    if (UtilsHelper.parseResult(jsonObject)) {
-                        JSONArray jsonArray = jsonObject.optJSONArray("data");
-                        ArrayList<String> listData = new ArrayList<>();
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject obj = jsonArray.optJSONObject(i);
-                            String notice = obj.optString("note");
-                            String time = UtilsHelper.parseDateLong(obj.optString("create_time") + "000","");
-                            listData.add(time + "    " + notice);
-                        }
-                        listView.setAdapter(new BaseAdapter() {
-                            @Override
-                            public int getCount() {
-                                return listData.size();
-                            }
-
-                            @Override
-                            public Object getItem(int position) {
-                                return listData.get(position);
-                            }
-
-                            @Override
-                            public long getItemId(int position) {
-                                return position;
-                            }
-
-                            @Override
-                            public View getView(int position, View convertView, ViewGroup parent) {
-                                TextView tv = new TextView(mContext);
-                                tv.setGravity(Gravity.CENTER);
-                                tv.setPadding(10, 10, 10, 10);
-                                tv.setTextColor(Color.parseColor("#101010"));
-                                tv.setTextSize(14);
-                                tv.setText(listData.get(position));
-                                return tv;
-                            }
-                        });
-                    }else{
-                        ToastUtils.showToast(mContext,"读取入款明细失败，" + jsonObject.optString("msg"));
-                    }
-                }
-            });
         });
         holder.del.setOnClickListener(v -> {
             Dialog dialog = new Dialog(mContext, R.style.AlertDialogStyle);
@@ -207,16 +105,10 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
                 dialog.dismiss();
             });
         });
-        holder.rate.setOnClickListener(view -> {
-            Intent intent = new Intent(mContext, RateActivity.class);
-            intent.putExtra("uid",codeBusiness.getId());
-            intent.putExtra("name",codeBusiness.getUser_name());
-            mContext.startActivity(intent);
-        });
-        holder.status.setOnCheckedChangeListener((compoundButton, b) -> {
+        holder.status.setOnClickListener(view -> {
             RequestParams params = new RequestParams(UrlAddress.USER_SWITCH_STATUS);
             params.addBodyParameter("auth_key",App.getInstance().getUSER_DATA().getAuth_key());
-            params.addBodyParameter("status",b ? "1":"0");//1:启用 2禁用
+            params.addBodyParameter("status",codeBusiness.getStatus().equals("1") ? "0":"1");//1:启用 2禁用
             params.addBodyParameter("uid",codeBusiness.getId());
             NetworkLoader.sendPost(mContext, params, new NetworkLoader.networkCallBack() {
                 @Override
@@ -234,6 +126,21 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
                 }
             });
         });
+        holder.manong.setOnClickListener(view -> {
+            Intent intent = new Intent(mContext, MaNongInfoActivity.class);
+            intent.putExtra("coder_id",codeBusiness.getId());
+            intent.putExtra("tag","2");
+            mContext.startActivity(intent);
+        });
+        if (App.getInstance().getUSER_DATA().getRole_id().equals("1")) {
+            holder.rate.setVisibility(View.VISIBLE);
+            holder.rate.setOnClickListener(view -> {
+                Intent intent = new Intent(mContext, RateActivity.class);
+                intent.putExtra("uid",codeBusiness.getId());
+                intent.putExtra("name",codeBusiness.getUser_name());
+                mContext.startActivity(intent);
+            });
+        }
     }
 
     @Override
@@ -247,21 +154,12 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
         Switch status;
         @BindView(R.id.id_item_tv_name)
         TextView name;
-        @BindView(R.id.id_item_yck)
-        TextView yck;
-        @BindView(R.id.id_item_dj)
-        TextView dj;
-        @BindView(R.id.id_item_sy)
-        TextView sy;
-
         @BindView(R.id.id_item_edit)
         TextView edit;
-        @BindView(R.id.id_item_channel)
-        TextView channel;
-        @BindView(R.id.id_item_rk)
-        TextView rk;
         @BindView(R.id.id_item_del)
         TextView del;
+        @BindView(R.id.id_item_manong)
+        TextView manong;
         @BindView(R.id.id_item_rate)
         TextView rate;
         public Holder(View itemView) {

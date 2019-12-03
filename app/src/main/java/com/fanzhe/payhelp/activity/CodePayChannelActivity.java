@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.adapter.Org_CodeChannelAdapter;
@@ -47,7 +48,8 @@ public class CodePayChannelActivity extends AppCompatActivity {
     Org_CodeChannelAdapter mAdapter;
 
     int status = -1;
-
+    @BindView(R.id.id_swiperefreshlayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +85,11 @@ public class CodePayChannelActivity extends AppCompatActivity {
 
             }
         });
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            search();
+        });
 
         search();
     }
@@ -101,6 +108,7 @@ public class CodePayChannelActivity extends AppCompatActivity {
 
     private void search(){
         mData.removeAll(mData);
+        mAdapter.notifyDataSetChanged();
         RequestParams params = new RequestParams(UrlAddress.ORG_CODE_CHANNEL_LIST);
         params.addBodyParameter("uid", getIntent().getStringExtra("uid"));
         params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
@@ -109,11 +117,13 @@ public class CodePayChannelActivity extends AppCompatActivity {
         NetworkLoader.sendPost(mContext,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
+                mSwipeRefreshLayout.setRefreshing(false);
                 ToastUtils.showToast(mContext, "获取通道列表失败，请检查网络");
             }
 
             @Override
             public void onsuccessful(JSONObject jsonObject) {
+                mSwipeRefreshLayout.setRefreshing(false);
                 if (UtilsHelper.parseResult(jsonObject)) {
                     JSONArray dataArray = jsonObject.optJSONArray("data");
                     for (int i = 0; i < dataArray.length(); i++) {

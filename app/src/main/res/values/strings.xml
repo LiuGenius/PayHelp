@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">支付通</string>
+    <string name="app_name">米来</string>
     <array name="payChannelArray">
         <item>全部</item>
         <item>关闭</item>

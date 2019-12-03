@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.activity.AddBusinessActivity;
@@ -60,6 +61,9 @@ public class BusinessFragment extends Fragment {
 
     int status = -1;
 
+    @BindView(R.id.id_swiperefreshlayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -92,6 +96,12 @@ public class BusinessFragment extends Fragment {
             }
         });
 
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            search();
+        });
+
         search();
     }
 
@@ -100,7 +110,7 @@ public class BusinessFragment extends Fragment {
         switch (textView.getId()) {
             case R.id.id_add:
                 Intent intent = new Intent(context, AddBusinessActivity.class);
-                intent.putExtra("tag", "addBusiness");
+                intent.putExtra("tag", "2");
                 startActivity(intent);
                 break;
             case R.id.id_search:
@@ -120,11 +130,13 @@ public class BusinessFragment extends Fragment {
         NetworkLoader.sendPost(context,params, new NetworkLoader.networkCallBack() {
             @Override
             public void onfailure(String errorMsg) {
+                mSwipeRefreshLayout.setRefreshing(false);
                 ToastUtils.showToast(context, "获取商户列表失败，请检查网络");
             }
 
             @Override
             public void onsuccessful(JSONObject jsonObject) {
+                mSwipeRefreshLayout.setRefreshing(false);
                 if (UtilsHelper.parseResult(jsonObject)) {
                     JSONArray dataArray = jsonObject.optJSONArray("data");
                     for (int i = 0; i < dataArray.length(); i++) {

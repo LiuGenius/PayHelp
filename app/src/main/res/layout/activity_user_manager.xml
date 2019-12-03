@@ -55,6 +55,16 @@
             android:text="码商"
             android:textColor="#A0A0A0"
             android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/id_manong"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="码农"
+            android:textColor="#A0A0A0"
+            android:textSize="14sp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

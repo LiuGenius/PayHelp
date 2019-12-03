@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.activity.AddBusinessActivity;
+import com.fanzhe.payhelp.activity.MaNongInfoActivity;
 import com.fanzhe.payhelp.activity.RateActivity;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
@@ -60,7 +61,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Holder
         holder.edit.setText("编辑");
         holder.edit.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, AddBusinessActivity.class);
-            intent.putExtra("tag", "addBusiness");
+            intent.putExtra("tag", "2");
             intent.putExtra("editData", business);
             mContext.startActivity(intent);
         });
@@ -130,6 +131,17 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Holder
                 }
             });
         });
+        if (business.getSpecial().equals("1")) {
+            holder.agriculture.setVisibility(View.VISIBLE);
+            holder.agriculture.setOnClickListener(view -> {
+                Intent intent = new Intent(mContext, MaNongInfoActivity.class);
+                intent.putExtra("mch_id",business.getId());
+                intent.putExtra("tag","1");
+                mContext.startActivity(intent);
+            });
+        }else{
+            holder.agriculture.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -149,6 +161,8 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Holder
         TextView del;
         @BindView(R.id.id_item_rate)
         TextView rate;
+        @BindView(R.id.id_agriculture)
+        TextView agriculture;
         public Holder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

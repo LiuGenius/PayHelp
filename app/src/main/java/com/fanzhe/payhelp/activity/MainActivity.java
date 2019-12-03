@@ -4,9 +4,9 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,8 +24,6 @@ import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.fragment.IndexFragment;
 import com.fanzhe.payhelp.fragment.MyCententFragment;
-import com.fanzhe.payhelp.fragment.OrderManagerFragment;
-import com.fanzhe.payhelp.fragment.UserManagerFragment;
 import com.fanzhe.payhelp.servers.HelperNotificationListenerService;
 import com.fanzhe.payhelp.utils.L;
 import com.fanzhe.payhelp.utils.NoticeUtils;
@@ -48,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Fragment> mFragmentList;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,8 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
         mFragmentList = new ArrayList<>();
         mFragmentList.add(new IndexFragment());
-        mFragmentList.add(new UserManagerFragment());
-        mFragmentList.add(new OrderManagerFragment());
         mFragmentList.add(new MyCententFragment());
 
 
@@ -115,17 +113,6 @@ public class MainActivity extends AppCompatActivity {
         mFragmentTransaction.commit();
 
         ShowFragment(0);
-
-        switch (App.getInstance().getUSER_DATA().getRole_id()) {
-            case "1":
-                break;
-            case "2":
-                findViewById(R.id.id_ll_usm).setVisibility(View.GONE);
-                break;
-            case "3":
-                findViewById(R.id.id_ll_usm).setVisibility(View.GONE);
-                break;
-        }
 
     }
 
@@ -140,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         mFragmentTransaction.show(mFragmentList.get(position)).commit();
     }
 
-    @BindViews({R.id.id_ll_index, R.id.id_ll_om, R.id.id_ll_usm, R.id.id_ll_me})
+    @BindViews({R.id.id_ll_index,R.id.id_ll_me})
     List<LinearLayout> mLls;
 
     @OnClick({R.id.id_ll_index,/* R.id.id_ll_om, R.id.id_ll_usm,*/ R.id.id_ll_me})
@@ -166,14 +153,8 @@ public class MainActivity extends AppCompatActivity {
                 ShowFragment(0);
                 iv.setImageResource(R.mipmap.icon_tab_index_sel);
                 break;
-            case R.id.id_ll_om:
-                ShowFragment(2);
-                break;
-            case R.id.id_ll_usm:
-                ShowFragment(1);
-                break;
             case R.id.id_ll_me:
-                ShowFragment(3);
+                ShowFragment(1);
                 iv.setImageResource(R.mipmap.icon_tab_me_sel);
                 break;
         }
@@ -190,28 +171,14 @@ public class MainActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (event.getAction()) {
             case KeyEvent.KEYCODE_HOME:
-                return true;
             case KeyEvent.KEYCODE_MOVE_HOME:
-                return true;
             case KeyEvent.KEYCODE_MENU:
-                return true;
             case KeyEvent.KEYCODE_BACK:
+
                 return true;
-//            case KeyEvent.KEYCODE_VOLUME_DOWN:
-//                return true;
-//            case KeyEvent.KEYCODE_VOLUME_UP:
-//                return true;
-            /*case KeyEvent.KEYCODE_CALL:
-                return true;
-            case KeyEvent.KEYCODE_SYM:
-                return true;
-            case KeyEvent.KEYCODE_STAR:
-                return true;*/
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
 
 
     @Override

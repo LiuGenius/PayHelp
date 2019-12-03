@@ -6,12 +6,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-
-import com.fanzhe.payhelp.activity.MainActivity;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.model.PayInfo;
 import com.fanzhe.payhelp.utils.L;
@@ -43,7 +40,7 @@ public class HelperNotificationListenerService extends NotificationListenerServi
             String title = extras.getString(Notification.EXTRA_TITLE, "");
             // 获取通知内容
             String content = extras.getString(Notification.EXTRA_TEXT, "");
-            Log.i("fanzhezh3", String.format("收到通知，包名：%s，标题：%s，内容：%s", pkg, title, content));
+            L.d(String.format("收到通知，包名：%s，标题：%s，内容：%s", pkg, title, content));
 
             //处理
             processOnReceive(pkg, title, content);
@@ -138,8 +135,14 @@ public class HelperNotificationListenerService extends NotificationListenerServi
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        L.d("监听服务 ==== onCreate");
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        L.d("onDestroy");
+        L.d("监听服务 ==== onDestroy");
     }
 }
