@@ -19,7 +19,6 @@ public class WsClientTool implements WebSocketListener {
 
     private String url;
 
-    private String token;
 
     private WsClientTool() {
 
@@ -35,10 +34,9 @@ public class WsClientTool implements WebSocketListener {
         url = serverUrl;
         try {
             if (null == ws) {
-                ws = new WebSocketFactory().createSocket(serverUrl + "?times=" + System.currentTimeMillis());
-                ws.addHeader("auth_token", App.getInstance().getUSER_DATA().getAuth_key() + "");
-                ws.addHeader("auth_key", App.getInstance().getUSER_DATA().getAuth_key() + "");
-                ws.addHeader("pppppp", System.currentTimeMillis() + "");
+                ws = new WebSocketFactory().createSocket(serverUrl);
+                ws.addHeader("authtoken", App.getInstance().getUSER_DATA().getAuth_key() + "");
+                ws.addHeader("authkey", App.getInstance().getUSER_DATA().getAuth_key() + "");
                 ws.setPingInterval(24 * 60 * 60 * 1000);
                 ws.addListener(this);
                 L.i( "ws.connectAsynchronously() is null=" + ws.toString());
@@ -143,6 +141,7 @@ public class WsClientTool implements WebSocketListener {
     @Override
     public void onTextMessage(WebSocket websocket, String text) throws Exception {
         L.i( "ws.onTextMessage:  " + text);
+        // TODO: 2019-12-03 服务端返回余额不足时提醒用户充值
     }
 
     @Override

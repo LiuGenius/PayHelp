@@ -25,6 +25,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.activity.MaNongManagerActivity;
+import com.fanzhe.payhelp.activity.MoneySettingActivity;
 import com.fanzhe.payhelp.activity.OrderManager;
 import com.fanzhe.payhelp.activity.PayChannelActivity;
 import com.fanzhe.payhelp.activity.RechargeActivity;
@@ -176,6 +177,7 @@ public class IndexFragment extends Fragment {
                 mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
                 mMenuData.add(new dataMenu("用户管理",R.mipmap.icon_yhgl));
                 mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
+                mMenuData.add(new dataMenu("金额管理",R.mipmap.icon_tdgl));
                 break;
             case "2"://商户
                 mMenuData.add(new dataMenu("订单管理",R.mipmap.icon_ddgl));
@@ -186,30 +188,10 @@ public class IndexFragment extends Fragment {
             case "3"://码农
                 mMenuData.add(new dataMenu("订单管理",R.mipmap.icon_ddgl));
                 mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
-                mMenuData.add(new dataMenu("接单状态",R.mipmap.icon_get_order));
+                mMenuData.add(new dataMenu("抢单",R.mipmap.icon_get_order));
                 mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
                 mMenuData.add(new dataMenu("充值",R.mipmap.icon_tdgl));
-                //开启监听服务
-                Intent intent = new Intent(context, HelperNotificationListenerService.class);
-                context.startService(intent);
-                //连接ws
-                WsClientTool.getInstance().connect("ws://47.98.182.50:9511");
-                //循环判断服务是否运行中
-                new Thread() {
-                    @Override
-                    public void run() {
-                        super.run();
-                        while (true) {
-                            try {
-                                Thread.sleep(1000);
-                                handler.sendEmptyMessage(2);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }.start();
-                ToastUtils.showToast(context,"已经在后台开始接单");
+                mMenuData.add(new dataMenu("掉单管理",R.mipmap.icon_get_order));
                 break;
             case "4"://码商
                 mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
@@ -222,13 +204,16 @@ public class IndexFragment extends Fragment {
         mRvMenuContent.setAdapter(mMenuAdapter);
         mRvMenuContent.addOnItemTouchListener(new RecyclerViewClickListener(context, mRvMenuContent, (view, position) -> {
             switch (mMenuData.get(position).getMenuName()) {
+                case "金额管理":
+                    startActivity(new Intent(context, MoneySettingActivity.class));
+                    break;
                 case "充值":
                     startActivity(new Intent(context, RechargeActivity.class));
                     break;
                 case "码农管理":
                     startActivity(new Intent(context, MaNongManagerActivity.class));
                     break;
-                case "接单状态":
+                case "抢单":
                     startServer();
                     break;
                 case "通道管理":
@@ -356,11 +341,41 @@ public class IndexFragment extends Fragment {
         mRadar.stop();
     }
 
+    boolean isOpenServer = false;
     private void startServer(){
+        dataView dataView = mDataViewData.get(2);
+        if (dataView.getKey().equals("账户可用额度")) {
+            checkMoney(Double.parseDouble(dataView.getValue()));
+            return;
+        }
+        if (!isOpenServer) {
+            //开启监听服务
+            Intent intent = new Intent(context, HelperNotificationListenerService.class);
+            context.startService(intent);
+            //连接ws
+            WsClientTool.getInstance().connect(UrlAddress.WEB_SOCKET_URL);
+            //循环判断服务是否运行中
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    while (true) {
+                        try {
+                            Thread.sleep(1000 * 10);
+                            handler.sendEmptyMessage(2);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }.start();
+            isOpenServer = true;
+        }
         mRadarView.setVisibility(View.VISIBLE);
         //开启雷达图
         mRadar.setDirection(RadarView.CLOCK_WISE);
         mRadar.start();
+
     }
 
     @SuppressLint("HandlerLeak")
@@ -381,10 +396,6 @@ public class IndexFragment extends Fragment {
                     jsonObject.put("msg", "offline");
                     mListeningState.setText("当前监听服务离线");
                     mListeningState.setTextColor(Color.RED);
-
-                    //开启监听服务
-//                    Intent intent = new Intent(context, HelperNotificationListenerService.class);
-//                    context.startService(intent);
                 }
                 //判断ws连接
                 if (WsClientTool.getInstance().isConnected()) {
@@ -402,4 +413,11 @@ public class IndexFragment extends Fragment {
             }
         }
     };
+
+    private void checkMoney(double money){
+        if (money < 100) {
+            ToastUtils.showToast(context,"账户可用额度不足100元,请先充值");
+            startActivity(new Intent(context, RechargeActivity.class));
+        }
+    }
 }

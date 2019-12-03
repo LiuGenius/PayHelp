@@ -1,11 +1,15 @@
 package com.fanzhe.payhelp.config;
 
 public class UrlAddress {
-    private static final String Host = "http://zhif.33th.me/v2";
+    private static final String Host = "https://pay.33th.me/v2";
     /**
      * 用户登录
      */
     public static final String USER_LOGIN = Host + "/admin/connect/login";
+    /**
+     * websocket链接地址
+     */
+    public static final String WEB_SOCKET_URL = "wss://paywebsocket.33th.me";
     /**
      * 检查版本
      */
@@ -122,4 +126,9 @@ public class UrlAddress {
      * 充值记录
      */
     public static final String RECHARGE_LIST = Host + "/pay/balance/recharge-list";
+
+    /**
+     * 获取充值列表
+     */
+    public static final String CHARGE_CONF = Host + "/pay/pay-conf/charge-conf";
 }

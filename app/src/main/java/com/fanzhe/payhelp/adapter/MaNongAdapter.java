@@ -81,6 +81,9 @@ public class MaNongAdapter extends RecyclerView.Adapter<MaNongAdapter.Holder> {
             intent.putExtra("uid", codeBusiness.getId());
             mContext.startActivity(intent);
         });
+        if (App.getInstance().getUSER_DATA().getRole_id().equals("1")) {
+            holder.rk.setVisibility(View.VISIBLE);
+        }
         holder.rk.setOnClickListener(v -> {
             Dialog dialog = new Dialog(mContext, R.style.AlertDialogStyle);
             dialog.setContentView(R.layout.layout_rk_view);

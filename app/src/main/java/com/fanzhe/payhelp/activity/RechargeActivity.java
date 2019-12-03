@@ -73,6 +73,31 @@ public class RechargeActivity extends AppCompatActivity {
 
         ((RadioButton) mRgPayType.getChildAt(0)).setChecked(true);
         ((RadioButton) mRgMoney.getChildAt(0)).setChecked(true);
+
+        /**
+         * 获取充值配置信息
+         */
+        RequestParams params = new RequestParams(UrlAddress.CHARGE_CONF);
+        params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
+        NetworkLoader.sendPost(mContext, params, new NetworkLoader.networkCallBack() {
+            @Override
+            public void onfailure(String errorMsg) {
+                ToastUtils.showToast(mContext, "获取充值配置失败,请检查网络");
+            }
+
+            @Override
+            public void onsuccessful(JSONObject jsonObject) {
+                if (UtilsHelper.parseResult(jsonObject)) {
+                    JSONArray jsonArray = jsonObject.optJSONArray("data");
+                    for (int i = 0; i < mRgMoney.getChildCount(); i++) {
+                        String s = jsonArray.optString(i);
+                        ((RadioButton)mRgMoney.getChildAt(i)).setText(s);
+                    }
+                } else {
+                    ToastUtils.showToast(mContext, "获取充值配置失败," + jsonObject.optString("msg"));
+                }
+            }
+        });
     }
 
 
