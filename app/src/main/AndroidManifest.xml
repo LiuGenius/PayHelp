@@ -63,6 +63,7 @@
         <activity android:name=".activity.MaNongInfoActivity" />
         <activity android:name=".activity.MaNongListActivity" />
         <activity android:name=".activity.MoneySettingActivity" />
+        <activity android:name=".activity.OutOrderManager" />
 
 
 

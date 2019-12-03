@@ -94,35 +94,41 @@ public class NoticeUtils {
      */
     public static PayInfo parseIsPayInfo(String pkg, String title, String content){
         PayInfo payInfo = new PayInfo();
-        if (pkg.equals("com.tencent.mm")) {//微信支付
-            payInfo.payType = "wechat";
-        }else if(pkg.equals("com.eg.android.AlipayGphone")){//支付宝支付
-            payInfo.payType = "alipay";
-        }else if(pkg.equals("com.newland.satrpos.starposmanager")){//星管家
-            payInfo.payType = "starPay";
-        }else if(pkg.equals("com.chinatelecom.bestpay.yimatong")){//钱到啦
-            // TODO: 2019-11-19 暂时无法使用
-            payInfo.payType = "moneyPay";
-        }else if(pkg.equals("com.unionpay")){//云闪付
-            // TODO: 2019-11-19 暂时无法使用
-            payInfo.payType = "unionpay";
-        }else if(pkg.equals("com.lakala.shanghutong")){//拉卡拉
-            payInfo.payType = "lakalaPay";
-        }else if(pkg.equals("com.xiaomi.xmsf")){
-            if(title.contains("拉卡拉收款成功")){
-                payInfo.payType = "lakalaPay";
-            }else if(title.contains("支付宝收款")){
-                payInfo.payType = "alipay";
-            } else if(title.contains("微信收款")){
+        switch (pkg){
+            case "com.tencent.mm"://微信支付
                 payInfo.payType = "wechat";
-            }
-            else{
-                return null;
-            }
+                break;
+            case "com.eg.android.AlipayGphone"://支付宝支付
+                payInfo.payType = "alipay";
+                break;
+            case "com.newland.satrpos.starposmanager"://星管家
+                payInfo.payType = "starPay";
+                break;
+            case "com.chinatelecom.bestpay.yimatong"://钱到啦 暂时无法使用
+                payInfo.payType = "moneyPay";
+                break;
+            case "com.unionpay"://云闪付 暂时无法使用
+                payInfo.payType = "unionpay";
+                break;
+            case "com.lakala.shanghutong":
+                payInfo.payType = "lakalaPay";//拉卡拉
+                break;
+            case "com.xiaomi.xmsf"://小米通道收到消息
+                if(title.contains("拉卡拉收款成功")){
+                    payInfo.payType = "lakalaPay";
+                }else if(title.contains("支付宝收款")){
+                    payInfo.payType = "alipay";
+                } else if(title.contains("微信收款")){
+                    payInfo.payType = "wechat";
+                }
+                else{
+                    return null;
+                }
+                break;
+                default:
+                    return null;
         }
-        else{
-            return null;
-        }
+
 
         //判断content中是否有金额
         String price = parseMoney(content);

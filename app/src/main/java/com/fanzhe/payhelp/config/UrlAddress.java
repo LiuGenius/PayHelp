@@ -13,7 +13,7 @@ public class UrlAddress {
     /**
      * 检查版本
      */
-    public static final String CHECK_NEW_VERSION = Host + "/update/?name=支付通&versionName=%s";
+    public static final String CHECK_NEW_VERSION = Host + "/update/?name=米来&versionName=%s";
     /**
      * 通道列表
      */
@@ -131,4 +131,12 @@ public class UrlAddress {
      * 获取充值列表
      */
     public static final String CHARGE_CONF = Host + "/pay/pay-conf/charge-conf";
+    /**
+     * 保存金额信息
+     */
+    public static final String EDIT_MONEY_SETTING = Host + "/pay/pay-conf/edit-params";
+    /**
+     * 掉单列表
+     */
+    public static final String OUT_ORDER_LIST = Host + "/pay/order/order-off-list";
 }

@@ -1,12 +1,16 @@
 package com.fanzhe.payhelp.utils;
 
 import com.fanzhe.payhelp.config.App;
+import com.fanzhe.payhelp.fragment.IndexFragment;
+import com.fanzhe.payhelp.iface.OnOver;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFactory;
 import com.neovisionaries.ws.client.WebSocketFrame;
 import com.neovisionaries.ws.client.WebSocketListener;
 import com.neovisionaries.ws.client.WebSocketState;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,6 +23,7 @@ public class WsClientTool implements WebSocketListener {
 
     private String url;
 
+    OnOver onOver;
 
     private WsClientTool() {
 
@@ -30,8 +35,9 @@ public class WsClientTool implements WebSocketListener {
         }
         return singleton;
     }
-    public void connect(String serverUrl) {
+    public void connect(String serverUrl, OnOver onOver) {
         url = serverUrl;
+        this.onOver = onOver;
         try {
             if (null == ws) {
                 ws = new WebSocketFactory().createSocket(serverUrl);
@@ -55,7 +61,7 @@ public class WsClientTool implements WebSocketListener {
         if (null != ws && !ws.isOpen()) {
             ws.disconnect();
             ws = null;
-            connect(url);
+            connect(url,onOver);
         }
     }
 
@@ -141,7 +147,13 @@ public class WsClientTool implements WebSocketListener {
     @Override
     public void onTextMessage(WebSocket websocket, String text) throws Exception {
         L.i( "ws.onTextMessage:  " + text);
-        // TODO: 2019-12-03 服务端返回余额不足时提醒用户充值
+        if (text.contains("balance")) {
+            double balance = Double.parseDouble(new JSONObject(text).optString("balance"));
+            if (balance < IndexFragment.mMoney) {
+                onOver.onResult("");
+            }
+        }
+
     }
 
     @Override
