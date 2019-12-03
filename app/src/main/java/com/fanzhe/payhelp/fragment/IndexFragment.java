@@ -27,6 +27,7 @@ import com.fanzhe.payhelp.R;
 import com.fanzhe.payhelp.activity.MaNongManagerActivity;
 import com.fanzhe.payhelp.activity.MoneySettingActivity;
 import com.fanzhe.payhelp.activity.OrderManager;
+import com.fanzhe.payhelp.activity.OutOrderManager;
 import com.fanzhe.payhelp.activity.PayChannelActivity;
 import com.fanzhe.payhelp.activity.RechargeActivity;
 import com.fanzhe.payhelp.activity.SettlementActivity;
@@ -146,6 +147,8 @@ public class IndexFragment extends Fragment {
     @BindView(R.id.id_stop)
     TextView mStop;
 
+    public static double mMoney = 100;
+
 
     @Nullable
     @Override
@@ -204,6 +207,9 @@ public class IndexFragment extends Fragment {
         mRvMenuContent.setAdapter(mMenuAdapter);
         mRvMenuContent.addOnItemTouchListener(new RecyclerViewClickListener(context, mRvMenuContent, (view, position) -> {
             switch (mMenuData.get(position).getMenuName()) {
+                case "掉单管理":
+                    startActivity(new Intent(context, OutOrderManager.class));
+                    break;
                 case "金额管理":
                     startActivity(new Intent(context, MoneySettingActivity.class));
                     break;
@@ -297,6 +303,8 @@ public class IndexFragment extends Fragment {
                             mDataViewData.add(new dataView("码商数",object.optString("coder_nums")));
                             mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
                             mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
+
+                            mMoney = Double.parseDouble(object.optString("min_money"));
                             break;
                         case "2"://商户
                             mDataViewData.add(new dataView("今日总订单数",object.optString("order_total_num")));
@@ -311,6 +319,8 @@ public class IndexFragment extends Fragment {
                             mDataViewData.add(new dataView("账户冻结额度",object.optString("freeze_balance")));
                             mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
                             mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
+                            mMoney = Double.parseDouble(object.optString("min_money"));
+                            isCanShow = checkMoney(Double.parseDouble(object.optString("balance")));
                             break;
                         case "4"://码商
                             mDataViewData.add(new dataView("今日总订单数",object.optString("order_total_num")));
@@ -342,18 +352,17 @@ public class IndexFragment extends Fragment {
     }
 
     boolean isOpenServer = false;
+    boolean isCanShow;
     private void startServer(){
-        dataView dataView = mDataViewData.get(2);
-        if (dataView.getKey().equals("账户可用额度")) {
-            checkMoney(Double.parseDouble(dataView.getValue()));
-            return;
-        }
+        getData();
         if (!isOpenServer) {
             //开启监听服务
             Intent intent = new Intent(context, HelperNotificationListenerService.class);
             context.startService(intent);
             //连接ws
-            WsClientTool.getInstance().connect(UrlAddress.WEB_SOCKET_URL);
+            WsClientTool.getInstance().connect(UrlAddress.WEB_SOCKET_URL, result -> {
+                handler.sendEmptyMessage(2);
+            });
             //循环判断服务是否运行中
             new Thread() {
                 @Override
@@ -361,8 +370,8 @@ public class IndexFragment extends Fragment {
                     super.run();
                     while (true) {
                         try {
-                            Thread.sleep(1000 * 10);
-                            handler.sendEmptyMessage(2);
+                            Thread.sleep(1000);
+                            handler.sendEmptyMessage(1);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -371,11 +380,12 @@ public class IndexFragment extends Fragment {
             }.start();
             isOpenServer = true;
         }
-        mRadarView.setVisibility(View.VISIBLE);
-        //开启雷达图
-        mRadar.setDirection(RadarView.CLOCK_WISE);
-        mRadar.start();
-
+        if (isCanShow) {
+            mRadarView.setVisibility(View.VISIBLE);
+            //开启雷达图
+            mRadar.setDirection(RadarView.CLOCK_WISE);
+            mRadar.start();
+        }
     }
 
     @SuppressLint("HandlerLeak")
@@ -384,40 +394,48 @@ public class IndexFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("type", "activeInfo");
-                //判断监听服务是否在运行
-                if (NoticeUtils.isWorked(context, context.getPackageName() + ".servers.HelperNotificationListenerService")) {
-                    jsonObject.put("msg", "online");
-                    mListeningState.setText("当前监听服务在线");
-                    mListeningState.setTextColor(Color.WHITE);
-                } else {
-                    jsonObject.put("msg", "offline");
-                    mListeningState.setText("当前监听服务离线");
-                    mListeningState.setTextColor(Color.RED);
+            if (msg.what == 2) {
+                ToastUtils.showToast(context,"账户可用额度不足" + IndexFragment.mMoney + "元,请先充值");
+                startActivity(new Intent(context, RechargeActivity.class));
+            }else{
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("type", "activeInfo");
+                    //判断监听服务是否在运行
+                    if (NoticeUtils.isWorked(context, context.getPackageName() + ".servers.HelperNotificationListenerService")) {
+                        jsonObject.put("msg", "online");
+                        mListeningState.setText("当前监听服务在线");
+                        mListeningState.setTextColor(Color.WHITE);
+                    } else {
+                        jsonObject.put("msg", "offline");
+                        mListeningState.setText("当前监听服务离线");
+                        mListeningState.setTextColor(Color.RED);
+                    }
+                    //判断ws连接
+                    if (WsClientTool.getInstance().isConnected()) {
+                        mServerState.setText("当前服务器连接正常");
+                        mServerState.setTextColor(Color.WHITE);
+                    }else{
+                        mServerState.setText("当前服务器连接异常");
+                        mServerState.setTextColor(Color.RED);
+                    }
+                    String time = UtilsHelper.parseDateLong(String.valueOf(new Date().getTime()), "yyyy/MM/dd HH:mm:ss");
+                    mTime.setText(time);
+                    WsClientTool.getInstance().sendText(jsonObject.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                //判断ws连接
-                if (WsClientTool.getInstance().isConnected()) {
-                    mServerState.setText("当前服务器连接正常");
-                    mServerState.setTextColor(Color.WHITE);
-                }else{
-                    mServerState.setText("当前服务器连接异常");
-                    mServerState.setTextColor(Color.RED);
-                }
-                String time = UtilsHelper.parseDateLong(String.valueOf(new Date().getTime()), "yyyy/MM/dd HH:mm:ss");
-                mTime.setText(time);
-                WsClientTool.getInstance().sendText(jsonObject.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
     };
 
-    private void checkMoney(double money){
-        if (money < 100) {
-            ToastUtils.showToast(context,"账户可用额度不足100元,请先充值");
+    private boolean checkMoney(double money){
+        if (money < mMoney) {
+            ToastUtils.showToast(context,"账户可用额度不足" + mMoney + "元,请先充值");
             startActivity(new Intent(context, RechargeActivity.class));
+            return false;
+        }else{
+            return true;
         }
     }
 }

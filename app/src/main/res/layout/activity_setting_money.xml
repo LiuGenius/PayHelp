@@ -35,13 +35,7 @@
                 android:src="@mipmap/icon_back"
                 android:tint="#101010" />
         </RelativeLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="8dp"
-            android:text="* 未填数值的项目不会进行保存"
-            android:textColor="#FD434B" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,6 +44,7 @@
             android:textColor="#101010"
             android:textSize="16sp" />
         <LinearLayout
+            android:id="@+id/id_ll_recharge_view"
             android:background="@drawable/shape_item_bg"
             android:layout_width="match_parent"
             android:layout_marginLeft="20dp"
@@ -60,6 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
+                android:maxLength="7"
                 android:layout_marginTop="12dp"
                 android:layout_height="36dp"
                 android:hint="充值金额一"
@@ -71,6 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
+                android:maxLength="7"
                 android:layout_marginTop="12dp"
                 android:layout_height="36dp"
                 android:hint="充值金额二"
@@ -83,6 +80,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
                 android:layout_marginTop="12dp"
+                android:maxLength="7"
                 android:layout_height="36dp"
                 android:hint="充值金额三"
                 android:inputType="number"
@@ -94,6 +92,7 @@
                 android:layout_margin="12dp"
                 android:layout_height="36dp"
                 android:hint="充值金额四"
+                android:maxLength="7"
                 android:inputType="number"
                 android:textSize="14sp"
                 android:paddingLeft="12dp"
@@ -118,11 +117,13 @@
             android:layout_marginRight="20dp"
             android:layout_height="wrap_content">
             <EditText
+                android:id="@+id/id_mixPrice"
                 android:layout_width="match_parent"
                 android:layout_margin="12dp"
                 android:layout_height="36dp"
                 android:hint="抢单预存款最低金额"
                 android:textSize="14sp"
+                android:maxLength="7"
                 android:paddingLeft="12dp"
                 android:inputType="number"
                 android:background="@drawable/shape_input_edit"/>
@@ -130,12 +131,20 @@
         </LinearLayout>
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="28dp"
+            android:text="* 请不要将金额设置为空"
+            android:textColor="#FD434B" />
+
+        <TextView
+            android:layout_marginTop="8dp"
             android:id="@+id/id_submit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
             android:background="@drawable/shape_btn_bg"
             android:gravity="center"
             android:text="保存"
