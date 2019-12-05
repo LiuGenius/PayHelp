@@ -77,7 +77,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.Holder> {
             case "30":
                 holder.status.setText("支付超时");
                 holder.status.setTextColor(Color.parseColor("#FD0000"));
-                if (App.getInstance().getUSER_DATA().getRole_id().equals("3")) {
+                if (App.getInstance().getUSER_DATA().getRole_id().equals("1")) {
                     holder.off_single.setVisibility(View.VISIBLE);
                 }
                 break;

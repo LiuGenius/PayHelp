@@ -111,7 +111,7 @@ public class MaNongAdapter extends RecyclerView.Adapter<MaNongAdapter.Holder> {
                         if (UtilsHelper.parseResult(jsonObject)) {
                             ToastUtils.showToast(mContext, "入款成功");
                             holder.yck.setText((Integer.parseInt(content) + codeBusiness.getTotal_balance()) + "");
-                            holder.sy.setText(((Integer.parseInt(content) + codeBusiness.getTotal_balance())));
+                            holder.sy.setText(((Integer.parseInt(content) + codeBusiness.getTotal_balance())) + "");
                         }else{
                             ToastUtils.showToast(mContext, "入款失败," + jsonObject.optString("msg"));
                         }

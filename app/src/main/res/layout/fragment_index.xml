@@ -141,9 +141,18 @@
             android:layout_height="wrap_content"
             android:text="当前监听服务在线"/>
         <TextView
-            android:id="@+id/id_time"
+            android:id="@+id/id_money"
             android:layout_marginTop="12dp"
             android:layout_below="@id/id_listeningState"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="剩余金额:0"/>
+        <TextView
+            android:id="@+id/id_time"
+            android:layout_marginTop="12dp"
+            android:layout_below="@id/id_money"
             android:textColor="#fff"
             android:gravity="center"
             android:layout_width="match_parent"

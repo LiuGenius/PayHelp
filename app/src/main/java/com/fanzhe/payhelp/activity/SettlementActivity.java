@@ -49,6 +49,9 @@ public class SettlementActivity extends AppCompatActivity {
     TextView mEndTime;
     @BindView(R.id.id_total)
     TextView mTotal;
+    @BindView(R.id.id_platform)
+    TextView mPlatform;
+
 
     @BindView(R.id.id_rv_content)
     RecyclerView mRvContent;
@@ -159,7 +162,13 @@ public class SettlementActivity extends AppCompatActivity {
                 if (UtilsHelper.parseResult(jsonObject)) {
                     JSONObject object = jsonObject.optJSONObject("data");
                     String order_total = object.optString("order_total");
-                    mTotal.setText("平台获得: " + new DecimalFormat("#.##").format(Double.parseDouble(order_total)) + " 元");
+                    String platform = object.optString("platform");
+                    mTotal.setText("订单流水: " + new DecimalFormat("#.##").format(Double.parseDouble(order_total)) + " 元");
+                    if (App.getInstance().getUSER_DATA().getRole_id().equals("2")) {
+                        mPlatform.setText("平台扣除: " + new DecimalFormat("#.##").format(Double.parseDouble(platform)) + " 元");
+                    }else{
+                        mPlatform.setVisibility(View.GONE);
+                    }
                     JSONArray jsonArray = object.optJSONArray("list");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         mData.add(new Settlement(jsonArray.optJSONObject(i)));

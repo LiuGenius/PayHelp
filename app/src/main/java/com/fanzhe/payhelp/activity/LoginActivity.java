@@ -109,6 +109,7 @@ public class LoginActivity extends Activity {
             public void onsuccessful(JSONObject jsonObject) {
                 if (UtilsHelper.parseResult(jsonObject)) {
                     App.getInstance().setUSER_DATA(new App.USER(jsonObject.optJSONObject("data")));
+
                     startActivity(new Intent(mContext, MainActivity.class));
                     finish();
                     //保存登录信息

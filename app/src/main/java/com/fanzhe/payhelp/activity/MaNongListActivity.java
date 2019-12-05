@@ -76,7 +76,7 @@ public class MaNongListActivity extends AppCompatActivity {
     private void initView() {
         mRvContent.setLayoutManager(new LinearLayoutManager(mContext));
         mData = new ArrayList<>();
-        mAdapter = new AcmenAdapter(mData, this);
+        mAdapter = new AcmenAdapter(mData, this,"none");
         mRvContent.setAdapter(mAdapter);
 
         mRvContent.addOnItemTouchListener(new RecyclerViewClickListener(mContext, mRvContent, (view, position) -> {
@@ -140,7 +140,10 @@ public class MaNongListActivity extends AppCompatActivity {
                 if (UtilsHelper.parseResult(jsonObject)) {
                     JSONArray dataArray = jsonObject.optJSONArray("data");
                     for (int i = 0; i < dataArray.length(); i++) {
-                        mData.add(new CodeBusiness(dataArray.optJSONObject(i)));
+                        CodeBusiness codeBusiness = new CodeBusiness(dataArray.optJSONObject(i));
+                        if (codeBusiness.getSpecial().equals("1")) {
+                            mData.add(codeBusiness);
+                        }
                     }
                     mAdapter.notifyDataSetChanged();
                 }else{

@@ -33,6 +33,7 @@ public class HelperNotificationListenerService extends NotificationListenerServi
             return;
         }
         Bundle extras = notification.extras;
+        L.d("notification: " + notification.actions);
         if (extras != null) {
             //包名
             String pkg = sbn.getPackageName();

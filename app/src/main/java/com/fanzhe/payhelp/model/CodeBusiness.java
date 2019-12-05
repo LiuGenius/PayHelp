@@ -18,6 +18,7 @@ public class CodeBusiness implements Parcelable {
 
     private String special;
 
+
     public CodeBusiness(JSONObject jsonObject) {
         this.id = jsonObject.optString("id");
         this.user_name = jsonObject.optString("user_name");

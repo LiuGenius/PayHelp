@@ -70,6 +70,8 @@ public class App extends Application {
         private long login_time;//登录时间
         private long last_login_time;//上次登录时间
 
+        private String is_special;
+
         public USER(JSONObject userData) {
             this.user_name = userData.optString("user_name");
             this.auth_key = userData.optString("auth_key");
@@ -77,6 +79,15 @@ public class App extends Application {
             this.role_id = userData.optString("role_id");
             this.login_time = Long.parseLong(userData.optString("login_time"));
             this.last_login_time =  Long.parseLong(userData.optString("last_login_time"));
+            this.is_special = userData.optString("is_special");
+        }
+
+        public boolean isSpecial() {
+            return is_special.equals("1");
+        }
+
+        public void setIs_special(String is_special) {
+            this.is_special = is_special;
         }
 
         public String getUser_name() {

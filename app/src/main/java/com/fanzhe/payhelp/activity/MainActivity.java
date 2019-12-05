@@ -27,7 +27,6 @@ import com.fanzhe.payhelp.fragment.MyCententFragment;
 import com.fanzhe.payhelp.servers.HelperNotificationListenerService;
 import com.fanzhe.payhelp.utils.L;
 import com.fanzhe.payhelp.utils.NoticeUtils;
-import com.fanzhe.payhelp.utils.ToastUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
 import com.fanzhe.payhelp.utils.WsClientTool;
 import com.yanzhenjie.permission.AndPermission;
@@ -68,14 +67,16 @@ public class MainActivity extends AppCompatActivity {
 
         if (App.getInstance().getUSER_DATA().getRole_id().equals("3")) {
             L.d("开始判断通知栏读取权限");
-            if (NoticeUtils.isNotificationListenerEnabled(this)) {
-                L.d("已经拥有通知栏权限，开启服务");
-                ToastUtils.showToast(mContext,"已经获取到权限,可以开始监听服务");
-            } else {
-                L.d("没有权限获取权限并且开启回调");
-                NoticeUtils.startGetNotification(this, 1);
-            }
+            NoticeUtils.startGetNotification(this, 1);
+//            if (NoticeUtils.isNotificationListenerEnabled(this)) {
+//                L.d("已经拥有通知栏权限，开启服务");
+//                ToastUtils.showToast(mContext,"已经获取到权限,可以开始监听服务");
+//            } else {
+//                L.d("没有权限获取权限并且开启回调");
+//                NoticeUtils.startGetNotification(this, 1);
+//            }
         }
+
         AndPermission.with(this)
                 .permission(
                         Manifest.permission.READ_EXTERNAL_STORAGE,
