@@ -325,7 +325,7 @@ public class IndexFragment extends Fragment {
                             mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
                             mMoney = Double.parseDouble(object.optString("min_money"));
                             mSyMoney.setText("剩余金额" + object.optString("balance"));
-                            isCanShow = checkMoney(Double.parseDouble(object.optString("balance")));
+
                             break;
                         case "4"://码商
                             mDataViewData.add(new dataView("今日总订单数",object.optString("order_total_num")));
@@ -360,6 +360,7 @@ public class IndexFragment extends Fragment {
     boolean isCanShow;
     private void startServer(){
         getData();
+        isCanShow = checkMoney(Double.parseDouble(mDataViewData.get(2).getValue()));
         if (!isOpenServer) {
             //开启监听服务
             Intent intent = new Intent(context, HelperNotificationListenerService.class);
