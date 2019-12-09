@@ -52,8 +52,8 @@ dependencies {
 //    权限申请
     implementation 'com.yanzhenjie:permission:2.0.0-rc4'
 
-    implementation 'com.yanzhenjie:album:1.0.0'
-
+//    implementation 'com.yanzhenjie:album:1.0.0'
+//    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.4'
 
     // 若使用annotation需要单独引用,对于tinker的其他库都无需再引用
 //    provided("com.tinkerpatch.tinker:tinker-android-anno:1.9.14")
