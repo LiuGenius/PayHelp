@@ -24,6 +24,7 @@ import com.fanzhe.payhelp.adapter.BusinessAdapter;
 import com.fanzhe.payhelp.config.App;
 import com.fanzhe.payhelp.config.UrlAddress;
 import com.fanzhe.payhelp.model.CodeBusiness;
+import com.fanzhe.payhelp.utils.L;
 import com.fanzhe.payhelp.utils.NetworkLoader;
 import com.fanzhe.payhelp.utils.ToastUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
@@ -81,7 +82,7 @@ public class BusinessFragment extends Fragment {
     private void initView() {
         mRvContent.setLayoutManager(new LinearLayoutManager(context));
         mData = new ArrayList<>();
-        mAdapter = new BusinessAdapter(mData, context);
+        mAdapter = new BusinessAdapter(mData, this);
         mRvContent.setAdapter(mAdapter);
 
         mState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -105,19 +106,28 @@ public class BusinessFragment extends Fragment {
         search();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        L.d(getClass().getSimpleName() + ": onActivityResult ");
+        search();
+    }
+
     @OnClick({R.id.id_add,R.id.id_search})
     public void clickView(TextView textView){
         switch (textView.getId()) {
             case R.id.id_add:
                 Intent intent = new Intent(context, AddBusinessActivity.class);
                 intent.putExtra("tag", "2");
-                startActivity(intent);
+                startActivityForResult(intent,888);
                 break;
             case R.id.id_search:
                 search();
                 break;
         }
     }
+
+
 
     private void search(){
         mData.removeAll(mData);

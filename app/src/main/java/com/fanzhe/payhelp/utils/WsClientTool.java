@@ -150,7 +150,9 @@ public class WsClientTool implements WebSocketListener {
             double balance = Double.parseDouble(new JSONObject(text).optString("balance"));
             onOver.onResult("" + balance);
         }
-
+        if (text.contains("重启连接")) {
+            reconnect();
+        }
     }
 
     @Override

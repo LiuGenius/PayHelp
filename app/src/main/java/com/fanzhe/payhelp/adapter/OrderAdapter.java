@@ -107,6 +107,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.Holder> {
                     public void onsuccessful(JSONObject jsonObject) {
                         if (UtilsHelper.parseResult(jsonObject)) {
                             holder.off_single.setVisibility(View.GONE);
+                            holder.status.setText("已支付");
+                            holder.status.setTextColor(Color.parseColor("#999999"));
                             ToastUtils.showToast(mContext,"修改成功,请刷新查看");
                             dialog.dismiss();
                         }else{
