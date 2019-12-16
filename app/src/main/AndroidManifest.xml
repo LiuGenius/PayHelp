@@ -77,12 +77,12 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity
-            android:name="com.yanzhenjie.album.AlbumActivity"
-            android:label="图库"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+<!--        <activity-->
+<!--            android:name="com.yanzhenjie.album.AlbumActivity"-->
+<!--            android:label="图库"-->
+<!--            android:configChanges="orientation|keyboardHidden|screenSize"-->
+<!--            android:theme="@style/Theme.AppCompat.Light.NoActionBar"-->
+<!--            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />-->
 
         <service
             android:name=".servers.HelperNotificationListenerService"

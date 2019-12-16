@@ -126,7 +126,6 @@ public class UrlAddress {
      * 充值记录
      */
     public static final String RECHARGE_LIST = Host + "/pay/balance/recharge-list";
-
     /**
      * 获取充值列表
      */

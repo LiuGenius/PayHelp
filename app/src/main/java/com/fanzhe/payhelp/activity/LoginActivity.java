@@ -2,6 +2,7 @@ package com.fanzhe.payhelp.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,7 +42,6 @@ public class LoginActivity extends Activity {
 
     Context mContext;
 
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,13 +58,8 @@ public class LoginActivity extends Activity {
 
         mContext = this;
 
-//
-
         mUserName.setText(UtilsHelper.getLoginInfo(mContext, "userName"));
         mPassword.setText(UtilsHelper.getLoginInfo(mContext, "password"));
-
-
-
     }
 
     @OnClick({R.id.id_login,R.id.id_viewPwd})
@@ -96,6 +91,11 @@ public class LoginActivity extends Activity {
             mPassword.setError("请输入密码");
             return;
         }
+        ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setTitle("登录中");
+        dialog.setMessage("正在登录...");
+        dialog.setCancelable(false);
+        dialog.show();
         RequestParams params = new RequestParams(UrlAddress.USER_LOGIN);
         params.addBodyParameter("username", userName);
         params.addBodyParameter("password", password);
@@ -103,10 +103,12 @@ public class LoginActivity extends Activity {
             @Override
             public void onfailure(String errorMsg) {
                 ToastUtils.showToast(mContext,"登录失败，请检查网络");
+                dialog.dismiss();
             }
 
             @Override
             public void onsuccessful(JSONObject jsonObject) {
+                dialog.dismiss();
                 if (UtilsHelper.parseResult(jsonObject)) {
                     App.getInstance().setUSER_DATA(new App.USER(jsonObject.optJSONObject("data")));
 
