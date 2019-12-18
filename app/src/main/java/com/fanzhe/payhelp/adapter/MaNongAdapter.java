@@ -1,6 +1,7 @@
 package com.fanzhe.payhelp.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fanzhe.payhelp.R;
@@ -43,15 +45,25 @@ public class MaNongAdapter extends RecyclerView.Adapter<MaNongAdapter.Holder> {
      * 上下文
      */
     private Context mContext;
+
+    private Fragment mFragment;
+
+    private Activity activity;
     /**
      * 。
      * 数据集合
      */
     private ArrayList<CodeBusiness> data;
 
-    public MaNongAdapter(ArrayList<CodeBusiness> data, Context context) {
+    public MaNongAdapter(ArrayList<CodeBusiness> data, Fragment fragment, Activity activity) {
         this.data = data;
-        this.mContext = context;
+        if (fragment != null) {
+            this.mFragment = fragment;
+            this.mContext = fragment.getContext();
+        }else{
+            this.activity = activity;
+            this.mContext = activity;
+        }
     }
 
     @Override
@@ -74,7 +86,11 @@ public class MaNongAdapter extends RecyclerView.Adapter<MaNongAdapter.Holder> {
             Intent intent = new Intent(mContext, AddBusinessActivity.class);
             intent.putExtra("tag", "3");
             intent.putExtra("editData", codeBusiness);
-            mContext.startActivity(intent);
+            if (mFragment != null) {
+                mFragment.startActivityForResult(intent,888);
+            }else{
+                activity.startActivityForResult(intent,888);
+            }
         });
         holder.channel.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, CodePayChannelActivity.class);
@@ -111,7 +127,7 @@ public class MaNongAdapter extends RecyclerView.Adapter<MaNongAdapter.Holder> {
                         if (UtilsHelper.parseResult(jsonObject)) {
                             ToastUtils.showToast(mContext, "入款成功");
                             holder.yck.setText((Integer.parseInt(content) + codeBusiness.getTotal_balance()) + "");
-                            holder.sy.setText(((Integer.parseInt(content) + codeBusiness.getTotal_balance())));
+                            holder.sy.setText(((Integer.parseInt(content) + codeBusiness.getTotal_balance())) + "");
                         }else{
                             ToastUtils.showToast(mContext, "入款失败," + jsonObject.optString("msg"));
                         }

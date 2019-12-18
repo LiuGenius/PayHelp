@@ -11,15 +11,12 @@ import android.text.TextUtils;
 
 import androidx.core.app.NotificationManagerCompat;
 
-
 import com.fanzhe.payhelp.model.PayInfo;
 import com.fanzhe.payhelp.servers.HelperNotificationListenerService;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class NoticeUtils {
     /**
@@ -98,6 +95,9 @@ public class NoticeUtils {
             case "com.tencent.mm"://微信支付
                 payInfo.payType = "wechat";
                 break;
+            case "com.wosai.cashbar"://收钱吧
+                payInfo.payType = "cashbar";
+                break;
             case "com.eg.android.AlipayGphone"://支付宝支付
                 payInfo.payType = "alipay";
                 break;
@@ -120,8 +120,7 @@ public class NoticeUtils {
                     payInfo.payType = "alipay";
                 } else if(title.contains("微信收款")){
                     payInfo.payType = "wechat";
-                }
-                else{
+                }else{
                     return null;
                 }
                 break;
@@ -148,14 +147,9 @@ public class NoticeUtils {
      * @return 金额
      */
     public static String parseMoney(String content) {
-        Pattern pattern = Pattern.compile("收款(([1-9]\\d*)|0)(\\.(\\d){0,2})?元");
-        Matcher matcher = pattern.matcher(content);
-        if (matcher.find()) {
-            String tmp = matcher.group();
-            Pattern patternnum = Pattern.compile("(([1-9]\\d*)|0)(\\.(\\d){0,2})?");
-            Matcher matchernum = patternnum.matcher(tmp);
-            if (matchernum.find())
-                return matchernum.group();
+        if (content.contains("收款") && content.contains("元")) {
+            String money = content.substring(content.indexOf("收款") + 2,content.indexOf("元"));
+            return money;
         }
         return null;
     }

@@ -104,8 +104,8 @@ public class AddBusinessActivity extends AppCompatActivity {
             mEtMobile.setText(mEditData.getMobile());
             mSwState.setChecked(mEditData.getStatus().equals("1"));
 
-            mEtLoginPwd.setVisibility(View.GONE);
-            mEtPayPwd.setVisibility(View.GONE);
+//            mEtLoginPwd.setVisibility(View.GONE);
+//            mEtPayPwd.setVisibility(View.GONE);
             mSpecial.setChecked(mEditData.getSpecial().equals("1"));
         }
 
@@ -164,10 +164,9 @@ public class AddBusinessActivity extends AppCompatActivity {
         RequestParams params = new RequestParams(UrlAddress.USER_EDIT_ADD);
         if (mEditData != null) {
             params.addBodyParameter("id", mEditData.getId());
-        } else {
-            params.addBodyParameter("password", loginPwd);
-            params.addBodyParameter("paypass", payPwd);
         }
+        params.addBodyParameter("password", loginPwd);
+        params.addBodyParameter("paypass", payPwd);
 //        params.addBodyParameter("pre_deposit",mEtYck.getText().toString());
         params.addBodyParameter("user_name", userName);
         params.addBodyParameter("mobile", mobile);
@@ -187,7 +186,7 @@ public class AddBusinessActivity extends AppCompatActivity {
             @Override
             public void onsuccessful(JSONObject jsonObject) {
                 if (UtilsHelper.parseResult(jsonObject)) {
-                    ToastUtils.showToast(mContext, "保存成功,请刷新查看");
+                    setResult(RESULT_OK);
                     finish();
                 } else {
                     ToastUtils.showToast(mContext, "添加用户失败，" + jsonObject.optString("msg"));

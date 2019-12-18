@@ -78,10 +78,16 @@ public class MaNongFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        search();
+    }
+
     private void initView() {
         mRvContent.setLayoutManager(new LinearLayoutManager(context));
         mData = new ArrayList<>();
-        mAdapter = new MaNongAdapter(mData, context);
+        mAdapter = new MaNongAdapter(mData, this,null);
         mRvContent.setAdapter(mAdapter);
 
         mState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -106,13 +112,14 @@ public class MaNongFragment extends Fragment {
     }
 
 
+
     @OnClick({R.id.id_add,R.id.id_search})
     public void clickView(TextView textView){
         switch (textView.getId()) {
             case R.id.id_add:
                 Intent intent = new Intent(context, AddBusinessActivity.class);
                 intent.putExtra("tag", "3");
-                startActivity(intent);
+                startActivityForResult(intent,888);
                 break;
             case R.id.id_search:
                 search();

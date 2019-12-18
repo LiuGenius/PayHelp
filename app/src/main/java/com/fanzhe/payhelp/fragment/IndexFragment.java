@@ -149,6 +149,9 @@ public class IndexFragment extends Fragment {
 
     public static double mMoney = 100;
 
+    @BindView(R.id.id_money)
+    TextView mSyMoney;
+
 
     @Nullable
     @Override
@@ -181,6 +184,7 @@ public class IndexFragment extends Fragment {
                 mMenuData.add(new dataMenu("用户管理",R.mipmap.icon_yhgl));
                 mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
                 mMenuData.add(new dataMenu("金额管理",R.mipmap.icon_tdgl));
+                mMenuData.add(new dataMenu("掉单管理",R.mipmap.icon_get_order));
                 break;
             case "2"://商户
                 mMenuData.add(new dataMenu("订单管理",R.mipmap.icon_ddgl));
@@ -193,8 +197,9 @@ public class IndexFragment extends Fragment {
                 mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
                 mMenuData.add(new dataMenu("抢单",R.mipmap.icon_get_order));
                 mMenuData.add(new dataMenu("通道管理",R.mipmap.icon_tdgl));
-                mMenuData.add(new dataMenu("充值",R.mipmap.icon_tdgl));
-                mMenuData.add(new dataMenu("掉单管理",R.mipmap.icon_get_order));
+                if (!App.getInstance().getUSER_DATA().isSpecial()) {
+                    mMenuData.add(new dataMenu("充值",R.mipmap.icon_tdgl));
+                }
                 break;
             case "4"://码商
                 mMenuData.add(new dataMenu("结算管理",R.mipmap.icon_jsgl));
@@ -300,10 +305,9 @@ public class IndexFragment extends Fragment {
                     switch (App.getInstance().getUSER_DATA().getRole_id()) {
                         case "1"://平台
                             mDataViewData.add(new dataView("商户数",object.optString("mch_nums")));
-                            mDataViewData.add(new dataView("码商数",object.optString("coder_nums")));
+                            mDataViewData.add(new dataView("码农数",object.optString("coder_nums")));
                             mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
                             mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
-
                             mMoney = Double.parseDouble(object.optString("min_money"));
                             break;
                         case "2"://商户
@@ -320,7 +324,10 @@ public class IndexFragment extends Fragment {
                             mDataViewData.add(new dataView("今日流水",object.optString("day_amount")));
                             mDataViewData.add(new dataView("今日收入",object.optString("day_income")));
                             mMoney = Double.parseDouble(object.optString("min_money"));
+                            mSyMoney.setText("剩余金额" + object.optString("balance"));
+
                             isCanShow = checkMoney(Double.parseDouble(object.optString("balance")));
+
                             break;
                         case "4"://码商
                             mDataViewData.add(new dataView("今日总订单数",object.optString("order_total_num")));
@@ -355,13 +362,22 @@ public class IndexFragment extends Fragment {
     boolean isCanShow;
     private void startServer(){
         getData();
+
+        if (!isCanShow) {
+            startActivity(new Intent(context,RechargeActivity.class));
+            return;
+        }
+
         if (!isOpenServer) {
             //开启监听服务
             Intent intent = new Intent(context, HelperNotificationListenerService.class);
             context.startService(intent);
             //连接ws
             WsClientTool.getInstance().connect(UrlAddress.WEB_SOCKET_URL, result -> {
-                handler.sendEmptyMessage(2);
+                Message message = Message.obtain();
+                message.what = 2;
+                message.obj = result;
+                handler.sendMessage(message);
             });
             //循环判断服务是否运行中
             new Thread() {
@@ -395,8 +411,12 @@ public class IndexFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 2) {
-                ToastUtils.showToast(context,"账户可用额度不足" + IndexFragment.mMoney + "元,请先充值");
-                startActivity(new Intent(context, RechargeActivity.class));
+                String m = (String) msg.obj;
+                mSyMoney.setText("剩余金额:" + m);
+                if(IndexFragment.mMoney > Double.parseDouble(m)){
+                    ToastUtils.showToast(context,"账户可用额度不足" + IndexFragment.mMoney + "元,请先充值");
+                    startActivity(new Intent(context, RechargeActivity.class));
+                }
             }else{
                 JSONObject jsonObject = new JSONObject();
                 try {
@@ -431,8 +451,8 @@ public class IndexFragment extends Fragment {
 
     private boolean checkMoney(double money){
         if (money < mMoney) {
-            ToastUtils.showToast(context,"账户可用额度不足" + mMoney + "元,请先充值");
-            startActivity(new Intent(context, RechargeActivity.class));
+//            ToastUtils.showToast(context,"账户可用额度不足" + mMoney + "元,请先充值");
+//            startActivity(new Intent(context, RechargeActivity.class));
             return false;
         }else{
             return true;

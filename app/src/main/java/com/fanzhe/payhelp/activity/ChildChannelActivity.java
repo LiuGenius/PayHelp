@@ -3,9 +3,12 @@ package com.fanzhe.payhelp.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -23,7 +26,6 @@ import com.fanzhe.payhelp.utils.NetworkLoader;
 import com.fanzhe.payhelp.utils.ToastUtils;
 import com.fanzhe.payhelp.utils.UtilsHelper;
 import com.google.zxing.Result;
-import com.yanzhenjie.album.Album;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -113,9 +115,12 @@ public class ChildChannelActivity extends AppCompatActivity {
 
                 break;
             case R.id.id_iv_pay_code:
-                Album.startAlbum(this, 1001, 1/*,
-                        ContextCompat.getColor(this, R.color.colorPrimary),
-                        ContextCompat.getColor(this, R.color.colorPrimaryDark)*/);  // 指定状态栏的颜色。
+//                Album.startAlbum(this, 1001, 1/*,
+//                        ContextCompat.getColor(this, R.color.colorPrimary),
+//                        ContextCompat.getColor(this, R.color.colorPrimaryDark)*/);  // 指定状态栏的颜色。
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 1001);
+//                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
         }
     }
@@ -130,8 +135,15 @@ public class ChildChannelActivity extends AppCompatActivity {
                 dialog.setCancelable(false);
                 dialog.show();
                 try {
+                    Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+                    cursor.moveToFirst();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picPath = cursor.getString(columnIndex);  //获取照片路径
+                    cursor.close();
                     // 拿到用户选择的图片路径List：
-                    Result result = UtilsHelper.decodeQR(BitmapFactory.decodeFile(Album.parseResult(data).get(0)));
+                    Result result = UtilsHelper.decodeQR(BitmapFactory.decodeFile(picPath));
                     //解析二维码图片
                     if (result != null) {
                         L.d("解析结果 : " + result.getText());

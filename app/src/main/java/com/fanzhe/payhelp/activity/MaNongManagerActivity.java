@@ -84,7 +84,7 @@ public class MaNongManagerActivity extends AppCompatActivity {
     private void initView() {
         mRvContent.setLayoutManager(new LinearLayoutManager(mContext));
         mData = new ArrayList<>();
-        mAdapter = new MaNongAdapter(mData, this);
+        mAdapter = new MaNongAdapter(mData, null,this);
         mRvContent.setAdapter(mAdapter);
 
         mState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -118,7 +118,7 @@ public class MaNongManagerActivity extends AppCompatActivity {
             case R.id.id_add:
                 Intent intent = new Intent(mContext, AddBusinessActivity.class);
                 intent.putExtra("tag", "3");
-                startActivity(intent);
+                startActivityForResult(intent,888);
                 break;
         }
     }

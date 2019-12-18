@@ -18,9 +18,6 @@ import com.fanzhe.payhelp.utils.WsClientTool;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 @SuppressLint("OverrideAbstract")
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class HelperNotificationListenerService extends NotificationListenerService {
@@ -76,28 +73,7 @@ public class HelperNotificationListenerService extends NotificationListenerServi
         }
     }
 
-    /**
-     * 验证消息的合法性，防止非官方消息被处理
-     *
-     * @param title
-     * @param content
-     * @param gateway
-     * @return
-     */
-    private static boolean checkMsgValid(String title, String content, String gateway) {
-        if ("wxpay".equals(gateway)) {
-            //微信支付的消息格式
-            //1条：标题：微信支付，内容：微信支付收款0.01元(朋友到店)
-            //多条：标题：微信支付，内容：[4条]微信支付: 微信支付收款1.01元(朋友到店)
-            Pattern pattern = Pattern.compile("^((\\[\\+?\\d+条])?微信支付:|微信支付收款)");
-            Matcher matcher = pattern.matcher(content);
-            return "微信支付".equals(title) && matcher.find();
-        } else if ("alipay".equals(gateway)) {
-            //支付宝的消息格式，标题：支付宝通知，内容：支付宝成功收款1.00元。
-            return "支付宝通知".equals(title);
-        }
-        return false;
-    }
+
 
 
     @Override

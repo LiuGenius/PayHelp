@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fanzhe.payhelp.R;
@@ -37,15 +38,18 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
      * 上下文
      */
     private Context mContext;
+
+    private Fragment fragment;
     /**
      * 。
      * 数据集合
      */
     private ArrayList<CodeBusiness> data;
 
-    public CodeBusinessAdapter(ArrayList<CodeBusiness> data, Context context) {
+    public CodeBusinessAdapter(ArrayList<CodeBusiness> data, Fragment context) {
         this.data = data;
-        this.mContext = context;
+        this.mContext = context.getContext();
+        this.fragment = context;
     }
 
     @Override
@@ -65,7 +69,7 @@ public class CodeBusinessAdapter extends RecyclerView.Adapter<CodeBusinessAdapte
             Intent intent = new Intent(mContext, AddBusinessActivity.class);
             intent.putExtra("tag", "4");
             intent.putExtra("editData", codeBusiness);
-            mContext.startActivity(intent);
+            fragment.startActivityForResult(intent,888);
         });
         holder.del.setOnClickListener(v -> {
             Dialog dialog = new Dialog(mContext, R.style.AlertDialogStyle);

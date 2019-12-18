@@ -10,7 +10,15 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fanzhe.payhelp.R;
+import com.fanzhe.payhelp.config.App;
+import com.fanzhe.payhelp.config.UrlAddress;
 import com.fanzhe.payhelp.model.CodeBusiness;
+import com.fanzhe.payhelp.utils.NetworkLoader;
+import com.fanzhe.payhelp.utils.ToastUtils;
+import com.fanzhe.payhelp.utils.UtilsHelper;
+
+import org.json.JSONObject;
+import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
 
@@ -28,9 +36,12 @@ public class AcmenAdapter extends RecyclerView.Adapter<AcmenAdapter.Holder> {
      */
     private ArrayList<CodeBusiness> data;
 
-    public AcmenAdapter(ArrayList<CodeBusiness> data, Context context) {
+    String tag;
+
+    public AcmenAdapter(ArrayList<CodeBusiness> data, Context context,String tag) {
         this.data = data;
         this.mContext = context;
+        this.tag = tag;
     }
 
     @Override
@@ -49,6 +60,30 @@ public class AcmenAdapter extends RecyclerView.Adapter<AcmenAdapter.Holder> {
         holder.rate.setVisibility(View.GONE);
         holder.del.setVisibility(View.GONE);
         holder.state.setClickable(false);
+        if (tag.equals("1")) {
+            holder.del.setVisibility(View.VISIBLE);
+            holder.del.setText("解除关联");
+            holder.del.setOnClickListener(view -> {
+                RequestParams params = new RequestParams(UrlAddress.UNBIND_ACMEN);
+                params.addBodyParameter("id",business.getId());
+                params.addBodyParameter("auth_key", App.getInstance().getUSER_DATA().getAuth_key());
+                NetworkLoader.sendPost(mContext, params, new NetworkLoader.networkCallBack() {
+                    @Override
+                    public void onfailure(String errorMsg) {
+                        ToastUtils.showToast(mContext,"解除失败,请检查您的网络");
+                    }
+
+                    @Override
+                    public void onsuccessful(JSONObject jsonObject) {
+                        if (UtilsHelper.parseResult(jsonObject)) {
+                            ToastUtils.showToast(mContext,"解除成功,请手动刷新查看");
+                        }else{
+                            ToastUtils.showToast(mContext,"解除失败," + jsonObject.optString("msg"));
+                        }
+                    }
+                });
+            });
+        }
     }
 
     @Override

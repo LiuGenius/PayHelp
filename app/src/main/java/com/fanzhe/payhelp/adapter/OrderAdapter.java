@@ -77,7 +77,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.Holder> {
             case "30":
                 holder.status.setText("支付超时");
                 holder.status.setTextColor(Color.parseColor("#FD0000"));
-                if (App.getInstance().getUSER_DATA().getRole_id().equals("3")) {
+                if (App.getInstance().getUSER_DATA().getRole_id().equals("1")) {
                     holder.off_single.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -107,6 +107,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.Holder> {
                     public void onsuccessful(JSONObject jsonObject) {
                         if (UtilsHelper.parseResult(jsonObject)) {
                             holder.off_single.setVisibility(View.GONE);
+                            holder.status.setText("已支付");
+                            holder.status.setTextColor(Color.parseColor("#999999"));
                             ToastUtils.showToast(mContext,"修改成功,请刷新查看");
                             dialog.dismiss();
                         }else{

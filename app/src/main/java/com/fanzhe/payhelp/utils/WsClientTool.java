@@ -1,7 +1,6 @@
 package com.fanzhe.payhelp.utils;
 
 import com.fanzhe.payhelp.config.App;
-import com.fanzhe.payhelp.fragment.IndexFragment;
 import com.fanzhe.payhelp.iface.OnOver;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketException;
@@ -149,11 +148,11 @@ public class WsClientTool implements WebSocketListener {
         L.i( "ws.onTextMessage:  " + text);
         if (text.contains("balance")) {
             double balance = Double.parseDouble(new JSONObject(text).optString("balance"));
-            if (balance < IndexFragment.mMoney) {
-                onOver.onResult("");
-            }
+            onOver.onResult("" + balance);
         }
-
+        if (text.contains("重启连接")) {
+            reconnect();
+        }
     }
 
     @Override

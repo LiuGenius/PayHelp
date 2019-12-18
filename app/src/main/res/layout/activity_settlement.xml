@@ -1,63 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="#fff"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
 
     <RelativeLayout
-        android:paddingTop="30dp"
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="80dp"
+        android:paddingTop="30dp">
+
         <TextView
             android:id="@+id/id_tv_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="结算管理"
             android:gravity="center"
-            android:textSize="16sp"
+            android:text="结算管理"
             android:textColor="#101010"
+            android:textSize="16sp"
             tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/id_back"
-            android:background="?android:attr/selectableItemBackground"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="16dp"
             android:src="@mipmap/icon_back"
-            android:tint="#101010"
-            android:padding="16dp"/>
+            android:tint="#101010" />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="center"
+        android:layout_height="50dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_height="50dp">
+        android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textSize="14sp"
             android:text="订单时间"
-            android:textColor="#101010" />
+            android:textColor="#101010"
+            android:textSize="14sp" />
 
         <TextView
-            android:layout_marginLeft="12dp"
             android:id="@+id/id_tv_startTime"
             android:layout_width="0dp"
             android:layout_height="35dp"
+            android:layout_marginLeft="12dp"
             android:layout_weight="1"
-            android:paddingLeft="8dp"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:text="2019-12-12"
             android:background="@drawable/shape_time_text_bg"
+            android:gravity="center"
             android:inputType="time"
-            android:paddingRight="4dp" />
+            android:paddingLeft="8dp"
+            android:paddingRight="4dp"
+            android:text="2019-12-12"
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,16 +71,16 @@
         <TextView
             android:id="@+id/id_tv_endTime"
             android:layout_width="0dp"
-            android:textSize="12sp"
             android:layout_height="35dp"
-            android:gravity="center"
-            android:text="2019-12-12"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:layout_weight="1"
             android:background="@drawable/shape_time_text_bg"
+            android:gravity="center"
             android:inputType="time"
-            android:paddingRight="4dp" />
+            android:paddingRight="4dp"
+            android:text="2019-12-12"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/id_search"
@@ -87,12 +88,12 @@
             android:layout_height="35dp"
             android:background="@drawable/shape_btn_bg"
             android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="14sp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="搜索"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -120,8 +121,7 @@
             android:padding="8dp"
             android:text="已结算"
             android:textColor="#A0A0A0"
-            android:textSize="14sp"/>
-
+            android:textSize="14sp" />
 
 
         <TextView
@@ -133,8 +133,9 @@
             android:padding="8dp"
             android:text="未结算"
             android:textColor="#A0A0A0"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="2dp">
@@ -143,66 +144,75 @@
             android:id="@+id/id_v_tap"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:background="#46A9F4"/>
+            android:background="#46A9F4" />
     </LinearLayout>
+
     <TextView
-        android:background="#f7f7f7"
-        android:text=""
-        android:textStyle="bold"
+        android:id="@+id/id_total"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#121210"
-        android:paddingLeft="12dp"
+        android:background="#f7f7f7"
         android:padding="12dp"
-        android:id="@+id/id_total"/>
+        android:paddingLeft="12dp"
+        android:text=""
+        android:textColor="#121210"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/id_platform"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f7f7f7"
+        android:padding="12dp"
+        android:paddingLeft="12dp"
+        android:text=""
+        android:textColor="#121210"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:background="#f7f7f7"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
         android:id="@+id/id_rv_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
-
+        android:layout_weight="1"
+        android:background="#f7f7f7"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp" />
 
 
     <LinearLayout
-        android:background="#f7f7f7"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f7f7f7"
         android:gravity="right"
-        android:paddingBottom="8dp"
         android:paddingRight="12dp"
-        android:layout_height="wrap_content">
+        android:paddingBottom="8dp">
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/id_settlement"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
-            android:text="结算"
+            android:background="@drawable/shape_btn_bg"
             android:gravity="center"
-            android:textSize="12sp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:text="结算"
             android:textColor="#fff"
-            android:background="@drawable/shape_btn_bg"/>
+            android:textSize="12sp"
+            android:visibility="gone" />
+
         <TextView
-            android:layout_marginLeft="12dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:id="@+id/id_info"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
-            android:text="查看明细"
+            android:layout_marginLeft="12dp"
+            android:background="@drawable/shape_btn_bg"
             android:gravity="center"
-            android:textSize="12sp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="查看明细"
             android:textColor="#fff"
-            android:background="@drawable/shape_btn_bg"/>
+            android:textSize="12sp" />
     </LinearLayout>
-
-
-
 
 
 </LinearLayout>

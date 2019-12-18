@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fanzhe.payhelp.R;
@@ -35,6 +36,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Holder
     /**
      * 上下文
      */
+    private Fragment mFragment;
     private Context mContext;
     /**
      * 。
@@ -42,9 +44,10 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Holder
      */
     private ArrayList<CodeBusiness> data;
 
-    public BusinessAdapter(ArrayList<CodeBusiness> data, Context context) {
+    public BusinessAdapter(ArrayList<CodeBusiness> data, Fragment context) {
         this.data = data;
-        this.mContext = context;
+        this.mFragment = context;
+        this.mContext = context.getContext();
     }
 
     @Override
@@ -63,7 +66,7 @@ public class BusinessAdapter extends RecyclerView.Adapter<BusinessAdapter.Holder
             Intent intent = new Intent(mContext, AddBusinessActivity.class);
             intent.putExtra("tag", "2");
             intent.putExtra("editData", business);
-            mContext.startActivity(intent);
+            mFragment.startActivityForResult(intent,888);
         });
         holder.del.setOnClickListener(v -> {
             Dialog dialog = new Dialog(mContext, R.style.AlertDialogStyle);

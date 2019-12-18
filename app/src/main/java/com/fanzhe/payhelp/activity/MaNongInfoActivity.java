@@ -50,6 +50,7 @@ public class MaNongInfoActivity extends AppCompatActivity {
     @BindView(R.id.id_swiperefreshlayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +90,7 @@ public class MaNongInfoActivity extends AppCompatActivity {
     private void initView() {
         mRvContent.setLayoutManager(new LinearLayoutManager(mContext));
         mData = new ArrayList<>();
-        mAdapter = new AcmenAdapter(mData, this);
+        mAdapter = new AcmenAdapter(mData, this,getIntent().getStringExtra("tag"));
         mRvContent.setAdapter(mAdapter);
 
         search();

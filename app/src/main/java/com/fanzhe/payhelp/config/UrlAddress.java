@@ -126,7 +126,6 @@ public class UrlAddress {
      * 充值记录
      */
     public static final String RECHARGE_LIST = Host + "/pay/balance/recharge-list";
-
     /**
      * 获取充值列表
      */
@@ -139,4 +138,8 @@ public class UrlAddress {
      * 掉单列表
      */
     public static final String OUT_ORDER_LIST = Host + "/pay/order/order-off-list";
+    /**
+     * 解除商户和码农的关联
+     */
+    public static final String UNBIND_ACMEN = Host + "/admin/user/unbind-acmen";
 }

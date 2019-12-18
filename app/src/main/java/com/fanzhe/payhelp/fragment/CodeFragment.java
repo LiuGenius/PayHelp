@@ -81,7 +81,7 @@ public class CodeFragment extends Fragment {
     private void initView() {
         mRvContent.setLayoutManager(new LinearLayoutManager(context));
         mData = new ArrayList<>();
-        mAdapter = new CodeBusinessAdapter(mData, context);
+        mAdapter = new CodeBusinessAdapter(mData, this);
         mRvContent.setAdapter(mAdapter);
 
         mState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -103,6 +103,11 @@ public class CodeFragment extends Fragment {
         search();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        search();
+    }
 
     @OnClick({R.id.id_add,R.id.id_search})
     public void clickView(TextView textView){
@@ -110,7 +115,7 @@ public class CodeFragment extends Fragment {
             case R.id.id_add:
                 Intent intent = new Intent(context, AddBusinessActivity.class);
                 intent.putExtra("tag", "4");
-                startActivity(intent);
+                startActivityForResult(intent,888);
                 break;
             case R.id.id_search:
                 search();
