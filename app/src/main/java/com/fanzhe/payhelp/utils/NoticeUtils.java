@@ -151,6 +151,10 @@ public class NoticeUtils {
             String money = content.substring(content.indexOf("收款") + 2,content.indexOf("元"));
             return money;
         }
+        if (content.contains("扫码向你付款")) {
+            String money = content.substring(content.indexOf("付款") + 2,content.indexOf("元"));
+            return money;
+        }
         return null;
     }
 }
